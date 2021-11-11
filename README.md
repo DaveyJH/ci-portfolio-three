@@ -1,31 +1,290 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# Name of project
 
-Welcome USER_NAME,
+A gentle reminder to all - to open links in a new tab,
+hold 'Ctrl' (or '⌘' on Apple devices) as you click!
 
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **August 17, 2021**
+<!-- ![Multiple Device Demo](
+  ./readme-content/images/multi-device.png) -->
 
-## Reminders
+## Live Site
 
-* Your code must be placed in the `run.py` file
-* Your dependencies must be placed in the `requirements.txt` file
-* Do not edit any of the other files or your code may not deploy properly
+[Prove Your Prowess As A Proficient Programmer](#)
 
-## Creating the Heroku app
+## Repository
 
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
+[https://github.com/daveyjh/ci-portfolio-three](
+  https://github.com/daveyjh/ci-portfolio-three)
 
-1. `heroku/python`
-2. `heroku/nodejs`
+***
 
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
+## Table of Contents
 
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
+- [Name of project](#name-of-project)
+  - [Live Site](#live-site)
+  - [Repository](#repository)
+  - [Table of Contents](#table-of-contents)
+  - [Objective](#objective)
+  - [Brief](#brief)
+    - [Prove Your Prowess As A Proficient Programmer](#prove-your-prowess-as-a-proficient-programmer)
+  - [UX &#8722; User Experience Design](#ux--user-experience-design)
+    - [User Requirements](#user-requirements)
+      - [First Time User](#first-time-user)
+      - [Returning User](#returning-user)
+      - [Interested Party](#interested-party)
+    - [Initial Concept](#initial-concept)
+      - [Wireframes](#wireframes)
+      - [Colour Scheme](#colour-scheme)
+      - [Typography](#typography)
+      - [Imagery](#imagery)
+  - [Features](#features)
+    - [Existing Features](#existing-features)
+    - [Features Left to Implement](#features-left-to-implement)
+  - [Technologies Used](#technologies-used)
+  - [Testing](#testing)
+  - [Bugs](#bugs)
+    - [Current](#current)
+    - [Resolved](#resolved)
+  - [Development](#development)
+  - [Deployment](#deployment)
+  - [Credits](#credits)
+    - [Content](#content)
+    - [Media](#media)
+    - [Acknowledgements](#acknowledgements)
+    - [Personal Development](#personal-development)
 
-Connect your GitHub repository and deploy as normal.
+***
 
-## Constraints
+## Objective
 
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
+Design an interactive quiz that uses an existing API for questions and answers.
+The project should run in a CLI, deployed via Heroku, using Python.
 
------
-Happy coding!
+***The needs within this project are not genuine and are made purely
+for the purpose of completing my Code Institute project***
+
+***
+
+## Brief
+
+### Prove Your Prowess As A Proficient Programmer
+
+The goal of this site is to provide an interactive quiz with increasing
+difficulty levels. The final product should:
+
+- be programmatically error free
+- be written using Python
+- have a varied question base to allow replayability
+- handle all user input errors gracefully and appropriately
+- give clear instructions regarding use and valid inputs
+
+***
+
+## UX &#8722; User Experience Design
+
+### User Requirements
+
+Some example user stories which will affect the design
+
+#### First Time User
+
+> *"As a programmer, I would like to test my knowledge"*
+>
+> *"As a quiz fanatic, I would like to know how I compare with other users"*
+>
+> *"As someone who hasn't used a CLI before, I would like to know my inputs
+> are valid"*
+
+#### Returning User
+
+> *"As a returning user, I would like to see a list of high-scores"*
+>
+> *"I would like to know if my scores are in the high-scores list"*
+>
+> *"If I return to play again, I would like to play different questions"*
+
+#### Interested Party
+
+> *"As someone interested in how the application has been made, I am interested
+> to see how user inputs have been validated and errors have been handled"*
+
+***
+
+### Initial Concept
+
+I intend to make a quiz application based around the popular television quiz
+show, *'Who Wants To Be A Millionaire?'*. I anticipate using a pre-populated API
+for the questions and answers, with a 'level of difficulty' selection built in
+to the API. I also intend to have a couple of 'life-line' options available to
+the user. Finally, I would like to implement a high-score spreadsheet maintained
+via Google Sheets.
+
+#### Wireframes
+<!-- wireframes here -->
+<!-- *See [here](./readme-content/wireframes.md#tablet) for other device types* -->
+***
+
+#### Colour Scheme
+
+<!-- colour scheme, remember to contrast check!!! -->
+***
+
+#### Typography
+
+<!-- typography -->
+***
+
+#### Imagery
+
+<!-- imagery -->
+***
+
+## Features
+
+### Existing Features
+
+<!-- - Feature 1 - allows users X to achieve Y, by having them fill out Z -->
+<!-- 1. feature1
+>*"User... **story quote**"*
+- *explanation*-->
+F1
+***
+<!-- - Feature 2 - allows users X to achieve Y, by having them fill out Z -->
+<!-- 1. feature2
+>*"User... **story quote**"*
+- *explanation*
+  ![imgName](imgURL)
+-->
+F2
+***
+
+### Features Left to Implement
+
+1. Even The Odds
+   - *This will allow users to remove 2 incorrect answers*
+   - If a user inputs a keyword, they will be presented with the question and
+    only 2 answers, one of which will be correct. This will only be allowed once
+    during each play.
+
+2. Call A Coder
+   - *This will allow users to receive some advice from an ersatz friend*
+   - If a user requires assistance on a question, they may input a keyword that
+    generates a simulated response from another coder. The response received
+    may not be correct. I intend to scale this depending on the current
+    question number.
+
+3. Request A Review
+   - *This will allow users to pose the question to a pseudo panel of
+    spectators*
+   - If a user is struggling with an answer, they may request assistance from a
+     spurious audience. The responses received may not be correct. I intend to
+     scale this depending on the current question number.
+
+***
+
+## Technologies Used
+
+<!-- tech used -->
+<!-- - *[techNameOne](techURL)*
+       - Description -->
+<!-- - *[techNameTwo](techURL)*
+       - Description -->
+
+## Testing
+
+<!-- explain testing
+? item tested
+? expected result
+? how test was performed
+? actual result
+? differences
+? action required
+? re-test
+- more detail and better format required compared with project 1
+look at daisy's testing documentation and [webinar](https://us02web.zoom.us/rec/play/9FIKllHX2ZiQNFRhYPn_hBh_ZeA8964ZvIDLnhpKGAf1NLVc3_hBJ6zSL8Hv5Hx7ALnPtDmbg8CmFAs.YVsZ9LR_uI7OjEwH)-->
+
+<!-- validation of html, css and script. -->
+<!-- lighthouse testing -->
+
+## Bugs
+
+### Current
+
+<!-- current bugs -->
+
+<!-- - bugOne explanation
+
+*notes on explanation* -->
+***
+<!-- - bugTwo explanation
+
+*notes on explanation* -->
+***
+
+### Resolved
+
+<!-- resolved bugs -->
+<!-- 1. bugOne
+
+![bugOneImg](bugOneImgURL)
+
+*Commit - **[sha](commit link with highlighted lines)** - explanation of fix* -->
+***
+<!-- 1. bugTwo
+
+![bugTwoImg](bugTwoImgURL)
+
+*Commit - **[sha](commit link with highlighted lines)** - explanation of fix* -->
+***
+
+## Development
+
+<!-- section missed in first project. 
+!describe development process -->
+
+## Deployment
+
+<!-- !check this section, may need adjusting as using additional languages -->
+
+<!-- **Github Pages**
+- Navigate to the relevant GitHub Repository [here](github repo URL)
+- Select "Settings" from the options below the name of the repository
+
+![Settings Snip](./readme-content/images/github-settings.png)
+- Select "Pages" from the left hand menu
+
+![Pages Snip](./readme-content/images/pages-select.png)
+- Select "Branch: main" as the source and leave the directory as "/(root)"
+
+![Source Snip](./readme-content/images/pages-source.png)
+
+- Click the Save button
+
+- Take note of the URL provided
+
+![URL Snip](./readme-content/images/pages-url.png)
+
+- GitHub takes a short while to publish the page. The bar turns green if you refresh the pages tab and the page has been deployed
+
+![Confirmed Deployment Snip](./readme-content/images/pages-deployed.png)
+- Click the link or copy the URL to a browser to reach the deployed page
+https://daveyjh.github.io/ci-portfolio-one-v4/
+
+The site is now live and operational -->
+***
+
+## Credits
+
+### Content
+<!-- - the a comes from b -->
+<!-- - the c comes from d -->
+### Media
+<!-- - the a comes from b -->
+<!-- - the c comes from d -->
+### Acknowledgements
+<!-- - acknowledge a, found at [b](bURL), for c -->
+<!-- - acknowledge d, found at [e](eURL), for f -->
+***
+
+### Personal Development
+
+<!-- notes -->
