@@ -5,7 +5,11 @@ from better_profanity import profanity
 
 
 def get_user_name():
-    """Allows user to input a username
+    """Allows user to input a username.
+
+    User input to choose a user name. Alphanumeric characters and spaces are
+    valid. Profanity blocked by `better_profanity`. Input repeats until valid
+    input received.
 
     Returns:
         A string as a username.
@@ -13,7 +17,7 @@ def get_user_name():
 
     while True:
         print("Characters A-Z, a-z, 0-9 and spaces are permitted.")
-        print("Leading and trailing whitespaces will be removed.")
+        print("Leading and trailing whitespaces will be removed.\n")
         new_user_name = input("Please enter a user name:\n")
         if check_user_name(new_user_name):
             break
@@ -22,13 +26,15 @@ def get_user_name():
 
 
 def check_user_name(user_name_str: str):
-    """Checks username input is valid
+    """Checks username input is valid.
 
     Returns:
-        True if valid, else false.
+        True if valid - else false.
     """
 
     try:
+        if not user_name_str:
+            raise ValueError("You must enter a user name")
         if not "".join(user_name_str.split()).isalnum():
             raise ValueError("Invalid characters detected")
         if profanity.contains_profanity(user_name_str):
