@@ -1,6 +1,8 @@
 """Run a quiz game via a CLI"""
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
 
+from better_profanity import profanity
+
 
 def get_user_name():
     """Allows user to input a username
@@ -28,9 +30,10 @@ def check_user_name(user_name_str: str):
 
     try:
         if not "".join(user_name_str.split()).isalnum():
-            raise ValueError(
-                "Invalid characters detected"
-            )
+            raise ValueError("Invalid characters detected")
+        if profanity.contains_profanity(user_name_str):
+            raise ValueError("Profanity detected")
+
     except ValueError as e:
         print(f"Error: {e}, please try again.\n")
         return False
