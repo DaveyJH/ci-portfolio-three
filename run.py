@@ -77,11 +77,33 @@ def wants_info(input_string: str):
 def print_rules():
     """Prints the rules."""
 
-    print("\nthis is the rule")
-    print("this is the 2nd rule")
-    print("this is the 3rd rule")
-    print("this is the 4th rule")
-    print("this is the 5th rule\n")
+    print("\n" + "THE RULES".rjust(30))
+    print("=========".rjust(30))
+
+    print("\nThis quiz consists of 15 questions. The further you go, the")
+    print("harder they become. Unless, of course, you know the answers!")
+    print("There is no time limit for the questions, but you do have")
+    print("just one life. One wrong answer and the game is over.\n")
+
+    print("Each question has four possible answers: A, B , C and D.")
+    print("You will be shown the question, followed by the four possible")
+    print("answers, each preceded by a letter. Input your answer by use of")
+    print("the (hopefully correct!) letter with no additional text. You will")
+    print("be asked to confirm your answer. If you answer correctly, you move")
+    print("on to the next question. Successfully answer all 15 questions to")
+    print("win the ultimate gloating rights!\n")
+
+    print("Press a key to continue...\n")
+
+    print("There are some keywords that can be used at any time.")
+    print("'Help','Take', 'Scores', 'Review', 'Even' and 'Call'.")
+    print("Once the quiz begins, these can be explained at any time via the")
+    print("'Help' keyword. You will have an opportunity to run through their")
+    print("uses in a moment.\n")
+
+    print("Finally, and possibly most importantly...remember to have fun!\n")
+
+    print("Press a key to continue...\n")
 
 
 YN = ("y", "n")
