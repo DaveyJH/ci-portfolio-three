@@ -1,5 +1,6 @@
 """Run a quiz game via a CLI"""
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
+# ! line breaks before any print statement that follows an input
 
 from better_profanity import profanity
 
@@ -110,7 +111,7 @@ YN = ("y", "n")
 Y = "y"
 N = "n"
 
-print("Welcome! Are you clued up enough on code and computers?")
+print("Welcome!\nAre you clued up enough on code and computers?")
 print("Think you have the knowledge to go all the way?")
 print("Let's see how you do! First, introduce yourself.\n")
 
@@ -119,12 +120,12 @@ print("")
 print(f"Welcome, {user_name}!\n")
 
 WANTS_RULES = "Before we begin, should we run through the rules?"
+WANTS_KEYWORDS = "Would you like to know the keywords and their uses?"
 
 if wants_info(WANTS_RULES):
     print_rules()
 
+if wants_info(WANTS_KEYWORDS):
+    print("keywords")
 
-# input y/n show rules
-print("Would you like to know the keywords?")
-# input y/n show keywords
 print("Great...let's begin!")
