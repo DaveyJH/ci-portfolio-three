@@ -41,10 +41,68 @@ def check_user_name(user_name_str: str):
             raise ValueError("Profanity detected")
 
     except ValueError as e:
-        print(f"Error: {e}, please try again.\n")
+        print(f"Invalid data: {e}, please try again.\n")
         return False
 
     return True
 
 
-print(f"Start:{get_user_name()}:End")
+def wants_info(input_string: str):
+    """User selects whether to print info or not.
+
+    Args:
+        input_string: The string to be printed as the input. Should clearly
+            identify what information will be printed.
+
+    Returns:
+        True if input is "y" - else False.
+    """
+
+    user_response = input(f"{input_string} {YN}\n").lower()
+    while (
+        not user_response.isalpha()
+        or user_response not in YN
+    ):
+        print("\nInvalid input received")
+        print("Please input 'y' or 'n'")
+        user_response = input(f"{input_string}\n").lower()
+        continue
+
+    if user_response == N:
+        return False
+
+    return True
+
+
+def print_rules():
+    """Prints the rules."""
+
+    print("\nthis is the rule")
+    print("this is the 2nd rule")
+    print("this is the 3rd rule")
+    print("this is the 4th rule")
+    print("this is the 5th rule\n")
+
+
+YN = ("y", "n")
+Y = "y"
+N = "n"
+
+print("Welcome! Are you clued up enough on code and computers?")
+print("Think you have the knowledge to go all the way?")
+print("Let's see how you do! First, introduce yourself.\n")
+
+user_name = get_user_name()
+print("")
+print(f"Welcome, {user_name}!\n")
+
+WANTS_RULES = "Before we begin, should we run through the rules?"
+
+if wants_info(WANTS_RULES):
+    print_rules()
+
+
+# input y/n show rules
+print("Would you like to know the keywords?")
+# input y/n show keywords
+print("Great...let's begin!")
