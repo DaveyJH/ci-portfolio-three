@@ -11,23 +11,23 @@ def get_user_name():
 
     while True:
         print("Characters A-Z, a-z, 0-9 and spaces are permitted.")
+        print("Leading and trailing whitespaces will be removed.")
         new_user_name = input("Please enter a user name:\n")
         if check_user_name(new_user_name):
             break
 
-    return new_user_name
+    return new_user_name.strip()
 
 
-def check_user_name(user_name_str):
+def check_user_name(user_name_str: str):
     """Checks username input is valid
 
     Returns:
         True if valid, else false.
     """
 
-    # new_user_name = input("Please enter your user name:\n")
     try:
-        if not "".join(user_name_str).isalnum():
+        if not "".join(user_name_str.split()).isalnum():
             raise ValueError(
                 "Invalid characters detected"
             )
@@ -38,4 +38,4 @@ def check_user_name(user_name_str):
     return True
 
 
-print(get_user_name())
+print(f"Start:{get_user_name()}:End")
