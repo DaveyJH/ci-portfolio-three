@@ -67,7 +67,7 @@ def wants_info(input_string: str):
     ):
         print("\nInvalid input received")
         print("Please input 'y' or 'n'")
-        user_response = input(f"{input_string}\n").lower()
+        user_response = input(f"{input_string}{YN}\n").lower()
         continue
 
     if user_response == N:
@@ -79,8 +79,8 @@ def wants_info(input_string: str):
 def print_rules():
     """Prints the rules."""
 
-    print("\n" + "THE RULES".rjust(30))
-    print("=========".rjust(30))
+    print("\n" + "THE RULES".center(40))
+    print("=========".center(40))
 
     print("\nThis quiz consists of 15 questions. The further you go, the")
     print("harder they become. Unless, of course, you know the answers!")
@@ -107,12 +107,74 @@ def print_rules():
 
     print("Finally, and possibly most importantly...remember to have fun!\n")
 
-    print("Press a key to continue...\n")
+    pause()
+
+
+def which_keyword():
+    """Allows user to specify which keyword meaning to check
+
+    Returns:
+        Keyword
+    """
+
+    print("\nWhich keyword would you like to check?")
+    user_input = input(f"{', '.join(KEYWORDS).title()}:\n").lower()
+    while (
+        not user_input.isalpha()
+        or user_input not in KEYWORDS
+    ):
+        print("\nInvalid input received")
+        print(f"Please input: {', '.join(KEYWORDS).title()}")
+        user_input = input("Which keyword would you like to check?\n").lower()
+        continue
+
+    return user_input
+
+
+def keyword_description(word: str):
+    """Prints a description of the keyword
+
+    Args:
+        keyword: The keyword chosen by the user.
+    """
+
+    def print_title(index):
+        """Prints the keyword title and an underline of equal length
+
+        Args:
+            index: The index of keyword in KEYWORDS to allow correct title to
+                be printed.
+        """
+
+        print("\n" + f"{KEYWORDS[index].upper()}".center(40))
+        line = "=" * len(KEYWORDS[index])
+        print(f"{line}".center(40))
+
+    def print_content(index):
+        """Prints the content explaining the keyword
+
+        Args:
+            index: The index of keyword in KEYWORDS to allow correct
+                explanation to be printed.
+        """
+
+        print(f"\nThe description of {KEYWORDS[index]}")
+
+    print_title(KEYWORDS.index(word))
+    print_content(KEYWORDS.index(word))
 
 
 YN = ("y", "n")
 Y = "y"
 N = "n"
+KEYWORDS = (
+    "help",
+    "take",
+    "scores",
+    "review",
+    "even",
+    "call"
+)
 
 print("Welcome!\nAre you clued up enough on code and computers?")
 print("Think you have the knowledge to go all the way?")
@@ -124,10 +186,15 @@ print(f"\nWelcome, {user_name}!")
 WANTS_RULES = "Before we begin, should we run through the rules?"
 WANTS_KEYWORDS = "Would you like to know the keywords and their uses?"
 
-if wants_info(WANTS_RULES):
-    print_rules()
 
-if wants_info(WANTS_KEYWORDS):
-    print("keywords")
+def main():
+    """Runs the quiz."""
+    if wants_info(WANTS_RULES):
+        print_rules()
 
-print("Great...let's begin!")
+
+while wants_info(WANTS_KEYWORDS):
+    keyword = which_keyword()
+    keyword_description(keyword)
+
+print("\nGreat...let's begin!")
