@@ -195,26 +195,29 @@ KEYWORDS = {
     ),
     "review": (
         "This is a one shot keyword!! Once used, it cannot be used again in",
-        "the same quiz!!\nIf you choose to use 'review', you will need to",
-        "confirm your decision. Once you do, you will be presented with",
-        "answers to the current question from 100 people. They may not be",
-        "correct so it is up to you if you take the majority answers or not.",
+        "the same quiz!!      Use it wisely!!",
+        "If you choose to use 'review', you will need to confirm your",
+        "decision. Once you do, you will be presented with answers to the",
+        "current question from 100 people. They may not be correct so it is",
+        "up to you if you take the majority answers or not.",
         "You will be prompted to return to the question and may then continue."
     ),
     "even": (
         "This is a one shot keyword!! Once used, it cannot be used again in",
-        "the same quiz!!\nIf you choose to use 'even', you will need to",
-        "confirm your decision. Once you do, two of the incorrect answers",
-        "to the current question will be removed. The question will be shown",
-        "again with only the two remaining answers. This will even the odds."
+        "the same quiz!!      Use it wisely!!",
+        "If you choose to use 'even', you will need to confirm your",
+        "decision. Once you do, two of the incorrect answers to the current",
+        "question will be removed. The question will be shown again with only",
+        "the two remaining answers. This will even the odds."
     ),
     "call": (
         "This is a one shot keyword!! Once used, it cannot be used again in",
-        "the same quiz!!\nIf you choose to use 'call', you will need to",
-        "confirm your decision. Once you do, you will be presented with",
-        "a response from a coder companion. They will give you their thoughts",
-        "on the question. However, they may not be correct so it is up to you",
-        "to make the final decision",
+        "the same quiz!!      Use it wisely!!",
+        "If you choose to use 'call', you will need to confirm your",
+        "decision. Once you do, you will be presented with a response from a",
+        "coder companion. They will give you their thoughts on the question.",
+        "However, they may not be correct, so it is up to you to make the",
+        "final decision.",
         "You will be prompted to return to the question and may then continue."
     )
 }
@@ -236,9 +239,11 @@ def main():
     if wants_info(WANTS_RULES):
         print_rules()
 
+    while wants_info(WANTS_KEYWORDS):
+        keyword = which_keyword()
+        keyword_description(keyword)
 
-while wants_info(WANTS_KEYWORDS):
-    keyword = which_keyword()
-    keyword_description(keyword)
+    print("\nGreat...let's begin!")
 
-print("\nGreat...let's begin!")
+
+main()
