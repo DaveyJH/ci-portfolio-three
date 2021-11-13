@@ -1,1 +1,21 @@
-# Your requirements go here
+astroid==2.8.4
+autopep8==1.6.0
+better-profanity==0.7.0
+certifi==2021.10.8
+charset-normalizer==2.0.7
+colorama==0.4.4
+flake8==4.0.1
+idna==3.3
+isort==5.10.1
+lazy-object-proxy==1.6.0
+mccabe==0.6.1
+platformdirs==2.4.0
+py-getch==1.0.1
+pycodestyle==2.8.0
+pyflakes==2.4.0
+pylint==2.11.1
+requests==2.26.0
+six==1.16.0
+toml==0.10.2
+urllib3==1.26.7
+wrapt==1.13.3
