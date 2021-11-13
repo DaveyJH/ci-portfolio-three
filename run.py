@@ -120,7 +120,7 @@ def which_keyword():
         Keyword
     """
 
-    print("\nWhich keyword would you like to check?")
+    print("\nWhich keyword would you like to check out?")
     user_input = input(f"{', '.join(KEYWORDS).title()}:\n").lower()
     while (
         not user_input.isalpha()
