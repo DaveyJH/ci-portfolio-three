@@ -3,6 +3,7 @@
 # ! line breaks before any print statement that follows an input
 
 from better_profanity import profanity
+from getch import pause
 
 
 def get_user_name():
@@ -59,7 +60,7 @@ def wants_info(input_string: str):
         True if input is "y" - else False.
     """
 
-    user_response = input(f"{input_string} {YN}\n").lower()
+    user_response = input(f"\n{input_string} {YN}\n").lower()
     while (
         not user_response.isalpha()
         or user_response not in YN
@@ -86,7 +87,9 @@ def print_rules():
     print("There is no time limit for the questions, but you do have")
     print("just one life. One wrong answer and the game is over.\n")
 
-    print("Each question has four possible answers: A, B , C and D.")
+    pause()
+
+    print("\nEach question has four possible answers: A, B , C and D.")
     print("You will be shown the question, followed by the four possible")
     print("answers, each preceded by a letter. Input your answer by use of")
     print("the (hopefully correct!) letter with no additional text. You will")
@@ -94,9 +97,9 @@ def print_rules():
     print("on to the next question. Successfully answer all 15 questions to")
     print("win the ultimate gloating rights!\n")
 
-    print("Press a key to continue...\n")
+    pause()
 
-    print("There are some keywords that can be used at any time.")
+    print("\nThere are some keywords that can be used at any time.")
     print("'Help','Take', 'Scores', 'Review', 'Even' and 'Call'.")
     print("Once the quiz begins, these can be explained at any time via the")
     print("'Help' keyword. You will have an opportunity to run through their")
@@ -116,8 +119,7 @@ print("Think you have the knowledge to go all the way?")
 print("Let's see how you do! First, introduce yourself.\n")
 
 user_name = get_user_name()
-print("")
-print(f"Welcome, {user_name}!\n")
+print(f"\nWelcome, {user_name}!")
 
 WANTS_RULES = "Before we begin, should we run through the rules?"
 WANTS_KEYWORDS = "Would you like to know the keywords and their uses?"
