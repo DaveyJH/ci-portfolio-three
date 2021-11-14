@@ -4,21 +4,25 @@
 
 from random import shuffle
 from html import unescape
+import random
+
 from better_profanity import profanity
 from getch import pause
-
 import requests
 
 
-def retrieve_api_token(difficulty) -> str:
+def retrieve_api_token(difficulty: str) -> str:
     """Retrieve and validate API token
 
     Connects to opentdb.com/api to retrieve fresh token to prevent duplicate
     questions. Token lasts for 6 hours. If user plays multiple times within 6
     hours, token must be reset.
 
+    Args:
+        difficulty: Easy, medium or hard.
+
     Returns:
-        API token
+        str: API token.
     """
 
     print(f"Retrieving new {difficulty} token...")
@@ -46,7 +50,11 @@ def initial_token_setup():
     """Initialise easy, medium and hard API tokens.
 
     Returns:
-        Easy, medium and hard token strings in order."""
+        tuple (str, str, str):
+            str: Easy token string.
+            str: Medium token string.
+            str: Hard token string.
+    """
 
     new_easy_token = retrieve_api_token("easy")
     new_medium_token = retrieve_api_token("medium")
@@ -58,7 +66,7 @@ def introduction_to_quiz():
     """Print initial welcome strings and allow user to input username.
 
     Returns:
-        string: Validated username
+        str: Validated username.
     """
     print("\n\nWelcome!\nAre you clued up enough on code and computers?")
     print("Think you have the knowledge to go all the way?")
@@ -78,7 +86,7 @@ def get_user_name():
     input received.
 
     Returns:
-        string: A validated string as a username.
+        str: A validated string as a username.
     """
 
     while True:
@@ -93,6 +101,9 @@ def get_user_name():
 
 def check_user_name(user_name_str: str):
     """Checks username input is valid.
+
+    Args:
+        user_name_str: The string input from a user to be validated.
 
     Returns:
         bool: True if valid - else false.
@@ -181,7 +192,7 @@ def which_keyword():
     """Allows user to specify which keyword meaning to check
 
     Returns:
-        string: Keyword input by user.
+        str: Keyword input by user.
     """
 
     print("\nWhich keyword would you like to check out?")
@@ -289,6 +300,12 @@ KEYWORDS = {
 WANTS_RULES = "Before we begin, should we run through the rules?"
 WANTS_KEYWORDS = "Would you like to know a keyword and its function?"
 
+READY_WORDS = (
+        "Ready?", "OK...", "Next...", "Here we go!", "Try this...",
+        "See how you get on with this one.", "Let's see how you get on.",
+        "Are you ready for this?"
+    )
+
 easy_token, medium_token, hard_token = initial_token_setup()
 
 
@@ -353,29 +370,66 @@ def check_api_retrieve_question(
     return True, data
 
 
-def display_question(question):
-    """Shows question and possible answers"""
+def set_answer_letters(question: dict[str, str]):
+    """Give each answer a letter and determines the correct answer.
 
+    Args:
+        question: The current question.
+
+
+    Returns:
+        tuple: (dict, str)
+            dict[str, str]: Shuffled answers paired with a choice letter.
+            str: The correct answer.
+    """
     correct_answer = unescape(question["correct_answer"])
-    incorrect_answers = list(unescape(question["incorrect_answers"]))
+    incorrect_answers = list(question["incorrect_answers"])
     answers = [correct_answer, *incorrect_answers]
     shuffle(answers)
 
-    abcd: dict[str, str] = {
+    abcd = {
         "a": unescape(answers[0]),
         "b": unescape(answers[1]),
         "c": unescape(answers[2]),
         "d": unescape(answers[3]),
     }
 
-    # use a tuple of 'ready' 'ok' 'here we go' etc
-    print(f"\nReady? Question number {str(question_number)}")
-    print("Followed by the four possible answers...\n")
+    return abcd, correct_answer
+
+
+def display_question(
+    question: dict[str, str], abcd: dict[str, str], first_attempt: bool = False
+):
+    """Prints question and possible answers
+
+    Prints a pre_question string, the question and the possible answers. If
+    it is the first time the question has been printed, a random string will
+    be prepended to the 'Question Number x'.
+
+    Args:
+        question: The current question.
+        abcd: A dict of the available answers with a selection letter.
+        first_attempt: Determines if the prepending string needs defining
+            (default: False)
+
+    Returns:
+        str: Generated prepend to question number. Default returned if not
+            first_attempt (default: "")
+    """
+
+    pre_question_str = ""
+    if first_attempt:
+        pre_question_str = READY_WORDS[random.randrange(len(READY_WORDS))]
+    if pre_question_str:
+        print(f"\n{pre_question_str} Question Number {str(question_number)}")
+    else:
+        print(f"\n{pre_question} Question Number {str(question_number)}")
+    print(f"Followed by the {len(abcd)} possible answers...\n")
     print(f"{unescape(question['question'])}\n")
     for letter, answer_str in abcd.items():
         print(f"{letter}:", answer_str)
 
-    return abcd, correct_answer
+    return pre_question_str
 
 
 api_check_result = check_api_retrieve_question("easy", easy_token)
@@ -384,11 +438,50 @@ if len(api_check_result) == 3:
 
 question_number = 1
 question_data = api_check_result[1]["results"]
-choices, answer = display_question(question_data[0])
+choices, answer = set_answer_letters(question_data[0])
+pre_question = display_question(question_data[0], choices, True)
+# display_question(question_data[0], choices)
+# display_question(question_data[0], choices)
 
+# ! DELETE BEFORE DEPLOYMENT TESTING ONLY
 print("")
-print(choices)
 print(answer)
+
+
+# def check_input(new_input):
+#     """DOCSTRING"""
+
+#     try:
+#         if not new_input:
+#             raise ValueError("No input detected...")
+#         if new_input not in KEYWORDS and input not in choices:
+#             raise ValueError(
+#                 "Invalid input detected, please input an answer or keyword."
+#             )
+
+#     except ValueError as e:
+#         print(f"{e}\n")
+#         return False
+
+#     return True
+
+
+# while True:
+#     available_choices = []
+#     for key, value in choices.items():
+#         available_choices.append(key)
+#     print(available_choices)
+#     user_input = input(
+#         "Please provide your answer or enter a keyword:\n"
+#     ).lower()
+#     if check_input(user_input):
+#         break
+
+
+# if choices[user_input] == answer:
+#     print("Correct")
+# else:
+#     print("incorrect")
 
 
 # api_validated = api_check[0]
