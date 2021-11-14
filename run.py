@@ -2,8 +2,72 @@
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
 # ! line breaks before any print statement that follows an input
 
+from random import shuffle
+from html import unescape
 from better_profanity import profanity
 from getch import pause
+
+import requests
+
+
+def retrieve_api_token(difficulty) -> str:
+    """Retrieve and validate API token
+
+    Connects to opentdb.com/api to retrieve fresh token to prevent duplicate
+    questions. Token lasts for 6 hours. If user plays multiple times within 6
+    hours, token must be reset.
+
+    Returns:
+        API token
+    """
+
+    print(f"Retrieving new {difficulty} token...")
+
+    token_url = "https://opentdb.com/api_token.php?command=request"
+    response = requests.get(token_url)
+    data = response.json()
+
+    try:
+        if data["response_code"] != 0:
+            raise ConnectionError(
+                f"Open Trivia Database API connection error: {token_url}\n"
+                f"Response_code from API: {data['response_code']}"
+            )
+    except ConnectionError as e:
+        print(f"Error: {e}")
+        print("Program will now terminate!")
+        exit()
+
+    print("Token retrieval successful!")
+    return data["token"]
+
+
+def initial_token_setup():
+    """Initialise easy, medium and hard API tokens.
+
+    Returns:
+        Easy, medium and hard token strings in order."""
+
+    new_easy_token = retrieve_api_token("easy")
+    new_medium_token = retrieve_api_token("medium")
+    new_hard_token = retrieve_api_token("hard")
+    return new_easy_token, new_medium_token, new_hard_token
+
+
+def introduction_to_quiz():
+    """Print initial welcome strings and allow user to input username.
+
+    Returns:
+        string: Validated username
+    """
+    print("Welcome!\nAre you clued up enough on code and computers?")
+    print("Think you have the knowledge to go all the way?")
+    print("Let's see how you do! First, introduce yourself.\n")
+
+    new_user_name = get_user_name()
+    print(f"\nWelcome, {new_user_name}!")
+
+    return new_user_name
 
 
 def get_user_name():
@@ -14,7 +78,7 @@ def get_user_name():
     input received.
 
     Returns:
-        A string as a username.
+        string: A validated string as a username.
     """
 
     while True:
@@ -31,7 +95,7 @@ def check_user_name(user_name_str: str):
     """Checks username input is valid.
 
     Returns:
-        True if valid - else false.
+        bool: True if valid - else false.
     """
 
     try:
@@ -57,7 +121,7 @@ def wants_info(input_string: str):
             identify what information will be printed.
 
     Returns:
-        True if input is "y" - else False.
+        bool: True if input is "y" - else False.
     """
 
     user_response = input(f"\n{input_string} {YN}\n").lower()
@@ -117,7 +181,7 @@ def which_keyword():
     """Allows user to specify which keyword meaning to check
 
     Returns:
-        Keyword
+        string: Keyword input by user.
     """
 
     print("\nWhich keyword would you like to check out?")
@@ -195,7 +259,7 @@ KEYWORDS = {
     ),
     "review": (
         "This is a one shot keyword!! Once used, it cannot be used again in",
-        "the same quiz!!      Use it wisely!!",
+        "the same quiz!!    --    Use it wisely!!",
         "If you choose to use 'review', you will need to confirm your",
         "decision. Once you do, you will be presented with answers to the",
         "current question from 100 people. They may not be correct so it is",
@@ -204,7 +268,7 @@ KEYWORDS = {
     ),
     "even": (
         "This is a one shot keyword!! Once used, it cannot be used again in",
-        "the same quiz!!      Use it wisely!!",
+        "the same quiz!!    --    Use it wisely!!",
         "If you choose to use 'even', you will need to confirm your",
         "decision. Once you do, two of the incorrect answers to the current",
         "question will be removed. The question will be shown again with only",
@@ -212,7 +276,7 @@ KEYWORDS = {
     ),
     "call": (
         "This is a one shot keyword!! Once used, it cannot be used again in",
-        "the same quiz!!      Use it wisely!!",
+        "the same quiz!!    --    Use it wisely!!",
         "If you choose to use 'call', you will need to confirm your",
         "decision. Once you do, you will be presented with a response from a",
         "coder companion. They will give you their thoughts on the question.",
@@ -222,20 +286,17 @@ KEYWORDS = {
     )
 }
 
-
-print("Welcome!\nAre you clued up enough on code and computers?")
-print("Think you have the knowledge to go all the way?")
-print("Let's see how you do! First, introduce yourself.\n")
-
-user_name = get_user_name()
-print(f"\nWelcome, {user_name}!")
-
 WANTS_RULES = "Before we begin, should we run through the rules?"
 WANTS_KEYWORDS = "Would you like to know a keyword and its function?"
+
+easy_token, medium_token, hard_token = initial_token_setup()
 
 
 def main():
     """Runs the quiz."""
+
+    user_name = introduction_to_quiz()
+
     if wants_info(WANTS_RULES):
         print_rules()
 
@@ -246,4 +307,83 @@ def main():
     print("\nGreat...let's begin!")
 
 
-main()
+# def check_api_url(difficulty: str, token: str) -> tuple[bool, object]:
+    # """Retrieve a response from opentdb API.
+
+    # Connects to opentdb.com/api to ensure correct query parameters have been
+    # used in the URL, allowing for valid data.
+
+    # Args:
+    #     difficulty: The current difficulty level set by the question number
+
+    # Returns:
+    #     tuple: (bool, data)
+    #         bool: True if response from API is 0, else false.
+    #         data: The response in JSON format.
+    # """
+    # api_url = (
+    #     "https://opentdb.com/api.php?amount=5&category"
+    #     f"=18&difficulty={difficulty}&type=multiple&token={token}"
+    # )
+
+    # print("Retrieving data...")
+    # response = requests.get(api_url)
+    # data = response.json()
+
+    # if data["response_code"] in (3, 4):
+    #     print("Token expired:")
+    #     new_token = retrieve_api_token(difficulty)
+    #     data = check_api_url(difficulty, new_token)[1]
+    #     return True, data, new_token
+
+    # try:
+    #     if data["response_code"] in (1, 2):
+    #         raise ConnectionError(
+    #             f"Open Trivia Database API connection error: {api_url}\n"
+    #             f"Response_code from API: {data['response_code']}"
+    #         )
+    # except ConnectionError as e:
+    #     print(f"Error: {e}")
+    #     print("Program will now terminate!")
+    #     exit()
+
+    # print("Data retrieval successful...")
+    # return True, data
+
+# print(api_validated)
+# print(len(question_data))
+
+
+# def display_question(question):
+#     """Shows question and possible answers"""
+
+#     correct_answer = unescape(question["correct_answer"])
+#     incorrect_answers = list(unescape(question["incorrect_answers"]))
+#     answers = [correct_answer, *incorrect_answers]
+#     shuffle(answers)
+
+#     # use a tuple of 'ready' 'ok' 'here we go' etc
+#     print(f"Ready? Question number {str(question_number)}")
+#     print("Followed by the four possible answers...\n")
+#     print(unescape(question["question"]))
+#     print(answers)
+
+
+
+
+
+
+# api_check = check_api_url("easy", easy_token)
+# if len(api_check) == 3:
+#     easy_token = api_check[2]
+
+
+# api_validated = api_check[0]
+# question_data = api_check[1]["results"]
+# question_number = 1
+# print("")
+# display_question(question_data[0])
+
+
+
+# main()
