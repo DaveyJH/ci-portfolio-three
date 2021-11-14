@@ -60,7 +60,7 @@ def introduction_to_quiz():
     Returns:
         string: Validated username
     """
-    print("Welcome!\nAre you clued up enough on code and computers?")
+    print("\n\nWelcome!\nAre you clued up enough on code and computers?")
     print("Think you have the knowledge to go all the way?")
     print("Let's see how you do! First, introduce yourself.\n")
 
@@ -295,95 +295,103 @@ easy_token, medium_token, hard_token = initial_token_setup()
 def main():
     """Runs the quiz."""
 
-    user_name = introduction_to_quiz()
+    # user_name = introduction_to_quiz()
 
-    if wants_info(WANTS_RULES):
-        print_rules()
+    # if wants_info(WANTS_RULES):
+        # print_rules()
 
-    while wants_info(WANTS_KEYWORDS):
-        keyword = which_keyword()
-        keyword_description(keyword)
+    # while wants_info(WANTS_KEYWORDS):
+        # keyword = which_keyword()
+        # keyword_description(keyword)
 
     print("\nGreat...let's begin!")
 
 
-# def check_api_url(difficulty: str, token: str) -> tuple[bool, object]:
-    # """Retrieve a response from opentdb API.
+def check_api_retrieve_question(
+    difficulty: str, token: str
+) -> tuple[bool, object]:
+    """Retrieve a response from opentdb API.
 
-    # Connects to opentdb.com/api to ensure correct query parameters have been
-    # used in the URL, allowing for valid data.
+    Connects to opentdb.com/api to ensure correct query parameters have been
+    used in the URL, allowing for valid data.
 
-    # Args:
-    #     difficulty: The current difficulty level set by the question number
+    Args:
+        difficulty: The current difficulty level set by the question number
 
-    # Returns:
-    #     tuple: (bool, data)
-    #         bool: True if response from API is 0, else false.
-    #         data: The response in JSON format.
-    # """
-    # api_url = (
-    #     "https://opentdb.com/api.php?amount=5&category"
-    #     f"=18&difficulty={difficulty}&type=multiple&token={token}"
-    # )
+    Returns:
+        tuple: (bool, data)
+            bool: True if response from API is 0, else false.
+            data: The response in JSON format.
+    """
+    api_url = (
+        "https://opentdb.com/api.php?amount=1&category"
+        f"=18&difficulty={difficulty}&type=multiple&token={token}"
+    )
 
-    # print("Retrieving data...")
-    # response = requests.get(api_url)
-    # data = response.json()
+    print("Retrieving data...")
+    response = requests.get(api_url)
+    data = response.json()
 
-    # if data["response_code"] in (3, 4):
-    #     print("Token expired:")
-    #     new_token = retrieve_api_token(difficulty)
-    #     data = check_api_url(difficulty, new_token)[1]
-    #     return True, data, new_token
+    if data["response_code"] in (3, 4):
+        print("Token expired:")
+        new_token = retrieve_api_token(difficulty)
+        data = check_api_retrieve_question(difficulty, new_token)[1]
+        return True, data, new_token
 
-    # try:
-    #     if data["response_code"] in (1, 2):
-    #         raise ConnectionError(
-    #             f"Open Trivia Database API connection error: {api_url}\n"
-    #             f"Response_code from API: {data['response_code']}"
-    #         )
-    # except ConnectionError as e:
-    #     print(f"Error: {e}")
-    #     print("Program will now terminate!")
-    #     exit()
+    try:
+        if data["response_code"] in (1, 2):
+            raise ConnectionError(
+                f"Open Trivia Database API connection error: {api_url}\n"
+                f"Response_code from API: {data['response_code']}"
+            )
+    except ConnectionError as e:
+        print(f"Error: {e}")
+        print("Program will now terminate!")
+        exit()
 
-    # print("Data retrieval successful...")
-    # return True, data
-
-# print(api_validated)
-# print(len(question_data))
-
-
-# def display_question(question):
-#     """Shows question and possible answers"""
-
-#     correct_answer = unescape(question["correct_answer"])
-#     incorrect_answers = list(unescape(question["incorrect_answers"]))
-#     answers = [correct_answer, *incorrect_answers]
-#     shuffle(answers)
-
-#     # use a tuple of 'ready' 'ok' 'here we go' etc
-#     print(f"Ready? Question number {str(question_number)}")
-#     print("Followed by the four possible answers...\n")
-#     print(unescape(question["question"]))
-#     print(answers)
+    print("Data retrieval successful...")
+    return True, data
 
 
+def display_question(question):
+    """Shows question and possible answers"""
+
+    correct_answer = unescape(question["correct_answer"])
+    incorrect_answers = list(unescape(question["incorrect_answers"]))
+    answers = [correct_answer, *incorrect_answers]
+    shuffle(answers)
+
+    abcd: dict[str, str] = {
+        "a": unescape(answers[0]),
+        "b": unescape(answers[1]),
+        "c": unescape(answers[2]),
+        "d": unescape(answers[3]),
+    }
+
+    # use a tuple of 'ready' 'ok' 'here we go' etc
+    print(f"\nReady? Question number {str(question_number)}")
+    print("Followed by the four possible answers...\n")
+    print(f"{unescape(question['question'])}\n")
+    for letter, answer_str in abcd.items():
+        print(f"{letter}:", answer_str)
+
+    return abcd, correct_answer
 
 
+api_check_result = check_api_retrieve_question("easy", easy_token)
+if len(api_check_result) == 3:
+    easy_token = api_check_result[2]
 
+question_number = 1
+question_data = api_check_result[1]["results"]
+choices, answer = display_question(question_data[0])
 
-# api_check = check_api_url("easy", easy_token)
-# if len(api_check) == 3:
-#     easy_token = api_check[2]
+print("")
+print(choices)
+print(answer)
 
 
 # api_validated = api_check[0]
-# question_data = api_check[1]["results"]
-# question_number = 1
 # print("")
-# display_question(question_data[0])
 
-
-
-# main()
+main()
