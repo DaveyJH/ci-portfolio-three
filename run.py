@@ -4,11 +4,34 @@
 
 from random import shuffle
 from html import unescape
+from time import sleep
 import random
 
 from better_profanity import profanity
 from getch import pause
 import requests
+
+
+def matrix_line():
+    """Print a random line of 60 1s and 0s followed by a 0.5s delay"""
+
+    line = ""
+    for n in range(80):
+        line = line + (str(MATRIX_CHARS[
+            random.randrange(len(MATRIX_CHARS))]))
+    print(line)
+    sleep(.5)
+
+
+def matrix_block(num: int = 5):
+    """Print block of matrix lines
+
+    Args:
+        num: Integer value determining how many lines to print.
+    """
+
+    for n in range(num):
+        matrix_line()
 
 
 def retrieve_api_token(difficulty: str) -> str:
@@ -344,6 +367,7 @@ def display_question(
 
     global unused_ready_words
 
+    matrix_line()
     pre_question_str = ""
     if first_attempt:
         if not unused_ready_words:
@@ -571,6 +595,7 @@ def main():
         check_answer(user_input, choices, answer)
 
 
+MATRIX_CHARS = (1, 0)
 YN = ("y", "n")
 Y = "y"
 N = "n"
@@ -645,8 +670,19 @@ unused_correct_responses = list(CORRECT_RESPONSES)
 unused_ready_words = list(READY_WORDS)
 DIFFICULTY_LEVELS = ("easy", "medium", "hard")
 # check google sheet value
+
+matrix_block()
+print("Configuring program...")
+sleep(.5)
+print("Initializing Active:Personnel:Inquisitor...")
 easy_token, medium_token, hard_token = initial_token_setup()
+sleep(.5)
+print("Engaging Automated:Neuro:Solution:Work:Experimentation:Resources...")
+sleep(.5)
+print("Configuration complete...")
 
 question_number = 1
+
+matrix_block()
 
 main()
