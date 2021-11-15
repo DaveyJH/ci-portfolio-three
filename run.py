@@ -296,16 +296,16 @@ KEYWORDS = {
         "You will be prompted to return to the question and may then continue."
     )
 }
-
 WANTS_RULES = "Before we begin, should we run through the rules?"
 WANTS_KEYWORDS = "Would you like to know a keyword and its function?"
-
 READY_WORDS = (
         "Ready?", "OK...", "Next...", "Here we go!", "Try this...",
         "See how you get on with this one.", "Let's see how you get on.",
         "Are you ready for this?"
     )
 
+DIFFICULTY_LEVELS = ("easy", "medium", "hard")
+# check google sheet value
 easy_token, medium_token, hard_token = initial_token_setup()
 
 
@@ -326,7 +326,7 @@ def main():
 
 def check_api_retrieve_question(
     difficulty: str, token: str
-) -> tuple[bool, object]:
+) -> tuple[bool, dict[str, str], str]:
     """Retrieve a response from opentdb API.
 
     Connects to opentdb.com/api to ensure correct query parameters have been
@@ -336,9 +336,10 @@ def check_api_retrieve_question(
         difficulty: The current difficulty level set by the question number
 
     Returns:
-        tuple: (bool, data)
+        tuple: (bool, data, str)
             bool: True if response from API is 0, else false.
             data: The response in JSON format.
+            *str: New token string if token has expired.
     """
     api_url = (
         "https://opentdb.com/api.php?amount=1&category"
@@ -398,7 +399,8 @@ def set_answer_letters(question: dict[str, str]):
 
 
 def display_question(
-    question: dict[str, str], abcd: dict[str, str], first_attempt: bool = False
+    question: str, abcd: dict[str, str],
+    current_pre_question: str, first_attempt: bool = False
 ):
     """Prints question and possible answers
 
@@ -409,6 +411,7 @@ def display_question(
     Args:
         question: The current question.
         abcd: A dict of the available answers with a selection letter.
+        pre_question: A string to be prepended to the question number.
         first_attempt: Determines if the prepending string needs defining
             (default: False)
 
@@ -423,7 +426,9 @@ def display_question(
     if pre_question_str:
         print(f"\n{pre_question_str} Question Number {str(question_number)}")
     else:
-        print(f"\n{pre_question} Question Number {str(question_number)}")
+        print(
+            f"\n{current_pre_question} Question Number {str(question_number)}"
+        )
     print(f"Followed by the {len(abcd)} possible answers...\n")
     print(f"{unescape(question['question'])}\n")
     for letter, answer_str in abcd.items():
@@ -432,59 +437,91 @@ def display_question(
     return pre_question_str
 
 
-api_check_result = check_api_retrieve_question("easy", easy_token)
-if len(api_check_result) == 3:
-    easy_token = api_check_result[2]
+def initiate_question(difficulty: str, token: str):
+
+    update_token = token
+    api_return = check_api_retrieve_question(difficulty, token)
+    if len(api_return) == 3:
+        # update google sheet
+        update_token = api_return[2]
+
+    question_data = api_return[1]["results"]
+    choices, answer = set_answer_letters(question_data[0])
+    pre_question_str = display_question(question_data[0], choices, "", True)
+
+    # ! DELETE BEFORE DEPLOYMENT TESTING ONLY
+    print("")
+    print(answer)
+
+    return update_token, pre_question_str, question_data, choices, answer
+
+
+def check_input(new_input, choices):
+    """DOCSTRING"""
+
+    try:
+        if not new_input:
+            raise ValueError("No input detected...")
+        if new_input not in KEYWORDS and new_input not in choices:
+            raise ValueError(
+                "Invalid input detected, please input an answer or keyword."
+            )
+
+    except ValueError as e:
+        print(f"{e}\n")
+        pause()
+        return False
+
+    return True
+
+
+def run_question(question_num: int, ):
+
+    if question_num < 6:
+        current_difficulty = DIFFICULTY_LEVELS[0]
+        current_token = easy_token
+    elif question_num < 11:
+        current_difficulty = DIFFICULTY_LEVELS[1]
+        current_token = medium_token
+    else:
+        current_difficulty = DIFFICULTY_LEVELS[2]
+        current_token = hard_token
+
+    (
+        current_token,
+        pre_question,
+        question_data,
+        choices,
+        answer
+    ) = initiate_question(current_difficulty, current_token)
+
+    available_choices = list(choices.keys())
+    while True:
+        print(available_choices)
+        # print(available_lifelines)
+        user_input = input(
+            "Please provide your answer or enter a keyword:\n"
+        ).lower()
+        if not check_input(user_input, choices):
+            display_question(question_data[0], choices, pre_question)
+        else:
+            break
+
+    return user_input, choices, answer
+
 
 question_number = 1
-question_data = api_check_result[1]["results"]
-choices, answer = set_answer_letters(question_data[0])
-pre_question = display_question(question_data[0], choices, True)
-# display_question(question_data[0], choices)
-# display_question(question_data[0], choices)
-
-# ! DELETE BEFORE DEPLOYMENT TESTING ONLY
-print("")
-print(answer)
 
 
-# def check_input(new_input):
-#     """DOCSTRING"""
+user_input, choices, answer = run_question(question_number)
 
-#     try:
-#         if not new_input:
-#             raise ValueError("No input detected...")
-#         if new_input not in KEYWORDS and input not in choices:
-#             raise ValueError(
-#                 "Invalid input detected, please input an answer or keyword."
-#             )
+def check_answer():
 
-#     except ValueError as e:
-#         print(f"{e}\n")
-#         return False
+    if choices[user_input] == answer:
+        print("Correct")
+    else:
+        print("incorrect")
 
-#     return True
-
-
-# while True:
-#     available_choices = []
-#     for key, value in choices.items():
-#         available_choices.append(key)
-#     print(available_choices)
-#     user_input = input(
-#         "Please provide your answer or enter a keyword:\n"
-#     ).lower()
-#     if check_input(user_input):
-#         break
-
-
-# if choices[user_input] == answer:
-#     print("Correct")
-# else:
-#     print("incorrect")
-
-
-# api_validated = api_check[0]
-# print("")
+check_answer()
 
 main()
