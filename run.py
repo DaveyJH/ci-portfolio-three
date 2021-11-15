@@ -245,71 +245,6 @@ def keyword_description(word: str):
     pause()
 
 
-YN = ("y", "n")
-Y = "y"
-N = "n"
-KEYWORDS = {
-    "help": (
-        "The 'help' keyword allows you to return to these handy tips.",
-        "You will be asked if you would like to run through the rules again,",
-        "then if you would like to run through the keywords and their",
-        "functions. Once you are done, you will be returned to the quiz."
-    ),
-    "take": (
-        "The 'take' keyword can be used when you are happy with your",
-        "progress through the quiz and don't feel you can confidently",
-        "continue. You will be asked to confirm your decision. If you do",
-        "confirm, the quiz will end and your score will be recorded if it",
-        "is in the top ten scores. If you change your mind and don't 'take'",
-        "you will be returned to the quiz."
-    ),
-    "scores": (
-        "The 'scores' keyword allows you to view the top 10 scores and the",
-        "user names that achieved them. You will be prompted for an input and",
-        "will subsequently return to the quiz."
-    ),
-    "review": (
-        "This is a one shot keyword!! Once used, it cannot be used again in",
-        "the same quiz!!    --    Use it wisely!!",
-        "If you choose to use 'review', you will need to confirm your",
-        "decision. Once you do, you will be presented with answers to the",
-        "current question from 100 people. They may not be correct so it is",
-        "up to you if you take the majority answers or not.",
-        "You will be prompted to return to the question and may then continue."
-    ),
-    "even": (
-        "This is a one shot keyword!! Once used, it cannot be used again in",
-        "the same quiz!!    --    Use it wisely!!",
-        "If you choose to use 'even', you will need to confirm your",
-        "decision. Once you do, two of the incorrect answers to the current",
-        "question will be removed. The question will be shown again with only",
-        "the two remaining answers. This will even the odds."
-    ),
-    "call": (
-        "This is a one shot keyword!! Once used, it cannot be used again in",
-        "the same quiz!!    --    Use it wisely!!",
-        "If you choose to use 'call', you will need to confirm your",
-        "decision. Once you do, you will be presented with a response from a",
-        "coder companion. They will give you their thoughts on the question.",
-        "However, they may not be correct, so it is up to you to make the",
-        "final decision.",
-        "You will be prompted to return to the question and may then continue."
-    )
-}
-WANTS_RULES = "Before we begin, should we run through the rules?"
-REFRESH_RULES = "Would you like a reminder of the rules?"
-WANTS_KEYWORDS = "Would you like to know a keyword and its function?"
-READY_WORDS = (
-        "Ready?", "OK...", "Next...", "Here we go!", "Try this...",
-        "See how you get on with this one.", "Let's see how you get on.",
-        "Are you ready for this?"
-    )
-
-DIFFICULTY_LEVELS = ("easy", "medium", "hard")
-# check google sheet value
-easy_token, medium_token, hard_token = initial_token_setup()
-
-
 def check_api_retrieve_question(
     difficulty: str, token: str
 ) -> tuple[bool, dict[str, str], str]:
@@ -392,7 +327,7 @@ def display_question(
 
     Prints a pre_question string, the question and the possible answers. If
     it is the first time the question has been printed, a random string will
-    be prepended to the 'Question Number x'.
+    be prepended to the Question Number x.
 
     Args:
         question: The current question.
@@ -559,7 +494,17 @@ def run_question(question_num: int):
     return user_input, choices, answer
 
 
-def check_answer(user_input, choices, answer):
+def check_answer(user_input: str, choices: dict[str, str], answer: str):
+    """Check user's answer against correct answer
+
+    If the user answer is correct, increment the question number and allow
+    the quiz to continue. Otherwise run through loss functions.
+
+    Args:
+        user_input: The user's chosen letter.
+        choices: Letters with their assigned answer.
+        answer: The answer string to the question.
+    """
 
     if choices[user_input] == answer:
         print("Correct")
@@ -588,6 +533,8 @@ def keyword_help(initial_run: bool = False):
 
 
 def keyword_used(word):
+    """Run keyword function"""
+
     if word == "help":
         keyword_help()
         print("\nLet's return to the quiz!")
@@ -608,6 +555,70 @@ def main():
         user_input, choices, answer = run_question(question_number)
         check_answer(user_input, choices, answer)
 
+
+YN = ("y", "n")
+Y = "y"
+N = "n"
+KEYWORDS = {
+    "help": (
+        "The 'help' keyword allows you to return to these handy tips.",
+        "You will be asked if you would like to run through the rules again,",
+        "then if you would like to run through the keywords and their",
+        "functions. Once you are done, you will be returned to the quiz."
+    ),
+    "take": (
+        "The 'take' keyword can be used when you are happy with your",
+        "progress through the quiz and don't feel you can confidently",
+        "continue. You will be asked to confirm your decision. If you do",
+        "confirm, the quiz will end and your score will be recorded if it",
+        "is in the top ten scores. If you change your mind and don't 'take'",
+        "you will be returned to the quiz."
+    ),
+    "scores": (
+        "The 'scores' keyword allows you to view the top 10 scores and the",
+        "user names that achieved them. You will be prompted for an input and",
+        "will subsequently return to the quiz."
+    ),
+    "review": (
+        "This is a one shot keyword!! Once used, it cannot be used again in",
+        "the same quiz!!    --    Use it wisely!!",
+        "If you choose to use 'review', you will need to confirm your",
+        "decision. Once you do, you will be presented with answers to the",
+        "current question from 100 people. They may not be correct so it is",
+        "up to you if you take the majority answers or not.",
+        "You will be prompted to return to the question and may then continue."
+    ),
+    "even": (
+        "This is a one shot keyword!! Once used, it cannot be used again in",
+        "the same quiz!!    --    Use it wisely!!",
+        "If you choose to use 'even', you will need to confirm your",
+        "decision. Once you do, two of the incorrect answers to the current",
+        "question will be removed. The question will be shown again with only",
+        "the two remaining answers. This will even the odds."
+    ),
+    "call": (
+        "This is a one shot keyword!! Once used, it cannot be used again in",
+        "the same quiz!!    --    Use it wisely!!",
+        "If you choose to use 'call', you will need to confirm your",
+        "decision. Once you do, you will be presented with a response from a",
+        "coder companion. They will give you their thoughts on the question.",
+        "However, they may not be correct, so it is up to you to make the",
+        "final decision.",
+        "You will be prompted to return to the question and may then continue."
+    )
+}
+WANTS_RULES = "Before we begin, should we run through the rules?"
+REFRESH_RULES = "Would you like a reminder of the rules?"
+WANTS_KEYWORDS = "Would you like to know a keyword and its function?"
+READY_WORDS = (
+        "Ready?", "OK...", "Next...", "Here we go!", "Try this...",
+        "See how you get on with this one.", "Let's see how you get on.",
+        "Are you ready for this?"
+    )
+
+DIFFICULTY_LEVELS = ("easy", "medium", "hard")
+# check google sheet value
+easy_token, medium_token, hard_token = initial_token_setup()
 
 question_number = 1
 
