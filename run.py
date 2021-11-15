@@ -68,7 +68,8 @@ def introduction_to_quiz():
     Returns:
         str: Validated username.
     """
-    print("\n\nWelcome!\nAre you clued up enough on code and computers?")
+    print(f"\n{80*'='}")
+    print("\nWelcome!\nAre you clued up enough on code and computers?")
     print("Think you have the knowledge to go all the way?")
     print("Let's see how you do! First, introduce yourself.\n")
 
@@ -267,7 +268,7 @@ def check_api_retrieve_question(
         f"=18&difficulty={difficulty}&type=multiple&token={token}"
     )
 
-    print(f"\nRetrieving data...")
+    print("\nRetrieving data...")
     response = requests.get(api_url)
     data = response.json()
 
@@ -487,8 +488,8 @@ def run_question(question_num: int):
 
     available_choices = list(choices.keys())
     while True:
-        print(available_choices)
-        # print(available_lifelines)
+        print(f"\nAvailable keywords:{available_keywords}")
+        print(f"Available choices:{available_choices}")
         user_input = input(
             "Please provide your answer or enter a keyword:\n"
         ).lower()
@@ -525,8 +526,8 @@ def check_answer(user_input: str, choices: dict[str, str], answer: str):
         question_number += 1
         pause()
     else:
-        print("incorrect")
         # ! FOR TESTING ONLY
+        print(INCORRECT_RESPONSES[random.randrange(len(INCORRECT_RESPONSES))])
         exit()
 
 
@@ -621,6 +622,7 @@ KEYWORDS = {
         "You will be prompted to return to the question and may then continue."
     )
 }
+available_keywords = list(KEYWORDS.keys())
 WANTS_RULES = "Before we begin, should we run through the rules?"
 REFRESH_RULES = "Would you like a reminder of the rules?"
 WANTS_KEYWORDS = "Would you like to know a keyword and its function?"
