@@ -9,3 +9,4 @@ node_modules/
 .venv/
 .vscode
 test.py
+*.code-workspace
