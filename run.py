@@ -297,6 +297,7 @@ KEYWORDS = {
     )
 }
 WANTS_RULES = "Before we begin, should we run through the rules?"
+REFRESH_RULES = "Would you like a reminder of the rules?"
 WANTS_KEYWORDS = "Would you like to know a keyword and its function?"
 READY_WORDS = (
         "Ready?", "OK...", "Next...", "Here we go!", "Try this...",
@@ -307,21 +308,6 @@ READY_WORDS = (
 DIFFICULTY_LEVELS = ("easy", "medium", "hard")
 # check google sheet value
 easy_token, medium_token, hard_token = initial_token_setup()
-
-
-def main():
-    """Runs the quiz."""
-
-    # user_name = introduction_to_quiz()
-
-    # if wants_info(WANTS_RULES):
-        # print_rules()
-
-    # while wants_info(WANTS_KEYWORDS):
-        # keyword = which_keyword()
-        # keyword_description(keyword)
-
-    print("\nGreat...let's begin!")
 
 
 def check_api_retrieve_question(
@@ -336,9 +322,9 @@ def check_api_retrieve_question(
         difficulty: The current difficulty level set by the question number
 
     Returns:
-        tuple: (bool, data, str)
+        tuple: (bool, dict[str, str], str)
             bool: True if response from API is 0, else false.
-            data: The response in JSON format.
+            dict[str, str]: The response in JSON format.
             *str: New token string if token has expired.
     """
     api_url = (
@@ -438,6 +424,42 @@ def display_question(
 
 
 def initiate_question(difficulty: str, token: str):
+    """Check and set up question.
+
+    Check for valid token and updates if necessary. Retrieves question string,
+    choices and answer. Sets string to be used before instance of question.
+
+    Args:
+        difficulty: A string value containing the current difficulty.
+        token: A string value of the current API token in use.
+
+    Returns:
+        str: A valid APi token.
+        str: A string to prepend the question.
+        dict[str, str]: The question data in a dictionary. Example...
+            {
+                "category":"Example Questions",
+                "type":"multiple",      # multiple or boolean
+                "difficulty":"easy",
+                "question":"What is 2 + 2",
+                "correct_answer":"4",
+                "incorrect_answers":[
+                    "5",
+                    "8",
+                    "0"
+                ]
+            }
+        dict[str, str]: Letters with a shuffled set of answers assigned to them
+            to allow user selection. Example...
+                {
+                    "a": "8",
+                    "b": "0",
+                    "c": "4",
+                    "d": "5"
+                }
+        str: The answer to the question as a string. Example....
+            "4"
+    """
 
     update_token = token
     api_return = check_api_retrieve_question(difficulty, token)
@@ -456,13 +478,27 @@ def initiate_question(difficulty: str, token: str):
     return update_token, pre_question_str, question_data, choices, answer
 
 
-def check_input(new_input, choices):
-    """DOCSTRING"""
+def check_input(new_input: str, choices: dict[str, str]) -> bool:
+    """Validates user's input after question is printed.
+
+    Checks for valid user input and checks if keyword has been used.
+
+    Args:
+        new_input: The user's input string.
+        choices: A dictionary of letters and their associated answer.
+
+    Returns:
+        bool: True if answer is received, else False.
+    """
 
     try:
         if not new_input:
             raise ValueError("No input detected...")
-        if new_input not in KEYWORDS and new_input not in choices:
+        # change to available keywords
+        if new_input in KEYWORDS:
+            keyword_used(new_input)
+            return False
+        if new_input not in choices:
             raise ValueError(
                 "Invalid input detected, please input an answer or keyword."
             )
@@ -475,7 +511,20 @@ def check_input(new_input, choices):
     return True
 
 
-def run_question(question_num: int, ):
+def run_question(question_num: int):
+    """Runs the question.
+
+    Sets difficulty level depending on question number. Prints question and
+    answers and available lifelines. Awaits user input that gets validated.
+
+    Args:
+        question_num: The current question number.
+
+    Returns:
+        str: A validated user input.
+        dict[str, str]: The answers with a key letter for user selection.
+        str: The question answer.
+    """
 
     if question_num < 6:
         current_difficulty = DIFFICULTY_LEVELS[0]
@@ -510,18 +559,56 @@ def run_question(question_num: int, ):
     return user_input, choices, answer
 
 
-question_number = 1
-
-
-user_input, choices, answer = run_question(question_number)
-
-def check_answer():
+def check_answer(user_input, choices, answer):
 
     if choices[user_input] == answer:
         print("Correct")
+        global question_number
+        question_number += 1
     else:
         print("incorrect")
+        # ! FOR TESTING ONLY
+        exit()
 
-check_answer()
+
+def keyword_help(initial_run: bool = False):
+    """Runs through explanations of rules and keywords.
+
+    Args:
+        initial_run: If True, modifies input string before rules to
+            WANTS_RULES. (default: False)
+    """
+    rules = WANTS_RULES if initial_run else REFRESH_RULES
+    if wants_info(rules):
+        print_rules()
+
+    while wants_info(WANTS_KEYWORDS):
+        keyword = which_keyword()
+        keyword_description(keyword)
+
+
+def keyword_used(word):
+    if word == "help":
+        keyword_help()
+        print("\nLet's return to the quiz!")
+        pause()
+
+
+def main():
+    """Runs the quiz."""
+
+    user_name = introduction_to_quiz()
+
+    keyword_help(True)
+
+    print("\nGreat...let's begin!")
+
+    while question_number < 16:
+
+        user_input, choices, answer = run_question(question_number)
+        check_answer(user_input, choices, answer)
+
+
+question_number = 1
 
 main()
