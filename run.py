@@ -267,7 +267,7 @@ def check_api_retrieve_question(
         f"=18&difficulty={difficulty}&type=multiple&token={token}"
     )
 
-    print("Retrieving data...")
+    print(f"\nRetrieving data...")
     response = requests.get(api_url)
     data = response.json()
 
@@ -341,9 +341,15 @@ def display_question(
             first_attempt (default: "")
     """
 
+    global unused_ready_words
+
     pre_question_str = ""
     if first_attempt:
-        pre_question_str = READY_WORDS[random.randrange(len(READY_WORDS))]
+        if not unused_ready_words:
+            unused_ready_words = list(READY_WORDS)
+        pre_question_str = unused_ready_words[
+            random.randrange(len(unused_ready_words))]
+        unused_ready_words.remove(pre_question_str)
     if pre_question_str:
         print(f"\n{pre_question_str} Question Number {str(question_number)}")
     else:
@@ -506,10 +512,18 @@ def check_answer(user_input: str, choices: dict[str, str], answer: str):
         answer: The answer string to the question.
     """
 
+    global unused_correct_responses
+    global question_number
+
     if choices[user_input] == answer:
-        print("Correct")
-        global question_number
+        if not unused_correct_responses:
+            unused_correct_responses = list(CORRECT_RESPONSES)
+        this_response = unused_correct_responses[
+            random.randrange(len(unused_correct_responses))]
+        unused_correct_responses.remove(this_response)
+        print(f"\n{this_response}\n")
         question_number += 1
+        pause()
     else:
         print("incorrect")
         # ! FOR TESTING ONLY
@@ -611,11 +625,22 @@ WANTS_RULES = "Before we begin, should we run through the rules?"
 REFRESH_RULES = "Would you like a reminder of the rules?"
 WANTS_KEYWORDS = "Would you like to know a keyword and its function?"
 READY_WORDS = (
-        "Ready?", "OK...", "Next...", "Here we go!", "Try this...",
-        "See how you get on with this one.", "Let's see how you get on.",
-        "Are you ready for this?"
-    )
-
+    "Ready?", "OK...", "Next...", "Here we go!", "Try this...",
+    "See how you get on with this one.", "Let's see how you get on.",
+    "Are you ready for this?"
+)
+CORRECT_RESPONSES = (
+    "Correct...", "Well done!", "That's right.",
+    "You clearly know your stuff.", "That was...error-free!", "Spot on.",
+    "Brilliant, that's correct.", "Nice work."
+)
+INCORRECT_RESPONSES = (
+    "Oh dear, that's wrong I'm afraid.", "Oh no! That wasn't correct.",
+    "Unfortunately, that answer was incorrect.", "Game over for you.",
+    "That does not compute...wrong answer!"
+)
+unused_correct_responses = list(CORRECT_RESPONSES)
+unused_ready_words = list(READY_WORDS)
 DIFFICULTY_LEVELS = ("easy", "medium", "hard")
 # check google sheet value
 easy_token, medium_token, hard_token = initial_token_setup()
