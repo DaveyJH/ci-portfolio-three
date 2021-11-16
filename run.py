@@ -754,8 +754,10 @@ def keyword_review(
         print(f"{letter}: {review}")
 
     print("")
+    pause()
+    print("")
 
-def keyword_call():
+def keyword_call(current_choices, correct_answer):
     print("You chose call but it isn't programmed yet")
 
 
