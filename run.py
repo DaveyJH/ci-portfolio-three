@@ -183,7 +183,7 @@ def print_rules():
     print("\nThis quiz consists of 15 questions. The further you go, the")
     print("harder they become. Unless, of course, you know the answers!")
     print("There is no time limit for the questions, but you do have")
-    print("just one life. One wrong answer and the game is over.\n\n")
+    print("just one life. One wrong answer and the game is over.\n")
     print("If you answer 5 or 10 questions correctly, your progress is safe.")
     print("An incorrect answer any time after a safety point will mean your")
     print("score is equal to the most recent safety point reached.\n")
@@ -410,10 +410,10 @@ def display_question(
 
     for line in question_lines:
         print(line)
-        # print(f"{unescape(question['question'])}\n")
+
     print("")
     for letter, answer_str in abcd.items():
-        print(f"{letter}:", answer_str)
+        print(f"{letter}: {answer_str}")
 
     return pre_question_str
 
@@ -629,7 +629,20 @@ def keyword_scores():
 def keyword_even(
     current_choices: dict[str, str], correct_answer: str
 ) -> dict[str, str]:
-    """Removes 2 incorrect answers from the choices."""
+    """Removes 2 incorrect answers from the choices.
+
+    Requires confirmation of input. If input string does not match, revert to
+    user input.
+
+    Args:
+        current_choices: A dictionary of the currently available letters and
+            answers.
+        correct_answer: The correct answer string.
+
+    Returns:
+        dict[str, str]: (If even confirmed) One correct answer, one incorrect
+        answer. Assigned letters remain the same and order is alphabetical.
+    """
 
     confirm = input("\nPlease input 'even' again to confirm choice:\n")
     if confirm != "even":
@@ -652,12 +665,96 @@ def keyword_even(
     new_items = new_choices.items()
     sorted_items = sorted(new_items)
     new_choices = dict(sorted_items)
-    print("")
+
+    print("\nEvening the odds...\n")
+    sleep(.5)
+    print("Recalculating...\n")
+    sleep(.5)
+    print("Calculation successful!\n")
+    sleep(.5)
 
     return new_choices
 
 
-# def keyword_review():
+def keyword_review(
+    current_choices: dict[str, str], correct_answer: str
+):
+    """Prints percentages next to avilable choices.
+
+    Calculates a percentage response for each available answer. Chance of
+    response being correct is lower for higher number questions. Prints
+    responses in similar style to available answers.
+
+    Args:
+        current_choices: A dictionary of the currently available letters and
+            answers.
+        correct_answer: The correct answer string.
+    """
+
+    confirm = input("\nPlease input 'review' again to confirm choice:\n")
+    if confirm != "review":
+        print("Input did not match.\n")
+        return
+
+    available_keywords.remove("review")
+    reviewed_answers = current_choices.copy()
+    reviews = {}
+
+    if question_number < 6:
+        percentage = randrange(50, 80)
+    elif question_number < 11:
+        percentage = randrange(20, 60)
+    else:
+        percentage = randrange(10, 40)
+
+    if len(current_choices) == 2:
+        r_a = 100 - percentage
+        incorrect_percentages = [r_a]
+    else:
+        remainder = 100 - percentage
+        r_a = randrange(round(remainder / 2))
+        remainder = remainder - r_a
+        r_b = randrange(remainder)
+        r_c = remainder - r_b
+        incorrect_percentages = [r_a, r_b, r_c]
+
+    for k, v in reviewed_answers.items():
+        if v == correct_answer:
+            reviews.update({k: f"{percentage}%"})
+            del reviewed_answers[k]
+            break
+
+    while reviewed_answers:
+        incorrect_answer = list(
+            reviewed_answers.items()
+        )[randrange(len(reviewed_answers))]
+        incorrect_answer_percentage = incorrect_percentages[
+            randrange(len(incorrect_percentages))
+        ]
+        reviews.update({
+            incorrect_answer[0]:
+            f"{incorrect_answer_percentage}%"
+        })
+
+        del reviewed_answers[incorrect_answer[0]]
+        incorrect_percentages.remove(incorrect_answer_percentage)
+
+    new_items = reviews.items()
+    sorted_items = sorted(new_items)
+    reviews = dict(sorted_items)
+
+    print("\nRequesting review...\n")
+    sleep(.5)
+    print("Collating responses...\n")
+    sleep(.5)
+    print("Rendering results...\n")
+    sleep(.5)
+
+    for letter, review in reviews.items():
+        print(f"{letter}: {review}")
+
+    print("")
+
 # def keyword_call():
 
 
@@ -684,7 +781,9 @@ def keyword_used(
         if "even" in available_keywords:
             new_choices = keyword_even(current_choices, correct_answer)
 
-    # if word == "review"
+    if word == "review":
+        if "review" in available_keywords:
+            keyword_review(current_choices, correct_answer)
     # if word == "call"
 
     return new_choices
@@ -733,9 +832,9 @@ KEYWORDS = {
         "This is a one shot keyword!! Once used, it cannot be used again in",
         "the same quiz!!    --    Use it wisely!!",
         "If you choose to use 'review', you will need to confirm your",
-        "decision. Once you do, you will be presented with answers to the",
-        "current question from 100 people. They may not be correct so it is",
-        "up to you if you take the majority answers or not.",
+        "decision. Once you do, you will be presented with the responses from",
+        "100 people to the current question. They may not be correct so it is",
+        "up to you if you take the majority answer or not.",
         "You will be prompted to return to the question and may then continue."
     ),
     "even": (
