@@ -348,9 +348,14 @@ def display_question(
 ):
     """Prints question and possible answers
 
+    Prints a single matrix_line for visual clarity.
+
     Prints a pre_question string, the question and the possible answers. If
     it is the first time the question has been printed, a random string will
     be prepended to the Question Number x.
+
+    Questions longer than 80 characters are split over individual lines and
+    spaces are trimmed to prevent single space indent on new line.
 
     Args:
         question: The current question.
@@ -381,7 +386,32 @@ def display_question(
             f"\n{current_pre_question} Question Number {str(question_number)}"
         )
     print(f"Followed by the {len(abcd)} possible answers...\n")
-    print(f"{unescape(question['question'])}\n")
+
+    question_str = unescape(question["question"])
+    question_lines = []
+
+    if len(question_str) <= 80:
+        question_lines.append(question_str)
+    else:
+        while len(question_str) > 80:
+            question_str = question_str.strip()
+            q_line = question_str[:80]
+            if question_str[80] == " ":
+                question_lines.append(q_line)
+                question_str = question_str[80:]
+            elif " " in q_line:
+                last_space = q_line.rindex(" ")
+                q_line = question_str[:last_space]
+                question_str = question_str[last_space:].strip()
+                question_lines.append(q_line)
+            else:
+                question_lines.append(q_line)
+        question_lines.append(question_str.strip())
+
+    for line in question_lines:
+        print(line)
+        # print(f"{unescape(question['question'])}\n")
+    print("")
     for letter, answer_str in abcd.items():
         print(f"{letter}:", answer_str)
 
