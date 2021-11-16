@@ -270,7 +270,7 @@ def keyword_description(word: str):
 
 def check_api_retrieve_question(
     difficulty: str, token: str
-) -> tuple[bool, dict[str, str], str]:
+) -> tuple[bool, dict, str]:
     """Retrieve a response from opentdb API.
 
     Connects to opentdb.com/api to ensure correct query parameters have been
@@ -315,7 +315,7 @@ def check_api_retrieve_question(
     return True, data
 
 
-def set_answer_letters(question: dict[str, str]):
+def set_answer_letters(question: dict):
     """Give each answer a letter and determines the correct answer.
 
     Args:
@@ -343,7 +343,7 @@ def set_answer_letters(question: dict[str, str]):
 
 
 def display_question(
-    question: str, abcd: dict[str, str],
+    question: str, abcd: dict,
     current_pre_question: str, first_attempt: bool = False
 ):
     """Prints question and possible answers
@@ -473,7 +473,7 @@ def initiate_question(difficulty: str, token: str):
     return update_token, pre_question_str, question_data, choices, answer
 
 
-def check_input(new_input: str, choices: dict[str, str], answer: str):
+def check_input(new_input: str, choices: dict, answer: str):
     """Validates user's input after question is printed.
 
     Checks for valid user input and checks if keyword has been used.
@@ -558,7 +558,7 @@ def run_question(question_num: int):
     return user_input, choices, answer
 
 
-def check_answer(user_input: str, choices: dict[str, str], answer: str):
+def check_answer(user_input: str, choices: dict, answer: str):
     """Check user's answer against correct answer
 
     If the user answer is correct, increment the question number and allow
@@ -627,8 +627,8 @@ def keyword_scores():
 
 
 def keyword_even(
-    current_choices: dict[str, str], correct_answer: str
-) -> dict[str, str]:
+    current_choices: dict, correct_answer: str
+) -> dict:
     """Removes 2 incorrect answers from the choices.
 
     Requires confirmation of input. If input string does not match, revert to
@@ -677,7 +677,7 @@ def keyword_even(
 
 
 def keyword_review(
-    current_choices: dict[str, str], correct_answer: str
+    current_choices: dict, correct_answer: str
 ):
     """Prints percentages next to avilable choices.
 
@@ -762,7 +762,7 @@ def keyword_call(current_choices, correct_answer):
 
 
 def keyword_used(
-    word: str, current_choices: dict[str, str], correct_answer: str
+    word: str, current_choices: dict, correct_answer: str
 ):
     """Run keyword function"""
 
