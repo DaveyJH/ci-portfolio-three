@@ -755,7 +755,8 @@ def keyword_review(
 
     print("")
 
-# def keyword_call():
+def keyword_call():
+    print("You chose call but it isn't programmed yet")
 
 
 def keyword_used(
@@ -784,7 +785,9 @@ def keyword_used(
     if word == "review":
         if "review" in available_keywords:
             keyword_review(current_choices, correct_answer)
-    # if word == "call"
+    if word == "call":
+        if"call" in available_keywords:
+            keyword_call(current_choices, correct_answer)
 
     return new_choices
 
