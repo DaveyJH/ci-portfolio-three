@@ -10,6 +10,16 @@ from better_profanity import profanity
 from getch import pause
 import requests
 
+import gspread
+from google.oauth2.service_account import Credentials
+
+
+SCOPE = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive.file",
+    "https://www.googleapis.com/auth/drive"
+]
+
 
 def matrix_line():
     """Print a random line of 60 1s and 0s followed by a 0.5s delay"""
@@ -190,7 +200,7 @@ def print_rules():
 
     pause()
 
-    print("\nEach question has four possible answers: A, B , C and D.")
+    print("\nEach question has four possible answers: A, B, C and D.")
     print("You will be shown the question, followed by the four possible")
     print("answers, each preceded by a letter. Input your answer by use of")
     print("the (hopefully correct!) letter with no additional text. You will")
@@ -201,7 +211,7 @@ def print_rules():
     pause()
 
     print("\nThere are some keywords that can be used at any time.")
-    print("'Help','Take', 'Scores', 'Review', 'Even' and 'Call'.")
+    print("'Help', 'Take', 'Scores', 'Review', 'Even' and 'Call'.")
     print("Once the quiz begins, these can be explained at any time via the")
     print("'Help' keyword. You will have an opportunity to run through their")
     print("uses in a moment.\n")
@@ -644,7 +654,8 @@ def keyword_even(
         answer. Assigned letters remain the same and order is alphabetical.
     """
 
-    confirm = input("\nPlease input 'even' again to confirm choice:\n")
+    print("\nWould you like to even the odds?")
+    confirm = input("Please input 'even' again to confirm choice:\n")
     if confirm != "even":
         print("Input did not match.\n")
         return current_choices
@@ -691,7 +702,8 @@ def keyword_review(
         correct_answer: The correct answer string.
     """
 
-    confirm = input("\nPlease input 'review' again to confirm choice:\n")
+    print("\nWould you like to request a review?")
+    confirm = input("Please input 'review' again to confirm choice:\n")
     if confirm != "review":
         print("Input did not match.\n")
         return
@@ -771,7 +783,8 @@ def keyword_call(current_choices: dict, correct_answer: str):
         correct_answer: The correct answer string.
     """
 
-    confirm = input("\nPlease input 'call' again to confirm choice:\n")
+    print("\nWould you like to call a coder?")
+    confirm = input("Please input 'call' again to confirm choice:\n")
     if confirm != "call":
         print("Input did not match.\n")
         return
