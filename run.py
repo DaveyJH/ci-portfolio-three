@@ -467,8 +467,8 @@ def initiate_question(difficulty: str, token: str):
     pre_question_str = display_question(question_data[0], choices, "", True)
 
     # ! DELETE BEFORE DEPLOYMENT TESTING ONLY
-    print("")
-    print(answer)
+    # print("")
+    # print(answer)
 
     return update_token, pre_question_str, question_data, choices, answer
 
