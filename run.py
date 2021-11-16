@@ -648,8 +648,8 @@ def keyword_even(
     if confirm != "even":
         print("Input did not match.\n")
         return current_choices
-
     available_keywords.remove("even")
+
     new_choices = {}
     for k, v in current_choices.items():
         if v == correct_answer:
@@ -695,8 +695,8 @@ def keyword_review(
     if confirm != "review":
         print("Input did not match.\n")
         return
-
     available_keywords.remove("review")
+
     reviewed_answers = current_choices.copy()
     reviews = {}
 
@@ -757,8 +757,74 @@ def keyword_review(
     pause()
     print("")
 
-def keyword_call(current_choices, correct_answer):
-    print("You chose call but it isn't programmed yet")
+
+def keyword_call(current_choices: dict, correct_answer: str):
+    """Prints a string with a suggested answer.
+
+    Calculates a percentage response for each available answer. Chance of
+    response being correct is lower for higher number questions. Prints
+    responses in similar style to available answers.
+
+    Args:
+        current_choices: A dictionary of the currently available letters and
+            answers.
+        correct_answer: The correct answer string.
+    """
+
+    confirm = input("\nPlease input 'call' again to confirm choice:\n")
+    if confirm != "call":
+        print("Input did not match.\n")
+        return
+    available_keywords.remove("call")
+
+    if question_number < 6:
+        percentage = randrange(50, 80)
+    elif question_number < 11:
+        percentage = randrange(20, 60)
+    else:
+        percentage = randrange(10, 40)
+
+    coder_guess = list(current_choices)[randrange(len(current_choices))]
+
+    for k, v in current_choices.items():
+        if v == correct_answer and percentage > 50:
+            coder_guess = k
+
+    if question_number < 6:
+        coder_responses = (
+            f"You came to the right coder, 100% it is '{coder_guess}'.",
+            f"'{coder_guess}', I am sure of it.",
+            f"I think I am right in saying '{coder_guess}'. I'm confident.",
+            f"Easy one for me, that's '{coder_guess}'."
+        )
+    if question_number < 11:
+        coder_responses = (
+            f"I'm pretty confident with this one, it's '{coder_guess}'",
+            f"It has to be '{coder_guess}', I am almost certain.",
+            f"I could be wrong, but I would say it is '{coder_guess}'",
+            f"That's a little tricky but '{coder_guess}' seems to be the one"
+        )
+    else:
+        coder_responses = (
+            f"I'm not sure on this, it could be '{coder_guess}'.",
+            f"That is tricky. I would say '{coder_guess}', but I am guessing",
+            f"It might be '{coder_guess}', but I really am not sure.",
+            f"Wow, that's tough. I'd say '{coder_guess}', but it's a stab in "
+            "the dark."
+        )
+
+    print("\nCalling a coder...\n")
+    sleep(.5)
+    print("Call connected...\n")
+    sleep(.5)
+    print("Providing possibilities...\n")
+    sleep(.5)
+
+    print(f"{coder_responses[randrange(len(coder_responses))]}")
+
+    print("")
+    pause()
+    print("")
 
 
 def keyword_used(
@@ -767,14 +833,13 @@ def keyword_used(
     """Run keyword function"""
 
     new_choices = current_choices
+
     if word == "help":
         keyword_help()
         print("\nLet's return to the quiz!")
         pause()
-
     if word == "take":
         keyword_take()
-
     if word == "scores":
         keyword_scores()
         print("\nLet's return to the quiz!")
@@ -783,7 +848,6 @@ def keyword_used(
     if word == "even":
         if "even" in available_keywords:
             new_choices = keyword_even(current_choices, correct_answer)
-
     if word == "review":
         if "review" in available_keywords:
             keyword_review(current_choices, correct_answer)
