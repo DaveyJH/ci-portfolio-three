@@ -270,7 +270,7 @@ def keyword_description(word: str):
 
 def check_api_retrieve_question(
     difficulty: str, token: str
-) -> tuple[bool, dict, str]:
+) -> tuple:
     """Retrieve a response from opentdb API.
 
     Connects to opentdb.com/api to ensure correct query parameters have been
