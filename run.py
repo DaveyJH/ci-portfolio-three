@@ -2,10 +2,9 @@
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
 # ! line breaks before any print statement that follows an input
 
-from random import shuffle
+from random import randrange, shuffle
 from html import unescape
 from time import sleep
-import random
 
 from better_profanity import profanity
 from getch import pause
@@ -18,7 +17,7 @@ def matrix_line():
     line = ""
     for n in range(80):
         line = line + (str(MATRIX_CHARS[
-            random.randrange(len(MATRIX_CHARS))]))
+            randrange(len(MATRIX_CHARS))]))
     print(line)
     sleep(.5)
 
@@ -373,7 +372,7 @@ def display_question(
         if not unused_ready_words:
             unused_ready_words = list(READY_WORDS)
         pre_question_str = unused_ready_words[
-            random.randrange(len(unused_ready_words))]
+            randrange(len(unused_ready_words))]
         unused_ready_words.remove(pre_question_str)
     if pre_question_str:
         print(f"\n{pre_question_str} Question Number {str(question_number)}")
@@ -444,7 +443,7 @@ def initiate_question(difficulty: str, token: str):
     return update_token, pre_question_str, question_data, choices, answer
 
 
-def check_input(new_input: str, choices: dict[str, str]) -> bool:
+def check_input(new_input: str, choices: dict[str, str], answer: str):
     """Validates user's input after question is printed.
 
     Checks for valid user input and checks if keyword has been used.
@@ -452,29 +451,32 @@ def check_input(new_input: str, choices: dict[str, str]) -> bool:
     Args:
         new_input: The user's input string.
         choices: A dictionary of letters and their associated answer.
+        answer: The current question answer as a string.
 
     Returns:
-        bool: True if answer is received, else False.
+        bool: True if answer is received, else False and continue user input.
+        dict[str, str]: Available answer choices.
     """
 
     try:
         if not new_input:
             raise ValueError("No input detected...")
         # change to available keywords
-        if new_input in KEYWORDS:
-            keyword_used(new_input)
-            return False
+        if new_input in KEYWORDS and new_input in available_keywords:
+            choices = keyword_used(new_input, choices, answer)
+            return False, choices
         if new_input not in choices:
             raise ValueError(
-                "Invalid input detected, please input an answer or keyword."
+                "Invalid input detected, please input an answer or available"
+                " keyword."
             )
 
     except ValueError as e:
         print(f"{e}\n")
         pause()
-        return False
+        return False, choices
 
-    return True
+    return True, choices
 
 
 def run_question(question_num: int):
@@ -510,14 +512,15 @@ def run_question(question_num: int):
         answer
     ) = initiate_question(current_difficulty, current_token)
 
-    available_choices = list(choices.keys())
     while True:
         print(f"\nAvailable keywords:{available_keywords}")
-        print(f"Available choices:{available_choices}")
+        print(f"Available choices:{list(choices.keys())}")
         user_input = input(
             "Please provide your answer or enter a keyword:\n"
         ).lower()
-        if not check_input(user_input, choices):
+        input_check = check_input(user_input, choices, answer)
+        if not input_check[0]:
+            choices = input_check[1]
             display_question(question_data[0], choices, pre_question)
         else:
             break
@@ -544,14 +547,14 @@ def check_answer(user_input: str, choices: dict[str, str], answer: str):
         if not unused_correct_responses:
             unused_correct_responses = list(CORRECT_RESPONSES)
         this_response = unused_correct_responses[
-            random.randrange(len(unused_correct_responses))]
+            randrange(len(unused_correct_responses))]
         unused_correct_responses.remove(this_response)
         print(f"\n{this_response}\n")
         question_number += 1
         pause()
     else:
         # ! FOR TESTING ONLY
-        print(INCORRECT_RESPONSES[random.randrange(len(INCORRECT_RESPONSES))])
+        print(INCORRECT_RESPONSES[randrange(len(INCORRECT_RESPONSES))])
         exit()
 
 
@@ -571,13 +574,90 @@ def keyword_help(initial_run: bool = False):
         keyword_description(keyword)
 
 
-def keyword_used(word):
+def keyword_take():
+    """Ends the quiz and logs the score."""
+
+    print("\nDo you want to end here?")
+    confirm = input("Please input 'take' again to confirm exit:\n")
+
+    if confirm != "take":
+        print("Input did not match.\n")
+        return
+
+    # testing
+    print("TOOK THE MONEY")
+    # ??restart?
+    exit()
+
+
+def keyword_scores():
+    """Prints the current high scores from Google Sheet data."""
+
+    print("THE SCORES ARE...")
+
+
+def keyword_even(
+    current_choices: dict[str, str], correct_answer: str
+) -> dict[str, str]:
+    """Removes 2 incorrect answers from the choices."""
+
+    confirm = input("\nPlease input 'even' again to confirm choice:\n")
+    if confirm != "even":
+        print("Input did not match.\n")
+        return current_choices
+
+    available_keywords.remove("even")
+    new_choices = {}
+    for k, v in current_choices.items():
+        if v == correct_answer:
+            new_choices.update({k: v})
+            del current_choices[k]
+            break
+    incorrect_answer = list(
+        current_choices.items()
+    )[randrange(len(current_choices))]
+
+    new_choices.update({incorrect_answer[0]: incorrect_answer[1]})
+
+    new_items = new_choices.items()
+    sorted_items = sorted(new_items)
+    new_choices = dict(sorted_items)
+    print("")
+
+    return new_choices
+
+
+# def keyword_review():
+# def keyword_call():
+
+
+def keyword_used(
+    word: str, current_choices: dict[str, str], correct_answer: str
+):
     """Run keyword function"""
 
+    new_choices = current_choices
     if word == "help":
         keyword_help()
         print("\nLet's return to the quiz!")
         pause()
+
+    if word == "take":
+        keyword_take()
+
+    if word == "scores":
+        keyword_scores()
+        print("\nLet's return to the quiz!")
+        pause()
+
+    if word == "even":
+        if "even" in available_keywords:
+            new_choices = keyword_even(current_choices, correct_answer)
+
+    # if word == "review"
+    # if word == "call"
+
+    return new_choices
 
 
 def main():
