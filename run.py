@@ -220,7 +220,7 @@ def wants_info(input_string: str):
         user_response = input(f"{input_string}{YN}\n").lower()
         continue
 
-    if user_response == N:
+    if user_response == "n":
         return False
 
     return True
@@ -719,14 +719,14 @@ def keyword_even(
     sorted_items = sorted(new_items)
     new_choices = dict(sorted_items)
 
-    print(f"\n|{unescape('&#8309&#8304&#8260&#8325&#8320|')*13}")
+    print(FIFTY_LINE)
     print("Evening the odds...\n")
     sleep(.5)
     print("Recalculating...\n")
     sleep(.5)
     print("Calculation successful!")
     sleep(.5)
-    print(f"|{unescape('&#8309&#8304&#8260&#8325&#8320|')*13}\n")
+    print(FIFTY_LINE)
 
     return new_choices
 
@@ -799,14 +799,14 @@ def keyword_review(
     sorted_items = sorted(new_items)
     reviews = dict(sorted_items)
 
-    print(f"\n{unescape('&#0191?')*40}")
+    print(QUERY_LINE)
     print("Requesting review...\n")
     sleep(.5)
     print("Collating responses...\n")
     sleep(.5)
     print("Rendering results...")
     sleep(.5)
-    print(f"{unescape('&#0191?')*40}\n")
+    print(QUERY_LINE)
 
     for letter, review in reviews.items():
         print(f"{letter}: {review}")
@@ -937,15 +937,13 @@ def main():
     print("\nGreat...let's begin!")
 
     while question_number < 16:
-
         user_input, choices, answer = run_question(question_number, user_name)
         check_answer(user_input, choices, answer)
 
 
 MATRIX_CHARS = (1, 0)
 YN = ("y", "n")
-Y = "y"
-N = "n"
+DIFFICULTY_LEVELS = ("easy", "medium", "hard")
 KEYWORDS = {
     "help": (
         "The 'help' keyword allows you to return to these handy tips.",
@@ -994,7 +992,6 @@ KEYWORDS = {
         "You will be prompted to return to the question and may then continue."
     )
 }
-available_keywords = list(KEYWORDS.keys())
 WANTS_RULES = "Before we begin, should we run through the rules?"
 REFRESH_RULES = "Would you like a reminder of the rules?"
 WANTS_KEYWORDS = "Would you like to know a keyword and its function?"
@@ -1013,12 +1010,16 @@ INCORRECT_RESPONSES = (
     "Unfortunately, that answer was incorrect.", "Game over for you.",
     "That does not compute...wrong answer!"
 )
-unused_correct_responses = list(CORRECT_RESPONSES)
-unused_ready_words = list(READY_WORDS)
-DIFFICULTY_LEVELS = ("easy", "medium", "hard")
 
+# Unicode character lines and extras
+FIFTY_LINE = f"|{unescape('&#8309&#8304&#8260&#8325&#8320|')*13}\n"
+QUERY_LINE = f"\n{unescape('&#0191?')*40}"
 TELEPHONE_LINE = ("&#9743 &#9742 "*20)
 TELEPHONE = ("&#128222")
+
+available_keywords = list(KEYWORDS.keys())
+unused_correct_responses = list(CORRECT_RESPONSES)
+unused_ready_words = list(READY_WORDS)
 
 matrix_block()
 print("Configuring program...")
@@ -1029,9 +1030,8 @@ sleep(.5)
 print("Engaging Automated:Neuro:Solution:Work:Experimentation:Resources...")
 sleep(.5)
 print("Configuration complete...")
+matrix_block()
 
 question_number = 1
-
-matrix_block()
 
 main()
