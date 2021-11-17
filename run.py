@@ -6,19 +6,25 @@ from random import randrange, shuffle
 from html import unescape
 from time import sleep
 
-from better_profanity import profanity
-from getch import pause
 import requests
-
 import gspread
 from google.oauth2.service_account import Credentials
-
+from better_profanity import profanity
+from getch import pause
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive.file",
     "https://www.googleapis.com/auth/drive"
 ]
+
+CREDS = Credentials.from_service_account_file("creds.json")
+SCOPED_CREDS = CREDS.with_scopes(SCOPE)
+GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
+SHEET = GSPREAD_CLIENT.open("ci_p3_quiz")
+
+TOKEN_SHEET = SHEET.worksheet("tokens")
+SCORES_SHEET = SHEET.worksheet("scores")
 
 
 def matrix_line():
@@ -46,7 +52,8 @@ def matrix_block(num: int = 5):
 def retrieve_api_token(difficulty: str) -> str:
     """Retrieve and validate API token
 
-    Connects to opentdb.com/api to retrieve fresh token to prevent duplicate
+    Checks Google Sheets for valid token. If token is invalid,
+    connects to opentdb.com/api to retrieve fresh token to prevent duplicate
     questions. Token lasts for 6 hours. If user plays multiple times within 6
     hours, token must be reset.
 
@@ -57,7 +64,31 @@ def retrieve_api_token(difficulty: str) -> str:
         str: API token.
     """
 
+    print(f"Checking for existing {difficulty} token...")
+    matrix_block(2)
+
+    if difficulty == "easy":
+        token = TOKEN_SHEET.acell("A2").value
+    elif difficulty == "medium":
+        token = TOKEN_SHEET.acell("B2").value
+    else:
+        token = TOKEN_SHEET.acell("C2").value
+
+    token_test_url = f"https://opentdb.com/api.php?amount=1&token={token}"
+    response = requests.get(token_test_url)
+    data = response.json()
+
+    try:
+        if data["response_code"] != 0:
+            raise ConnectionError("No valid token found...")
+        if data["response_code"] == 0:
+            print("Token retireval successful")
+            return token
+    except ConnectionError as e:
+        print(f"Report: {e}")
+
     print(f"Retrieving new {difficulty} token...")
+    matrix_block(2)
 
     token_url = "https://opentdb.com/api_token.php?command=request"
     response = requests.get(token_url)
@@ -75,6 +106,17 @@ def retrieve_api_token(difficulty: str) -> str:
         exit()
 
     print("Token retrieval successful!")
+
+    print("Updating stored token...")
+    if difficulty == "easy":
+        token = TOKEN_SHEET.update_acell("A2", data["token"])
+    elif difficulty == "medium":
+        token = TOKEN_SHEET.update_acell("B2", data["token"])
+    else:
+        token = TOKEN_SHEET.update_acell("C2", data["token"])
+    print(f"{difficulty.capitalize()} token updated...")
+    matrix_line()
+
     return data["token"]
 
 
