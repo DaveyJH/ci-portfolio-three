@@ -525,7 +525,7 @@ def initiate_question(difficulty: str, token: str):
     return update_token, pre_question_str, question_data, choices, answer
 
 
-def check_input(new_input: str, choices: dict, answer: str):
+def check_input(new_input: str, choices: dict, answer: str, user_name: str):
     """Validates user's input after question is printed.
 
     Checks for valid user input and checks if keyword has been used.
@@ -545,7 +545,7 @@ def check_input(new_input: str, choices: dict, answer: str):
             raise ValueError("No input detected...")
         # change to available keywords
         if new_input in KEYWORDS and new_input in available_keywords:
-            choices = keyword_used(new_input, choices, answer)
+            choices = keyword_used(new_input, choices, answer, user_name)
             return False, choices
         if new_input not in choices:
             raise ValueError(
@@ -561,7 +561,7 @@ def check_input(new_input: str, choices: dict, answer: str):
     return True, choices
 
 
-def run_question(question_num: int):
+def run_question(question_num: int, user_name: str):
     """Runs the question.
 
     Sets difficulty level depending on question number. Prints question and
@@ -600,7 +600,7 @@ def run_question(question_num: int):
         user_input = input(
             "Please provide your answer or enter a keyword:\n"
         ).lower()
-        input_check = check_input(user_input, choices, answer)
+        input_check = check_input(user_input, choices, answer, user_name)
         if not input_check[0]:
             choices = input_check[1]
             display_question(question_data[0], choices, pre_question)
@@ -719,12 +719,14 @@ def keyword_even(
     sorted_items = sorted(new_items)
     new_choices = dict(sorted_items)
 
-    print("\nEvening the odds...\n")
+    print(f"\n|{unescape('&#8309&#8304&#8260&#8325&#8320|')*13}")
+    print("Evening the odds...\n")
     sleep(.5)
     print("Recalculating...\n")
     sleep(.5)
-    print("Calculation successful!\n")
+    print("Calculation successful!")
     sleep(.5)
+    print(f"|{unescape('&#8309&#8304&#8260&#8325&#8320|')*13}\n")
 
     return new_choices
 
@@ -797,12 +799,14 @@ def keyword_review(
     sorted_items = sorted(new_items)
     reviews = dict(sorted_items)
 
-    print("\nRequesting review...\n")
+    print(f"\n{unescape('&#0191?')*40}")
+    print("Requesting review...\n")
     sleep(.5)
     print("Collating responses...\n")
     sleep(.5)
-    print("Rendering results...\n")
+    print("Rendering results...")
     sleep(.5)
+    print(f"{unescape('&#0191?')*40}\n")
 
     for letter, review in reviews.items():
         print(f"{letter}: {review}")
@@ -812,7 +816,7 @@ def keyword_review(
     print("")
 
 
-def keyword_call(current_choices: dict, correct_answer: str):
+def keyword_call(current_choices: dict, correct_answer: str, user_name: str):
     """Prints a string with a suggested answer.
 
     Calculates a percentage response for each available answer. Chance of
@@ -868,14 +872,24 @@ def keyword_call(current_choices: dict, correct_answer: str):
             "the dark."
         )
 
-    print("\nCalling a coder...\n")
+    print(f"\n{unescape(TELEPHONE_LINE)}")
+    print("Calling a coder...\n")
     sleep(.5)
     print("Call connected...\n")
     sleep(.5)
     print("Providing possibilities...\n")
     sleep(.5)
 
-    print(f"{coder_responses[randrange(len(coder_responses))]}")
+    print(f"{unescape(TELEPHONE)} Hi, {user_name}...")
+    print(
+        f"{unescape(TELEPHONE)} "
+        f"{coder_responses[randrange(len(coder_responses))]}"
+    )
+    print(f"{unescape(TELEPHONE_LINE)}\n")
+    print(
+        f"So, the coder thinks it might be {coder_guess}, but can you trust "
+        "them?"
+    )
 
     print("")
     pause()
@@ -883,7 +897,7 @@ def keyword_call(current_choices: dict, correct_answer: str):
 
 
 def keyword_used(
-    word: str, current_choices: dict, correct_answer: str
+    word: str, current_choices: dict, correct_answer: str, user_name: str
 ):
     """Run keyword function"""
 
@@ -908,7 +922,7 @@ def keyword_used(
             keyword_review(current_choices, correct_answer)
     if word == "call":
         if"call" in available_keywords:
-            keyword_call(current_choices, correct_answer)
+            keyword_call(current_choices, correct_answer, user_name)
 
     return new_choices
 
@@ -924,7 +938,7 @@ def main():
 
     while question_number < 16:
 
-        user_input, choices, answer = run_question(question_number)
+        user_input, choices, answer = run_question(question_number, user_name)
         check_answer(user_input, choices, answer)
 
 
@@ -1002,7 +1016,9 @@ INCORRECT_RESPONSES = (
 unused_correct_responses = list(CORRECT_RESPONSES)
 unused_ready_words = list(READY_WORDS)
 DIFFICULTY_LEVELS = ("easy", "medium", "hard")
-# check google sheet value
+
+TELEPHONE_LINE = ("&#9743 &#9742 "*20)
+TELEPHONE = ("&#128222")
 
 matrix_block()
 print("Configuring program...")
