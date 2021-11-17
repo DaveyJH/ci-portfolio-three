@@ -2,6 +2,8 @@
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
 # ! line breaks before any print statement that follows an input
 
+
+# from operator import indexOf
 from random import randrange, shuffle
 from html import unescape
 from time import sleep
@@ -675,7 +677,56 @@ def keyword_take():
 def keyword_scores():
     """Prints the current high scores from Google Sheet data."""
 
-    print("THE SCORES ARE...")
+    print("\nSo you would like to see the scores?")
+    confirm = input("Please input 'scores' again to confirm exit:\n")
+
+    if confirm != "scores":
+        print("Input did not match.\n")
+        return
+
+    print("\nQuerying database...\n")
+    sleep(.5)
+
+    highscore_values_cells = SCORES_SHEET.range("values")
+    highscore_users_cells = SCORES_SHEET.range("users")
+
+    highscore_values = [cell.value for cell in highscore_values_cells]
+    highscore_users = [cell.value for cell in highscore_users_cells]
+
+    highscores = dict(zip(highscore_users, highscore_values))
+
+    # scores ordered in spreadsheet. check with additional scores etc.
+    # sorted_scores = dict(
+    #     sorted(highscores.items(), key=lambda user: user[1], reverse=True)
+    # )
+
+    print("The current highscorers are...\n")
+
+    print(STAR_LINE)
+    for user in highscores:
+
+        if highscore_users.index(user) % 2 != 0:
+            star = unescape("&#9734")
+            star_end = unescape("&#9733")
+        else:
+            star = unescape("&#9733")
+            star_end = unescape("&#9734")
+        print(star, f"{user}: {highscores[user]}".center(75), star_end)
+        sleep(.1)
+    print(STAR_LINE[::-1].strip())
+
+    lowest_score = int(highscores[list(highscores.keys())[-1]])
+
+    if question_number > lowest_score:
+        print("\nYou are on track to make it on the list...")
+        print("...As long as you don't lose it all!\n".rjust(80))
+    else:
+        to_lowest_score = lowest_score - question_number
+        append_s = "s" if to_lowest_score > 1 else ""
+        print(
+            "\nYou aren't quite there yet. Answer at least "
+            f"{lowest_score - question_number} more question{append_s}..."
+        )
 
 
 def keyword_even(
@@ -720,13 +771,14 @@ def keyword_even(
     new_choices = dict(sorted_items)
 
     print(FIFTY_LINE)
-    print("Evening the odds...\n")
+    print("\nEvening the odds...\n")
     sleep(.5)
     print("Recalculating...\n")
     sleep(.5)
     print("Calculation successful!")
     sleep(.5)
     print(FIFTY_LINE)
+    print("")
 
     return new_choices
 
@@ -1012,8 +1064,9 @@ INCORRECT_RESPONSES = (
 )
 
 # Unicode character lines and extras
-FIFTY_LINE = f"|{unescape('&#8309&#8304&#8260&#8325&#8320|')*13}\n"
+FIFTY_LINE = f"|{unescape('&#8309&#8304&#8260&#8325&#8320|')*13}"
 QUERY_LINE = f"\n{unescape('&#0191?')*40}"
+STAR_LINE = f"{unescape('&#9734 &#9733 ')}"*20
 TELEPHONE_LINE = ("&#9743 &#9742 "*20)
 TELEPHONE = ("&#128222")
 
