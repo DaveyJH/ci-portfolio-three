@@ -1,5 +1,8 @@
 # Name of project
 
+<!-- remove before final deployment -->
+[ToDo List](./todo.md)
+
 A gentle reminder to all - to open links in a new tab,
 hold 'Ctrl' (or '⌘' on Apple devices) as you click!
 
@@ -8,7 +11,7 @@ hold 'Ctrl' (or '⌘' on Apple devices) as you click!
 
 ## Live Site
 
-[Prove Your Prowess As A Proficient Programmer](#)
+[Computer Literate Investigation](#)
 
 ## Repository
 
@@ -25,7 +28,7 @@ hold 'Ctrl' (or '⌘' on Apple devices) as you click!
   - [Table of Contents](#table-of-contents)
   - [Objective](#objective)
   - [Brief](#brief)
-    - [Prove Your Prowess As A Proficient Programmer](#prove-your-prowess-as-a-proficient-programmer)
+    - [**C**omputer **L**iterate **I**nvestigation](#computer-literate-investigation)
   - [UX &#8722; User Experience Design](#ux--user-experience-design)
     - [User Requirements](#user-requirements)
       - [First Time User](#first-time-user)
@@ -40,6 +43,7 @@ hold 'Ctrl' (or '⌘' on Apple devices) as you click!
     - [Existing Features](#existing-features)
     - [Features Left to Implement](#features-left-to-implement)
   - [Technologies Used](#technologies-used)
+    - [Python Packages](#python-packages)
   - [Testing](#testing)
   - [Bugs](#bugs)
     - [Current](#current)
@@ -66,7 +70,7 @@ for the purpose of completing my Code Institute project***
 
 ## Brief
 
-### Prove Your Prowess As A Proficient Programmer
+### **C**omputer **L**iterate **I**nvestigation
 
 The goal of this site is to provide an interactive quiz with increasing
 difficulty levels. The final product should:
@@ -112,11 +116,11 @@ Some example user stories which will affect the design
 ### Initial Concept
 
 I intend to make a quiz application based around the popular television quiz
-show, *'Who Wants To Be A Millionaire?'*. I anticipate using a pre-populated API
-for the questions and answers, with a 'level of difficulty' selection built in
+show *'Who Wants To Be A Millionaire?'*. I anticipate using a pre-populated API
+for the questions and answers, using a 'level of difficulty' selection built in
 to the API. I also intend to have a couple of 'life-line' options available to
-the user. Finally, I would like to implement a high-score spreadsheet maintained
-via Google Sheets.
+the user. Finally, I would like to implement a high-score spreadsheet
+maintained via Google Sheets.
 
 #### Wireframes
 <!-- wireframes here -->
@@ -130,6 +134,7 @@ via Google Sheets.
 
 #### Typography
 
+<!-- orbitron/rajdhani due to style -->
 <!-- typography -->
 ***
 
@@ -183,6 +188,24 @@ F2
 
 ## Technologies Used
 
+### Python Packages
+
+- random
+  - shuffle: used to generate random ordering
+  - randrange: returns a random integer within a given range
+- html
+  - unescape: converts HTML entities to printable characters
+- time
+  - sleep: stalls the program for a defined time
+- requests: enables data retrieval from APIs
+- gspread: allows communication with Google Sheets
+- from google.oauth2.service_account
+  - Credentials: used to validate credentials and grant access to google
+    service accounts
+- better_profanity
+  - profanity: simple profanity checker
+- getch
+  - pause: used to provide a *'Press any key to continue...'* function
 <!-- tech used -->
 <!-- - *[techNameOne](techURL)*
        - Description -->
