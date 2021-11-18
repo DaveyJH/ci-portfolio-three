@@ -63,7 +63,7 @@ class User():
         return True
 
 
-def user():
+def create_user():
     """Creates an instance of a User and returns its string user_name"""
 
     new_user = User()
