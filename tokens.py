@@ -91,7 +91,7 @@ class Token():
                     f"Response_code from API: {data['response_code']}"
                 )
         except ConnectionError as e:
-            print(f"Error: {e}")
+            print(f"Critical Error: {e}")
             print("Program will now terminate!")
             exit()
 
@@ -104,7 +104,7 @@ class Token():
             TOKEN_SHEET.update_acell("B2", data["token"])
         else:
             TOKEN_SHEET.update_acell("C2", data["token"])
-        print(f"{self.difficulty.capitalize()} token updated...")
+        print(f"{self.difficulty.capitalize()} token successfully updated...")
         matrix_line()
 
         return data["token"]
