@@ -1,4 +1,4 @@
-"""Creates matrix style lines of 1s and 0s"""
+"""Creates matrix style lines of 1s and 0s."""
 
 from random import randrange
 from time import sleep
@@ -20,9 +20,7 @@ def matrix_line():
 def matrix_block(num: int = 5):
     """Print block of matrix lines.
 
-    Functions:
-        matrix_line():
-
+    ---
     Args:
         num (int): (default = 5) Integer value determining how many lines to
         print.

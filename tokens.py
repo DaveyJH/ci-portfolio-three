@@ -1,4 +1,4 @@
-"""Handle token collection and storing"""
+"""Handle token collection and storing."""
 
 import requests
 
@@ -118,6 +118,7 @@ class Token():
 def initial_token_setup():
     """Initialise easy, medium and hard Tokens.
 
+    ---
     Returns:
         tuple (obj, obj, obj):
             obj: Easy token.

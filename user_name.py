@@ -23,6 +23,7 @@ class User():
         are valid. Profanity blocked by `better_profanity`. Input repeats
         until valid input received.
 
+        ---
         Returns:
             str: A validated string as a username.
         """
@@ -39,6 +40,7 @@ class User():
     def _check_user_name(self, user_name_str: str):
         """Checks username input is valid.
 
+        ---
         Args:
             user_name_str (str): The string input from a user to be validated.
 
@@ -62,6 +64,7 @@ class User():
 
 
 def user():
-    """Creates an instance of a User and returns its string user_name"""
+    """Creates an instance of a User and returns its string user_name."""
+    
     new_user = User()
     return new_user.user_name
