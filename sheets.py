@@ -1,4 +1,4 @@
-"""Handles Google Sheet authorization."""
+"""Handles Google Sheet authorization"""
 
 import gspread
 from google.oauth2.service_account import Credentials

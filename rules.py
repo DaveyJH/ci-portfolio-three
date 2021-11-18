@@ -4,7 +4,7 @@ from getch import pause
 
 
 def print_rules():
-    """Prints the rules."""
+    """Prints the rules"""
 
     print("\n" + "THE RULES".center(40))
     print("=========".center(40))

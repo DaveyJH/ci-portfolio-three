@@ -1,4 +1,4 @@
-"""Handle token collection and storing."""
+"""Handle token collection and storing"""
 
 import requests
 
@@ -7,20 +7,20 @@ from matrix import matrix_block, matrix_line
 
 
 class Token():
-    """Creates a token from the difficulty and provides a string value.
+    """Creates a token from the difficulty and provides a string value
 
-    Checks Google Sheets for valid token.
+    Checks Google Sheets for valid token
 
     If token is invalid, connects to opentdb.com/api to retrieve fresh token
     to prevent duplicate questions. Token lasts for 6 hours. If questions are
-    used up within 6 hours, token must be reset.
+    used up within 6 hours, token must be reset
 
-    Stores valid token string in Google Sheets.
+    Stores valid token string in Google Sheets
 
     ---
     Attributes:
-        difficulty (str): 'easy', 'medium' or 'hard'.
-        string: Token string value.
+        difficulty (str): 'easy', 'medium' or 'hard'
+        string: Token string value
     """
 
     def __init__(self, difficulty: str):
@@ -28,11 +28,11 @@ class Token():
         self.string = self._get_stored_token()
 
     def _get_stored_token(self) -> str:
-        """Retrieve and validate API token.
+        """Retrieve and validate API token
 
         ---
         Args:
-            difficulty (str): 'easy', 'medium' or 'hard'.
+            difficulty (str): 'easy', 'medium' or 'hard'
 
         Returns:
             Token string value
@@ -67,10 +67,10 @@ class Token():
 
         ---
         Args:
-            difficulty (str): 'easy', 'medium' or 'hard'.
+            difficulty (str): 'easy', 'medium' or 'hard'
 
         Returns:
-            New token string value.
+            New token string value
 
         Raises:
             ConnectionError: Open Trivia Database API connection error
@@ -110,13 +110,13 @@ class Token():
         return data["token"]
 
     def return_token_string(self):
-        """Returns the token string from the object."""
+        """Returns the token string from the object"""
 
         return self.string
 
 
 def initial_token_setup():
-    """Initialise easy, medium and hard Tokens.
+    """Initialise easy, medium and hard Tokens
 
     ---
     Returns:
