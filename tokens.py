@@ -57,12 +57,13 @@ class Token():
                 raise ConnectionError("No valid token found...")
             if data["response_code"] == 0:
                 print("Token retrieval successful!")
-                return token
         except ConnectionError as e:
             print(f"Report: {e}")
-            return self._initiate_new_token()
+            return self.initiate_new_token()
 
-    def _initiate_new_token(self):
+        return token
+
+    def initiate_new_token(self):
         """Request new token from opentdb.com and updates Google Sheet
 
         ---
