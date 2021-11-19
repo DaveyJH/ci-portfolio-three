@@ -359,9 +359,11 @@ class Keywords():
     def confirm(word):
         """Confirm use of keyword with repeated string
 
+        ---
         Args:
             word (str): Keyword to be used"""
-        confirm = input(f"Please input '{word}' again to confirm exit:\n")
+
+        confirm = input(f"Please input '{word}' again to confirm:\n")
 
         if confirm != word:
             print("Input did not match: Keyword not used.\n")
