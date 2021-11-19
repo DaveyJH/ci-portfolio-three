@@ -393,6 +393,7 @@ class Keywords():
         if Keywords.confirm("take"):
 
             # testing
+            # todo create end function
             print("TOOK THE MONEY")
             # ??restart?
             exit()
