@@ -56,7 +56,7 @@ class Token():
             if data["response_code"] != 0:
                 raise ConnectionError("No valid token found...")
             if data["response_code"] == 0:
-                print("Token retireval successful!")
+                print("Token retrieval successful!")
                 return token
         except ConnectionError as e:
             print(f"Report: {e}")
@@ -109,11 +109,6 @@ class Token():
 
         return data["token"]
 
-    def return_token_string(self):
-        """Returns the token string from the object"""
-
-        return self.string
-
 
 def initial_token_setup():
     """Initialise easy, medium and hard Tokens
@@ -121,9 +116,9 @@ def initial_token_setup():
     ---
     Returns:
         tuple (obj, obj, obj):
-            obj: Easy token.
-            obj: Medium token.
-            obj: Hard token.
+            obj: Easy token
+            obj: Medium token
+            obj: Hard token
     """
 
     new_easy_token_obj = Token("easy")
