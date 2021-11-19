@@ -269,7 +269,7 @@ class Keywords():
         pause()
         print("")
 
-        # todo return choices with appended %s
+        # todo #2 return choices with appended %s
 
     def call(
         self, current_choices: dict, correct_answer: str, user_name: str,
@@ -353,7 +353,7 @@ class Keywords():
         pause()
         print("")
 
-        # todo return choices with appended TELEPHONE_RED
+        # todo #2 return choices with appended TELEPHONE_RED
 
     @staticmethod
     def confirm(word):
@@ -393,7 +393,7 @@ class Keywords():
         if Keywords.confirm("take"):
 
             # testing
-            # todo create end function
+            # todo #1 create end function
             print("TOOK THE MONEY")
             # ??restart?
             exit()
