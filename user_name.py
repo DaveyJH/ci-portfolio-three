@@ -67,4 +67,4 @@ def create_user():
     """Creates an instance of a User and returns its string user_name"""
 
     new_user = User()
-    return new_user.user_name
+    return new_user
