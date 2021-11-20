@@ -1,12 +1,10 @@
-"""Handles user_name creation and validation
-
-To return single user_name string import `user`"""
+"""Handles user_name creation and validation"""
 
 from better_profanity import profanity
 
 
 class User():
-    """Creates a user object
+    """Creates a User object
 
     ---
     Attributes:
@@ -45,7 +43,7 @@ class User():
             user_name_str (str): The string input from a user to be validated
 
         Returns:
-            bool: True if valid - else false
+            bool: True if valid - else False
         """
 
         try:
@@ -61,10 +59,3 @@ class User():
             return False
 
         return True
-
-
-def create_user():
-    """Creates an instance of a User and returns its string user_name"""
-
-    new_user = User()
-    return new_user

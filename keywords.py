@@ -75,6 +75,7 @@ TELEPHONE_RED = unescape("&#128222")
 def which_keyword():
     """Allows user to specify which keyword meaning to check
 
+    ---
     Returns:
         str: Keyword input by user
     """
@@ -94,19 +95,15 @@ def which_keyword():
 
 
 def print_description(word: str):
-    """Prints a description of the keyword
+    """Prints a description of a keyword
 
+    ---
     Args:
         keyword: The keyword chosen by the user
     """
 
     def print_title():
-        """Prints the keyword title and an underline of equal length
-
-        Args:
-            index: The index of keyword in KEYWORDS to allow correct title to
-                be printed
-        """
+        """Prints the keyword title and an underline of equal length"""
 
         print("\n" + f"{word.upper()}".center(40))
         line = "=" * len(word)
@@ -115,9 +112,9 @@ def print_description(word: str):
     def print_content(description):
         """Prints the content explaining the keyword
 
+        ---
         Args:
-            index: The index of keyword in KEYWORDS to allow correct
-                explanation to be printed
+            description (str): The keyword description to be printed
         """
 
         print(f"{description}")
@@ -130,28 +127,34 @@ def print_description(word: str):
 
 
 class Keywords():
-    """KEY WORD STRING"""
+    """Available keywords and their functions
+
+    ---
+    Attributes:
+        available_keywords (list): A list of the available keywords, initially
+            generated from the`KEYWORDS` constant. Updated if a one shot
+            keyword is used
+    """
 
     def __init__(self) -> None:
         self.available_keywords = list(KEYWORDS.keys())
 
-    def even(
-        self, current_choices: dict, correct_answer: str
-    ) -> dict:
+    def even(self, current_choices: dict, correct_answer: str) -> dict:
         """Removes 2 incorrect answers from the choices
 
-        Requires confirmation of input. If input string does not match, revert
-        to user input
+        Requires confirmation of input. If input string does not match,
+        revert to user input
 
+        ---
         Args:
-            current_choices: A dictionary of the currently available letters
-                and answers
-            correct_answer: The correct answer string
+            current_choices (dict): A dictionary of the currently available
+                letters and answers
+            correct_answer (str): The correct answer string
 
         Returns:
             dict[str, str]: (If even confirmed) One correct answer, one
-                incorrect
-            answer. Assigned letters remain the same and order is alphabetical
+                incorrect answer. Assigned letters remain the same and order
+                are sorted alphabetically
         """
 
         print("\nWould you like to even the odds?")
@@ -197,10 +200,12 @@ class Keywords():
         response being correct is lower for higher number questions. Prints
         responses in similar style to available answers
 
+        ---
         Args:
-            current_choices: A dictionary of the currently available letters
-                and answers
-            correct_answer: The correct answer string
+            current_choices (dict): A dictionary of the currently available
+                letters and answers
+            correct_answer (str): The correct answer string
+            question_number (int): The current question number
         """
 
         print("\nWould you like to request a review?")
@@ -277,14 +282,16 @@ class Keywords():
     ):
         """Prints a string with a suggested answer
 
-        Calculates a percentage response for each available answer. Chance of
-        response being correct is lower for higher number questions. Prints
-        responses in similar style to available answers
+        Calculates a chance for the correct answer. Prints a string with
+        inserted response from 'coder companion'
 
+        ---
         Args:
-            current_choices: A dictionary of the currently available letters
-                and answers
-            correct_answer: The correct answer string
+            current_choices (dict): A dictionary of the currently available
+                letters and answers
+            correct_answer (str): The correct answer string
+            user_name (str): The current user name
+            question_number (int): The current question number
         """
 
         print("\nWould you like to call a coder?")
@@ -293,17 +300,18 @@ class Keywords():
         self.available_keywords.remove("call")
 
         if question_number < 6:
-            percentage = randrange(50, 80)
+            chance = 100
         elif question_number < 11:
-            percentage = randrange(20, 60)
+            chance = randrange(20, 65)
         else:
-            percentage = randrange(10, 40)
+            chance = 1
 
         coder_guess = list(current_choices)[randrange(len(current_choices))]
 
-        for k, v in current_choices.items():
-            if v == correct_answer and percentage > 50:
-                coder_guess = k
+        if chance > 50:
+            for k, v in current_choices.items():
+                if v == correct_answer:
+                    coder_guess = k
 
         if question_number < 6:
             coder_responses = (
@@ -355,9 +363,49 @@ class Keywords():
 
         # todo #2 return choices with appended TELEPHONE_RED
 
+    def used(
+        self, word: str, current_choices: dict, correct_answer: str,
+        user_name: str, question_number
+    ):
+        """Processes keyword inputs with relevant function
+
+        ---
+        Args:
+            word (str): The word to process
+            current_choices (dict): A dictionary of the currently available
+                letters and answers
+            correct_answer (str): The correct answer_string
+            user_name (str): The current user name
+            question_number (int): The current question number        
+        """
+
+        new_choices = current_choices
+
+        if word == "help":
+            self.help_info()
+            print("\nLet's return to the quiz!")
+            pause()
+        if word == "take":
+            self.take()
+        if word == "scores":
+            self.scores(question_number)
+            print("\nLet's return to the quiz!")
+            pause()
+
+        if word == "even":
+            new_choices = self.even(current_choices, correct_answer)
+        if word == "review":
+            self.review(current_choices, correct_answer, question_number)
+        if word == "call":
+            self.call(
+                current_choices, correct_answer, user_name, question_number
+            )
+
+        return new_choices
+
     @staticmethod
     def confirm(word):
-        """Confirm use of keyword with repeated string
+        """Confirm use of keyword with repeated string input
 
         ---
         Args:
@@ -395,14 +443,21 @@ class Keywords():
         if Keywords.confirm("take"):
 
             # testing
-            # todo #1 create end function
+            # todo #1 create end function and add question number to params
             print("TOOK THE MONEY")
             # ??restart?
             exit()
 
     @staticmethod
-    def scores(question_number):
-        """Prints the current high scores from Google Sheet data"""
+    def scores(question_number: int):
+        """Prints the current high scores from Google Sheet data
+
+        Prints message to user to inform them of progress toward scorboard
+
+        ---
+        Args: question_number (int): The current question number"""
+
+        answer_questions = question_number - 1
 
         print("\nSo you would like to see the scores?")
 
@@ -437,13 +492,13 @@ class Keywords():
 
         lowest_score = int(highscores[list(highscores.keys())[-1]])
 
-        if question_number > lowest_score:
+        if answer_questions > lowest_score:
             print("\nYou are on track to make it on the list...")
             print("...As long as you don't lose it all!\n".rjust(80))
         else:
-            to_lowest_score = lowest_score - question_number
+            to_lowest_score = lowest_score - answer_questions
             append_s = "s" if to_lowest_score > 1 else ""
             print(
                 "\nYou aren't quite there yet. Answer at least "
-                f"{lowest_score - question_number} more question{append_s}..."
+                f"{lowest_score - answer_questions} more question{append_s}..."
             )

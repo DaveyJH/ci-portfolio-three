@@ -1,10 +1,15 @@
-"""handles line length of text"""
+"""Handles line length of text"""
 
 
 def limit_line_length(string: str):
     """Prints individual lines with a max line length of 80 characters
 
-    Checks for and prevents prepending spaces/split words"""
+    Checks for and prevents prepending spaces/split words
+
+    ---
+    Args:
+        string (str): String to be altered to fit within 80 character lines#
+    """
 
     lines = []
     if len(string) <= 80:
