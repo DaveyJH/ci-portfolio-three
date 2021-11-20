@@ -25,9 +25,9 @@ class Token():
 
     def __init__(self, difficulty: str):
         self.difficulty = difficulty
-        self.string = self._get_stored_token()
+        self.string = self._get_stored_token_string()
 
-    def _get_stored_token(self) -> str:
+    def _get_stored_token_string(self) -> str:
         """Retrieve and validate API token
 
         ---
@@ -59,11 +59,11 @@ class Token():
                 print("Token retrieval successful!")
         except ConnectionError as e:
             print(f"Report: {e}")
-            return self.initiate_new_token()
+            return self.initiate_new_token_string()
 
         return token
 
-    def initiate_new_token(self):
+    def initiate_new_token_string(self):
         """Request new token from opentdb.com and updates Google Sheet
 
         ---

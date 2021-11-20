@@ -63,18 +63,26 @@ class Question():
     def _check_and_retrieve(self) -> tuple:
         """Retrieve a response from opentdb API
 
-        Connects to opentdb.com/api to ensure correct query parameters have
-        been used in the URL, allowing for valid data
+        Connects to opentdb.com/api to ensure correct query
+        parameters have been used in the URL, allowing for valid
+        data
 
         Args:
-            difficulty: The current difficulty level set by the question number
+            difficulty: The current difficulty level set by the
+            question number
 
         Returns:
-            tuple: (bool, dict[str, str], str)
+            tuple: (bool, dict[str, str])
                 bool: True if response from API is 0, else false
-                dict[str, str]: The response in JSON format
-                *str: New token string if token has expired
+                dict[str, list]: The question in JSON format
+                    example: "results":[{"category":"Science:
+                    Computers","type":"multiple",
+                    difficulty":"easy","question":"What is the
+                    domain name for the country Tuvalu?",
+                    correct_answer":".tv","incorrect_answers":[".
+                    tu",".tt",".tl"]}]
         """
+
         api_url = (
             "https://opentdb.com/api.php?amount=1&category"
             f"=18&difficulty={self.difficulty}&type=multiple"
@@ -87,7 +95,7 @@ class Question():
 
         if data["response_code"] in (3, 4):
             print("Token expired:")
-            self.token = self.token.initiate_new_token()
+            self.token.string = self.token.initiate_new_token_string()
             data = self._check_and_retrieve()[1]
             return True, data
 
