@@ -3,7 +3,7 @@
 from time import sleep
 from keywords import Keywords
 
-import tokens
+from tokens import initial_token_setup
 from matrix import matrix_block
 from user_name import User
 from quiz import quiz
@@ -36,7 +36,7 @@ matrix_block()
 print("Configuring program...")
 sleep(.5)
 print("Initializing Active:Personnel:Inquisitor...")
-easy_token, medium_token, hard_token = (tokens.initial_token_setup())
+easy_token, medium_token, hard_token = (initial_token_setup())
 current_tokens = (easy_token, medium_token, hard_token)
 sleep(.5)
 print("Engaging Automated:Neuro:Solution:Work:Experimentation:Resources...")
