@@ -41,7 +41,7 @@ class Question():
         user_name (str): Current user name
         question_data (dict): Question data retrived from opentdb.com
         choices (dict): Possible answers to question with assigned letters
-        correct_answer (str): Correct answer string value
+        correct_answer (str): Correct answer letter
         call_used (bool): True if `call` keyword has been used in question
         review_used (bool): True if `review` keyword has been used in question
         longest_answer_length (int): Length of longest answer
@@ -59,7 +59,6 @@ class Question():
         self.user_name = user_name
         self.question_data = self._check_and_retrieve()[1]["results"][0]
         self.choices, self.correct_answer = self._set_answer_letters()
-        self.call_used = False
         self.review_used = False
         self.longest_answer_length = self._get_longest_answer_length()
 
@@ -166,7 +165,11 @@ class Question():
             "d": unescape(answers[3]),
         }
 
-        return abcd, correct_answer
+        for k in abcd:
+            if abcd[k] == correct_answer:
+                correct_answer_letter = k
+
+        return abcd, correct_answer_letter
 
     def _display_question(
         self, current_pre_question: str, first_attempt: bool = False
@@ -275,14 +278,12 @@ class Question():
                 keyword_response = self.keywords.used(
                     new_input, self.choices, self.correct_answer,
                     self.user_name, self.question_number, self.review_used,
-                    self.call_used, self.longest_answer_length
+                    self.longest_answer_length
                 )
                 if len(keyword_response):
                     self.choices = keyword_response[0]
                     if keyword_response[1]:
                         self.review_used = True
-                    if keyword_response[2]:
-                        self.call_used = True
                 return False
             if new_input not in self.choices:
                 raise ValueError(
@@ -311,7 +312,7 @@ class Question():
         global unused_correct_responses
         question_number = self.question_number
 
-        if self.choices[user_input] == self.correct_answer:
+        if user_input == self.correct_answer:
             if not unused_correct_responses:
                 unused_correct_responses = list(CORRECT_RESPONSES)
             this_response = unused_correct_responses[
