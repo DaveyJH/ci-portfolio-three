@@ -39,7 +39,7 @@ def quiz(user_name: str, current_tokens: tuple, first_play: bool = True):
             token, difficulty, question_number, available_keywords, user_name
         )
         question_number = question.check_answer(
-            question.run_question(), question_number
+            question.run_question()
         )
 
     if question_number == 16:

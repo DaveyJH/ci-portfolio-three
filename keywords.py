@@ -65,6 +65,7 @@ REFRESH_KEYWORDS = "Would you like a reminder of a keyword and its function?"
 # Unicode character lines and extras
 FIFTY_LINE = f"|{unescape('&#8309&#8304&#8260&#8325&#8320|')*13}"
 QUERY_LINE = f"{unescape('&#0191?')*40}"
+DOTS = unescape("&#8285")
 STAR_LINE = f"{unescape('&#9734 &#9733 ')}"*20
 STAR_EMPTY = unescape("&#9734")
 STAR_SOLID = unescape("&#9733")
@@ -109,16 +110,6 @@ def print_description(word: str):
         line = "=" * len(word)
         print(f"{line.center(40)}\n")
 
-    def print_content(description):
-        """Prints the content explaining the keyword
-
-        ---
-        Args:
-            description (str): The keyword description to be printed
-        """
-
-        print(f"{description}")
-
     print_title()
     for description_line in KEYWORDS[word]:
         print(description_line)
@@ -139,7 +130,10 @@ class Keywords():
     def __init__(self) -> None:
         self.available_keywords = list(KEYWORDS.keys())
 
-    def even(self, current_choices: dict, correct_answer: str) -> dict:
+    def even(
+        self, current_choices: dict, correct_answer: str,
+        review_used: bool, call_used: bool, longest_answer_length: int
+    ) -> dict:
         """Removes 2 incorrect answers from the choices
 
         Requires confirmation of input. If input string does not match,
@@ -150,17 +144,38 @@ class Keywords():
             current_choices (dict): A dictionary of the currently available
                 letters and answers
             correct_answer (str): The correct answer string
+            review_used (bool): True if review keyword has been used
+            call_used (bool): True if call keyword has been used
+            longest_answer_length (int): Character length of longest answer
 
         Returns:
             dict[str, str]: (If even confirmed) One correct answer, one
                 incorrect answer. Assigned letters remain the same and order
                 are sorted alphabetically
+            bool = False: Denotes that this keyword is not `review`
+            bool = False: Denotes that this keyword is not `call`
         """
 
         print("\nWould you like to even the odds?")
         if not self.confirm("even"):
-            return current_choices
+            return current_choices, False,
         self.available_keywords.remove("even")
+
+        if call_used:
+            for k in current_choices:
+                if TELEPHONE_RED in current_choices[k]:
+                    call_id = k
+                    current_choices.update(
+                        {k: current_choices[k][:-1].strip()}
+                    )
+
+        if review_used:
+            review_holder = {}
+            for k in current_choices:
+                r_space = current_choices[k].rindex(" ")
+                percent = current_choices[k][r_space + 1:]
+                current_choices[k] = current_choices[k][:r_space].strip()
+                review_holder.update({k: percent})
 
         new_choices = {}
         for k, v in current_choices.items():
@@ -189,10 +204,27 @@ class Keywords():
         pause()
         print("")
 
-        return new_choices
+        # todo add check for answer length. limit to 60 chars?
+
+        long = longest_answer_length
+        if review_used or call_used:
+            for k in new_choices:
+                space = ((long - len(new_choices[k])) * " ")
+                new_choices[k] = f"{new_choices[k]}{space}"
+        if review_used:
+            for k, v in review_holder.items():
+                if k in new_choices:
+                    new_choices[k] = f"{new_choices[k]}  {v}"
+        if call_used:
+            new_choices[call_id] = (
+                f"{new_choices[call_id]}  {TELEPHONE_RED}"
+            )
+
+        return new_choices, False, False
 
     def review(
-        self, current_choices: dict, correct_answer: str, question_number: int
+        self, current_choices: dict, correct_answer: str, question_number: int,
+        review_used: bool, call_used: bool, longest_answer_length: int
     ):
         """Prints percentages next to avilable choices
 
@@ -206,14 +238,30 @@ class Keywords():
                 letters and answers
             correct_answer (str): The correct answer string
             question_number (int): The current question number
+            review_used (bool): True if review keyword has been used
+            call_used (bool): True if call keyword has been used
+            longest_answer_length (int): Character length of longest answer
+
+        Returns:
+            dict[str, str]: (If review confirmed) Answer choices
+            bool = True: Denotes that this keyword is `review`
+            bool = False: Denotes that this keyword is not `call`
         """
+
+        if call_used:
+            for k in current_choices:
+                if TELEPHONE_RED in current_choices[k]:
+                    call_id = k
+                    current_choices.update(
+                        {k: current_choices[k][:-1].strip()}
+                    )
 
         print("\nWould you like to request a review?")
         if not self.confirm("review"):
-            return
+            return current_choices, False, False
         self.available_keywords.remove("review")
 
-        reviewed_answers = current_choices.copy()
+        reviewed_answers = dict(current_choices)
         reviews = {}
 
         if question_number < 6:
@@ -247,9 +295,9 @@ class Keywords():
             incorrect_answer_percentage = incorrect_percentages[
                 randrange(len(incorrect_percentages))
             ]
-            reviews.update({
-                incorrect_answer[0]: f"{incorrect_answer_percentage}%"
-            })
+            reviews.update(
+                {incorrect_answer[0]: f"{incorrect_answer_percentage}%"}
+            )
 
             del reviewed_answers[incorrect_answer[0]]
             incorrect_percentages.remove(incorrect_answer_percentage)
@@ -274,11 +322,22 @@ class Keywords():
         pause()
         print("")
 
-        # todo #2 return choices with appended %s
+        long = longest_answer_length
+        for k, v in current_choices.items():
+            space = ((long - len(current_choices[k])) * " ")
+            current_choices.update({k: f"{v}{space}  {DOTS}{reviews[k]}"})
+
+        if call_used:
+            current_choices[call_id] = (
+                f"{current_choices[call_id]}  {TELEPHONE_RED}"
+            )
+
+        return current_choices, True, False
 
     def call(
         self, current_choices: dict, correct_answer: str, user_name: str,
-        question_number: int
+        question_number: int, review_used: bool, call_used: bool,
+        longest_answer_length: int
     ):
         """Prints a string with a suggested answer
 
@@ -292,12 +351,28 @@ class Keywords():
             correct_answer (str): The correct answer string
             user_name (str): The current user name
             question_number (int): The current question number
+            review_used (bool): True if review keyword has been used
+            call_used (bool): True if call keyword has been used
+            longest_answer_length (int): Character length of longest answer
+
+        Returns:
+            dict[str, str]: (If call confirmed) Answer choices
+            bool = False: Denotes that this keyword is not `review`
+            bool = True: Denotes that this keyword is `call`
         """
 
         print("\nWould you like to call a coder?")
         if not self.confirm("call"):
-            return
+            return current_choices, False
         self.available_keywords.remove("call")
+
+        if review_used:
+            review_holder = {}
+            for k in current_choices:
+                space = current_choices[k].rindex(" ")
+                percent = current_choices[k][space + 1:]
+                current_choices[k] = current_choices[k][:space].strip()
+                review_holder.update({k: percent})
 
         if question_number < 6:
             chance = 100
@@ -321,7 +396,7 @@ class Keywords():
                 "I'm confident.",
                 f"Easy one for me, that's '{coder_guess}'."
             )
-        if 6 <= question_number < 11:
+        elif 6 <= question_number < 11:
             coder_responses = (
                 f"I'm pretty confident with this one, it's '{coder_guess}'.",
                 f"It has to be '{coder_guess}', I am almost certain.",
@@ -354,18 +429,36 @@ class Keywords():
         )
         print(f"{TELEPHONE_LINE}\n")
         print(
-            f"So, the coder thinks it might be '{coder_guess}'', but can you "
+            f"So, the coder thinks it might be '{coder_guess}', but can you "
             "trust them?\n"
         )
 
         pause()
         print("")
 
+        # todo add check for answer length. limit to 60 chars?
+
+        long = longest_answer_length
+        if review_used:
+            for k, v in review_holder.items():
+                space = ((long - len(current_choices[k])) * " ")
+                current_choices[k] = f"{current_choices[k]}{space}  {v}"
+            current_choices[coder_guess] = (
+                f"{current_choices[coder_guess]}  {TELEPHONE_RED}"
+            )
+        else:
+            space = ((long - len(current_choices[coder_guess])) * " ")
+            current_choices[coder_guess] = (
+                f"{current_choices[coder_guess]}{space}  {TELEPHONE_RED}"
+            )
+
+        return current_choices, False, True
         # todo #2 return choices with appended TELEPHONE_RED
 
     def used(
         self, word: str, current_choices: dict, correct_answer: str,
-        user_name: str, question_number
+        user_name: str, question_number: int, review_used: bool,
+        call_used: bool, longest_answer_length: int
     ):
         """Processes keyword inputs with relevant function
 
@@ -376,10 +469,19 @@ class Keywords():
                 letters and answers
             correct_answer (str): The correct answer_string
             user_name (str): The current user name
-            question_number (int): The current question number        
+            question_number (int): The current question number
+            review_used (bool): True if review keyword has been used
+            call_used (bool): True if call keyword has been used
+            longest_answer_length (int): Character length of longest answer
+
+        Returns:
+            tuple (dict, bool, bool):
+                dict: New answer choices
+                bool: True if `review` keyword used
+                bool: True if `call` keyword used
         """
 
-        new_choices = current_choices
+        keyword_response = current_choices, False, False
 
         if word == "help":
             self.help_info()
@@ -393,15 +495,22 @@ class Keywords():
             pause()
 
         if word == "even":
-            new_choices = self.even(current_choices, correct_answer)
+            keyword_response = self.even(
+                current_choices, correct_answer, review_used, call_used,
+                longest_answer_length
+            )
         if word == "review":
-            self.review(current_choices, correct_answer, question_number)
+            keyword_response = self.review(
+                current_choices, correct_answer, question_number, review_used,
+                call_used, longest_answer_length
+            )
         if word == "call":
-            self.call(
-                current_choices, correct_answer, user_name, question_number
+            keyword_response = self.call(
+                current_choices, correct_answer, user_name, question_number,
+                review_used, call_used, longest_answer_length
             )
 
-        return new_choices
+        return keyword_response
 
     @staticmethod
     def confirm(word):
@@ -409,7 +518,11 @@ class Keywords():
 
         ---
         Args:
-            word (str): Keyword to be used"""
+            word (str): Keyword to be used
+
+        Returns:
+            bool: True if input duplicated as confirmation
+        """
 
         confirm = input(f"Please input '{word}' again to confirm:\n")
 
@@ -424,7 +537,7 @@ class Keywords():
         """Runs through explanations of rules and keywords
 
         Args:
-            initial_run: If True, modifies strings accordingly (default: False)
+            initial_run: (default: False) If True, modifies strings accordingly
         """
         wants_rules = WANTS_RULES if initial_run else REFRESH_RULES
         if validate_yes_no(wants_rules):
@@ -455,7 +568,8 @@ class Keywords():
         Prints message to user to inform them of progress toward scorboard
 
         ---
-        Args: question_number (int): The current question number"""
+        Args: question_number (int): The current question number
+        """
 
         answer_questions = question_number - 1
 

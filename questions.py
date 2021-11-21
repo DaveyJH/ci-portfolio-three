@@ -39,6 +39,12 @@ class Question():
         question_number (int): Current question number
         key_words (object = Keywords): Keywords containing currently available
         user_name (str): Current user name
+        question_data (dict): Question data retrived from opentdb.com
+        choices (dict): Possible answers to question with assigned letters
+        correct_answer (str): Correct answer string value
+        call_used (bool): True if `call` keyword has been used in question
+        review_used (bool): True if `review` keyword has been used in question
+        longest_answer_length (int): Length of longest answer
     """
 
     def __init__(
@@ -53,6 +59,24 @@ class Question():
         self.user_name = user_name
         self.question_data = self._check_and_retrieve()[1]["results"][0]
         self.choices, self.correct_answer = self._set_answer_letters()
+        self.call_used = False
+        self.review_used = False
+        self.longest_answer_length = self._get_longest_answer_length()
+
+    def _get_longest_answer_length(self):
+        """Get the length of the longest answer string
+
+        ---
+        Returns:
+            int: Length of longest answer string
+        """
+        longest_answer_length = 0
+
+        for k in self.choices:
+            if len(self.choices[k]) > longest_answer_length:
+                longest_answer_length = len(self.choices[k])
+
+        return longest_answer_length
 
     def _reset_ready_words(self):
         """Repopulates ready words with original list"""
@@ -67,20 +91,25 @@ class Question():
         parameters have been used in the URL, allowing for valid
         data
 
-        Args:
-            difficulty: The current difficulty level set by the
-            question number
-
         Returns:
             tuple: (bool, dict[str, str])
                 bool: True if response from API is 0, else false
-                dict[str, list]: The question in JSON format
-                    example: "results":[{"category":"Science:
-                    Computers","type":"multiple",
-                    difficulty":"easy","question":"What is the
-                    domain name for the country Tuvalu?",
-                    correct_answer":".tv","incorrect_answers":[".
-                    tu",".tt",".tl"]}]
+                dict: The question in JSON format example:
+                    {
+                        "response_code":0,
+                        "results":[
+                            {
+                                "category":"Science: Computers",
+                                "type":"multiple", difficulty":"easy",
+                                "question":"What is the domain name for the
+                                    country Tuvalu?",
+                                correct_answer":".tv",
+                                "incorrect_answers":[
+                                    ".tu",".tt",".tl"
+                                    ]
+                            }
+                        ]
+                    }
         """
 
         api_url = (
@@ -116,17 +145,17 @@ class Question():
     def _set_answer_letters(self):
         """Give each answer a letter and determines the correct answer.
 
-        Args:
-            question: The current question.
-
-
         Returns:
             tuple: (dict, str)
                 dict[str, str]: Shuffled answers paired with a choice letter.
                 str: The correct answer.
         """
-        correct_answer = unescape(self.question_data["correct_answer"])
+        correct_answer: str = unescape(
+            self.question_data["correct_answer"]
+        ).strip()
         incorrect_answers = list(self.question_data["incorrect_answers"])
+        for i in incorrect_answers:
+            i = i.strip()
         answers = [correct_answer, *incorrect_answers]
         shuffle(answers)
 
@@ -154,15 +183,14 @@ class Question():
         spaces are trimmed to prevent single space indent on new line
 
         Args:
-            question: The current question.
-            abcd: A dict of the available answers with a selection letter.
-            pre_question: A string to be prepended to the question number.
-            first_attempt: Determines if the prepending string needs defining
-                (default: False)
+            pre_question (str): A string to be prepended to the question
+                number
+            first_attempt (bool): (default: False) Determines if the
+                prepending string needs defining
 
         Returns:
-            str: Generated prepend to question number. Default returned if not
-                first_attempt (default: "")
+            str: (default: "") Generated prepend to question number. Default
+                returned if not first_attempt
         """
 
         global unused_ready_words
@@ -194,9 +222,10 @@ class Question():
         print("")
 
         for letter, answer_str in self.choices.items():
-            print(f"{letter}: {answer_str}")
+            print(f"{letter}: {unescape(answer_str)}")
 
-        print(f"The answer is: {self.correct_answer}")
+        # ! Remove
+        print(f"\nThe answer is: {self.correct_answer}")
         return pre_question_str
 
     def run_question(self):
@@ -205,13 +234,8 @@ class Question():
         Sets difficulty level depending on question number. Prints question and
         answers and available lifelines. Awaits user input that gets validated
 
-        Args:
-            question_num: The current question number
-
         Returns:
             str: A validated user input
-            dict[str, str]: The answers with a key letter for user selection
-            str: The question answer
         """
 
         pre_question = self._display_question(None, True)
@@ -238,46 +262,42 @@ class Question():
         Checks for valid user input and checks if keyword has been used
 
         Args:
-            new_input: The user's input string
-            choices: A dictionary of letters and their associated answer.
-            answer: The current question answer as a string
+            new_input (str): The user's input string
 
         Returns:
-            bool: True if answer is received, else False and continue user
-                input
-            dict[str, str]: Available answer choices
+            bool: True if answer is received, else False
         """
-
-        choices = self.choices
 
         try:
             if not new_input:
                 raise ValueError("No input detected...")
-            # change to available keywords
             if new_input in self.keywords.available_keywords:
-                choices = self.keywords.used(
-                    new_input, choices, self.correct_answer,
-                    self.user_name, self.question_number
+                keyword_response = self.keywords.used(
+                    new_input, self.choices, self.correct_answer,
+                    self.user_name, self.question_number, self.review_used,
+                    self.call_used, self.longest_answer_length
                 )
-                self.choices = choices
+                if len(keyword_response):
+                    self.choices = keyword_response[0]
+                    if keyword_response[1]:
+                        self.review_used = True
+                    if keyword_response[2]:
+                        self.call_used = True
                 return False
-            if new_input not in choices:
+            if new_input not in self.choices:
                 raise ValueError(
                     "Invalid input detected, please input an answer or "
                     "available keyword."
                 )
-
         except ValueError as e:
             print(f"{e}\n")
             pause()
-            self.choices = choices
             return False
 
-        self.choices = choices
         return True
 
     def check_answer(
-        self, user_input: str, question_number: int
+        self, user_input: str
     ):
         """Check user's answer against correct answer
 
@@ -285,12 +305,11 @@ class Question():
         the quiz to continue. Otherwise run through loss functions.
 
         Args:
-            user_input: The user's chosen letter.
-            choices: Letters with their assigned answer.
-            answer: The answer string to the question.
+            user_input (str): The user's chosen letter.
         """
 
         global unused_correct_responses
+        question_number = self.question_number
 
         if self.choices[user_input] == self.correct_answer:
             if not unused_correct_responses:
