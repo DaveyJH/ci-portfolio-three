@@ -121,7 +121,7 @@ def print_description(word: str):
 
     print_title()
     for description_line in KEYWORDS[word]:
-        print_content(description_line)
+        print(description_line)
     print("")
     pause()
 
