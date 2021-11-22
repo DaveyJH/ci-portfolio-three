@@ -344,7 +344,7 @@ class Keywords():
         if question_number < 6:
             coder_responses = (
                 f"You came to the right coder, 100% it is '{coder_guess}'.",
-                f"'{coder_guess}', I am sure of it.",
+                f"It's '{coder_guess}', I am sure of it.",
                 f"I think I am right in saying '{coder_guess}'. "
                 "I'm confident.",
                 f"Easy one for me, that's '{coder_guess}'."
