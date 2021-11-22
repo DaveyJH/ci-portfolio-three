@@ -81,7 +81,12 @@ def update_scores(user_name, score):
 
     print("Scores updated successfully.")
     pause()
-    # todo calcuate for single person (words change)
-    print(
-        f"Well done {user_name}. There's only {insert} people ahead of you!\n"
-    )
+    if insert == 0:
+        print(
+            f"Well done {user_name}. There's only 1 person ahead of you!\n"
+        )
+    else:
+        print(
+            f"Well done {user_name}. There are only {insert} people ahead of "
+            "you!\n"
+        )
