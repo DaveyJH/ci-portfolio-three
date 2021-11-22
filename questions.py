@@ -9,6 +9,7 @@ import tokens
 import keywords
 from matrix import matrix_line
 from max_line_length import limit_line_length as shorten
+from max_line_length import limit_question as shorten_q
 
 CORRECT_RESPONSES = (
     "Correct...", "Well done!", "That's right.",
@@ -17,7 +18,7 @@ CORRECT_RESPONSES = (
 )
 INCORRECT_RESPONSES = (
     "Oh dear, that's wrong I'm afraid.", "Oh no! That wasn't correct.",
-    "Unfortunately, that answer was incorrect.", "Game over for you.",
+    "Unfortunately, that answer was incorrect.", "Uh-oh! Game over for you.",
     "That does not compute...wrong answer!"
 )
 READY_WORDS = [
@@ -75,6 +76,9 @@ class Question():
         for k in self.choices:
             if len(self.choices[k]) > longest_answer_length:
                 longest_answer_length = len(self.choices[k])
+
+        if longest_answer_length > 60:
+            longest_answer_length = 60
 
         return longest_answer_length
 
@@ -225,11 +229,18 @@ class Question():
 
         print("")
 
-        for letter, answer_str in self.choices.items():
-            print(f"{letter}: {unescape(answer_str)}")
+        # ! testing
 
-        # ! Remove
-        print(f"\nThe answer is: {self.correct_answer}")
+        self.choices = {
+            "a": f"{'a' * 60}{'b'*40}  {keywords.DOTS}25%",
+            "b": f"{'c' * 50} {'d' * 20}   {keywords.TELEPHONE_RED}{'b'*40}  {keywords.DOTS}25%",
+            "c": f"{'n' * 60}{'b'*40}  {keywords.DOTS}25%",
+            "d": f"{'f' * 60}{'b'*40}  {keywords.DOTS}25%"
+        }
+
+        for letter, answer_str in self.choices.items():
+            print(f"{letter}: {shorten_q(unescape(answer_str))}")
+
         return pre_question_str
 
     def run_question(self):
@@ -329,9 +340,10 @@ class Question():
             question_number += 1
             pause()
         else:
-            # ! FOR TESTING ONLY
+            print("")
             print(INCORRECT_RESPONSES[randrange(len(INCORRECT_RESPONSES))])
-            question_number = 0
-            return question_number
+            print("")
+            matrix_line()
+            return 0
 
         return question_number
