@@ -105,6 +105,7 @@ def limit_answers(string: str):
     choice = ""
     if len(string) <= 60:
         choice = string
+        choice = _check_phone_review(choice, phone, review_used)
     else:
         while len(string) > 60:
             string = string.strip()
