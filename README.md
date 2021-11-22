@@ -11,7 +11,7 @@ hold 'Ctrl' (or '⌘' on Apple devices) as you click!
 
 ## Live Site
 
-[Computer Literate Investigation](#)
+[Computer Literate Investigation](https://computer-literate-investigator.herokuapp.com/)
 
 ## Repository
 
