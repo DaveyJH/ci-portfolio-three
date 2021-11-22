@@ -301,6 +301,10 @@ class Question():
             pause()
             return False
 
+        print("")
+        if not keywords.Keywords.confirm(f"{new_input}"):
+            return False
+
         return True
 
     def check_answer(

@@ -477,7 +477,10 @@ class Keywords():
         confirm = input(f"Please input '{word}' again to confirm:\n")
 
         if confirm != word:
-            print("Input did not match: Keyword not used.\n")
+            if word in KEYWORDS:
+                print("Input did not match: Keyword not used.\n")
+            else:
+                print("Input did not match: Please try again.\n")
             return False
 
         return True
