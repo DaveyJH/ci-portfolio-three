@@ -9,7 +9,7 @@ import tokens
 import keywords
 from matrix import matrix_line
 from max_line_length import limit_line_length as shorten
-from max_line_length import limit_question as shorten_q
+from max_line_length import limit_answers as shorten_a
 
 CORRECT_RESPONSES = (
     "Correct...", "Well done!", "That's right.",
@@ -229,17 +229,8 @@ class Question():
 
         print("")
 
-        # ! testing
-
-        self.choices = {
-            "a": f"{'a' * 60}{'b'*40}  {keywords.DOTS}25%",
-            "b": f"{'c' * 50} {'d' * 20}   {keywords.TELEPHONE_RED}{'b'*40}  {keywords.DOTS}25%",
-            "c": f"{'n' * 60}{'b'*40}  {keywords.DOTS}25%",
-            "d": f"{'f' * 60}{'b'*40}  {keywords.DOTS}25%"
-        }
-
         for letter, answer_str in self.choices.items():
-            print(f"{letter}: {shorten_q(unescape(answer_str))}")
+            print(f"{letter}: {shorten_a(unescape(answer_str))}")
 
         return pre_question_str
 

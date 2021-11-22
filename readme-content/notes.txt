@@ -4,3 +4,6 @@ Simplified string "=" https://code-institute-room.slack.com/archives/C027C3S3TEU
 API https://opentdb.com/api_config.php
 
 a8c90fe57617b24d8dff5de8ebfbed3bf4f56d04be9fe22112a9403464ced3bc token generated @ 2021-11-14 18:32:51.201657
+
+
+testing bug = dict needed to be made on line 172 not 231 of questions

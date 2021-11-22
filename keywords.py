@@ -7,6 +7,7 @@ from getch import pause
 from validate_yn import validate_yes_no
 from rules import print_rules
 from sheets import SCORES_SHEET, update_scores
+from max_line_length import limit_answers as shorten_a
 
 KEYWORDS = {
     "help": (
@@ -183,8 +184,6 @@ class Keywords():
         pause()
         print("")
 
-        # todo add check for answer length. limit to 60 chars?
-
         return new_choices, False
 
     def review(
@@ -292,6 +291,10 @@ class Keywords():
                 )
             current_choices.update(new_choice)
 
+        for k in current_choices:
+            formatted_answer = shorten_a(current_choices[k])
+            current_choices.update({k: formatted_answer})
+
         return current_choices, True
 
     def call(
@@ -386,8 +389,6 @@ class Keywords():
         pause()
         print("")
 
-        # todo add check for answer length. limit to 60 chars?
-
         long = longest_answer_length
         if review_used:
             current_choices[coder_guess] = (
@@ -398,6 +399,10 @@ class Keywords():
             current_choices[coder_guess] = (
                 f"{current_choices[coder_guess]}{space}  {TELEPHONE_RED}"
             )
+
+        for k in current_choices:
+            formatted_answer = shorten_a(current_choices[k])
+            current_choices.update({k: formatted_answer})
 
         return current_choices, False
 
