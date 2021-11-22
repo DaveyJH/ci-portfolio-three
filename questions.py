@@ -61,6 +61,7 @@ class Question():
         self.choices, self.correct_answer = self._set_answer_letters()
         self.review_used = False
         self.longest_answer_length = self._get_longest_answer_length()
+        self.end_quiz = False
 
     def _get_longest_answer_length(self):
         """Get the length of the longest answer string
@@ -284,6 +285,9 @@ class Question():
                     self.choices = keyword_response[0]
                     if keyword_response[1]:
                         self.review_used = True
+                    if len(keyword_response) == 3:
+                        self.end_quiz = True
+                        return True
                 return False
             if new_input not in self.choices:
                 raise ValueError(
@@ -311,6 +315,9 @@ class Question():
 
         global unused_correct_responses
         question_number = self.question_number
+
+        if self.end_quiz:
+            return 99
 
         if user_input == self.correct_answer:
             if not unused_correct_responses:

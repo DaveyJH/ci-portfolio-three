@@ -1,7 +1,12 @@
 """Runs quiz"""
 
+from matrix import matrix_line
 import questions
 import keywords
+from sheets import update_win
+STAR_LINE = keywords.STAR_LINE
+STAR_EMPTY = keywords.STAR_EMPTY
+STAR_SOLID = keywords.STAR_SOLID
 
 
 def quiz(user_name: str, current_tokens: tuple, first_play: bool = True):
@@ -23,7 +28,7 @@ def quiz(user_name: str, current_tokens: tuple, first_play: bool = True):
     if first_play:
         print("\nGreat...let's begin!")
     else:
-        print(f"Welcome back, {user_name}")
+        print(f"\nWelcome back, {user_name}")
 
     while 0 < question_number < 16:
         if question_number < 6:
@@ -43,5 +48,23 @@ def quiz(user_name: str, current_tokens: tuple, first_play: bool = True):
         )
 
     if question_number == 16:
-        print("Congrats all the way.....")
-        # update scores
+        print(STAR_LINE)
+        print(
+            STAR_SOLID,
+            "That's it! You did it! Congratulations!!",
+            STAR_EMPTY.rjust(36)
+            )
+        print(
+            STAR_EMPTY,
+            "You answered all 15 question correctly!!".center(76).rstrip(),
+            STAR_SOLID.rjust(18))
+        print(
+            STAR_SOLID,
+            f"You clearly know your stuff. Well done!!{STAR_EMPTY}".rjust(77)
+            )
+        print(STAR_LINE)
+        update_win(user_name)
+
+    if question_number == 99:
+        print("Good luck for next time!\n")
+        matrix_line()

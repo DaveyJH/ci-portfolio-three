@@ -6,7 +6,7 @@ from time import sleep
 from getch import pause
 from validate_yn import validate_yes_no
 from rules import print_rules
-from sheets import SCORES_SHEET
+from sheets import SCORES_SHEET, update_scores
 
 KEYWORDS = {
     "help": (
@@ -400,7 +400,6 @@ class Keywords():
             )
 
         return current_choices, False
-        # todo #2 return choices with appended TELEPHONE_RED
 
     def used(
         self, word: str, current_choices: dict, correct_answer: str,
@@ -427,14 +426,15 @@ class Keywords():
                 bool: True if `call` keyword used
         """
 
-        keyword_response = current_choices, False, False
+        keyword_response = current_choices, False
 
         if word == "help":
             self.help_info()
             print("\nLet's return to the quiz!")
             pause()
         if word == "take":
-            self.take()
+            if self.take(user_name, question_number):
+                keyword_response = current_choices, False, True
         if word == "scores":
             self.scores(question_number)
             print("\nLet's return to the quiz!")
@@ -494,17 +494,17 @@ class Keywords():
             print_description(keyword)
 
     @staticmethod
-    def take():
+    def take(user_name, question_number):
         """Ends the quiz and logs the score"""
 
         print("\nDo you want to end here?")
         if Keywords.confirm("take"):
+            print("\nSo you've decided to end it there.")
+            print("That's OK. Please wait a moment...\n")
+            update_scores(user_name, question_number)
+            return True
 
-            # testing
-            # todo #1 create end function and add question number to params
-            print("TOOK THE MONEY")
-            # ??restart?
-            exit()
+        return False
 
     @staticmethod
     def scores(question_number: int):
