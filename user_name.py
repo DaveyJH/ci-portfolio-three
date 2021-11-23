@@ -28,6 +28,7 @@ class User():
 
         while True:
             print("Characters A-Z, a-z, 0-9 and spaces are permitted.")
+            print("Maximum user name length of 18 characters.")
             print("Leading and trailing whitespaces will be removed.\n")
             new_user_name = input("Please enter a user name:\n")
             if self._check_user_name(new_user_name):
@@ -53,6 +54,8 @@ class User():
                 raise ValueError("Invalid characters detected")
             if profanity.contains_profanity(user_name_str):
                 raise ValueError("Profanity detected")
+            if len(user_name_str) > 18:
+                raise ValueError("User name too long")
 
         except ValueError as e:
             print(f"Invalid data: {e}, please try again.\n")
