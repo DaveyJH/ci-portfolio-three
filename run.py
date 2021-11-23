@@ -56,8 +56,6 @@ quiz(user.user_name, current_tokens)
 
 while validate_yes_no("Play again?"):
     quiz(user.user_name, current_tokens, False)
-    print("")
-    matrix_line()
 
 print("")
 matrix_line()

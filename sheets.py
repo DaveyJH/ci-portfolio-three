@@ -49,6 +49,7 @@ def update_scores(user_name, score):
     print("Please be patient...\n")
 
     score = score - 1
+    new_score = False
 
     current_highscore_values_cells = SCORES_SHEET.range("values")
     current_highscore_users_cells = SCORES_SHEET.range("users")
@@ -69,8 +70,15 @@ def update_scores(user_name, score):
             repeats -= 1
 
     for i in range(10):
-        if score < int(values[i]):
-            insert = i + 1
+        if score >= int(values[i]):
+            insert = i
+            new_score = True
+            break
+
+    if not new_score:
+        print("Score too low, you didn't make it on to the scoreboard")
+        print("this time around. You need to try harder.\n")
+        return
 
     new_values = values[:insert] + [str(score)] + values[insert:-1]
     new_users = users[:insert] + [user_name] + users[insert:-1]
@@ -81,12 +89,12 @@ def update_scores(user_name, score):
 
     print("Scores updated successfully.")
     pause()
-    if insert == 0:
+    if insert == 1:
         print(
-            f"Well done {user_name}. There's only 1 person ahead of you!\n"
+            f"\nSo close {user_name}. There's only 1 person ahead of you!\n"
         )
     else:
         print(
-            f"Well done {user_name}. There are only {insert} people ahead of "
-            "you!\n"
+            f"\nWell done {user_name}. There are only {insert} people ahead "
+            "of you!\n"
         )

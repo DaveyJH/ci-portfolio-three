@@ -150,6 +150,7 @@ class Keywords():
                 incorrect answer. Assigned letters remain the same and order
                 are sorted alphabetically
             bool = False: Denotes that this keyword is not `review`
+            bool = False: Denotes the quiz has not ended
         """
 
         print("\nWould you like to even the odds?")
@@ -184,7 +185,7 @@ class Keywords():
         pause()
         print("")
 
-        return new_choices, False
+        return new_choices, False, False
 
     def review(
         self, current_choices: dict, correct_answer: str, question_number: int,
@@ -208,7 +209,7 @@ class Keywords():
         Returns:
             dict[str, str]: (If review confirmed) Answer choices
             bool = True: Denotes that this keyword is `review`
-            bool = False: Denotes that this keyword is not `call`
+            bool = False: Denotes the quiz has not ended
         """
 
         print("\nWould you like to request a review?")
@@ -295,7 +296,7 @@ class Keywords():
             formatted_answer = shorten_a(current_choices[k])
             current_choices.update({k: formatted_answer})
 
-        return current_choices, True
+        return current_choices, True, False
 
     def call(
         self, current_choices: dict, correct_answer: str, user_name: str,
@@ -319,7 +320,7 @@ class Keywords():
         Returns:
             dict[str, str]: (If call confirmed) Answer choices
             bool = False: Denotes that this keyword is not `review`
-            bool = True: Denotes that this keyword is `call`
+            bool = False: Denotes the quiz has not ended
         """
 
         print("\nWould you like to call a coder?")
@@ -404,12 +405,12 @@ class Keywords():
             formatted_answer = shorten_a(current_choices[k])
             current_choices.update({k: formatted_answer})
 
-        return current_choices, False
+        return current_choices, False, False
 
     def used(
         self, word: str, current_choices: dict, correct_answer: str,
         user_name: str, question_number: int, review_used: bool,
-        longest_answer_length: int
+        longest_answer_length: int, safety: int
     ):
         """Processes keyword inputs with relevant function
 
@@ -423,15 +424,17 @@ class Keywords():
             question_number (int): The current question number
             review_used (bool): True if review keyword has been used
             longest_answer_length (int): String length of longest answer
+            safety (int): 0, 1 or 2. If 1, minimum score is 5. If 2, minimum
+                score is 10
 
         Returns:
             tuple (dict, bool, bool):
                 dict: New answer choices
                 bool: True if `review` keyword used
-                bool: True if `call` keyword used
+                bool: True if `take` keyword used
         """
 
-        keyword_response = current_choices, False
+        keyword_response = current_choices, False, False
 
         if word == "help":
             self.help_info()
@@ -441,7 +444,7 @@ class Keywords():
             if self.take(user_name, question_number):
                 keyword_response = current_choices, False, True
         if word == "scores":
-            self.scores(question_number)
+            self.scores(question_number, safety)
             print("\nLet's return to the quiz!")
             pause()
 
@@ -515,13 +518,16 @@ class Keywords():
         return False
 
     @staticmethod
-    def scores(question_number: int):
+    def scores(question_number: int, safety: int):
         """Prints the current high scores from Google Sheet data
 
         Prints message to user to inform them of progress toward scorboard
 
         ---
-        Args: question_number (int): The current question number
+        Args:
+            question_number (int): The current question number
+            safety(int): Current safety value. 1 means 5 reached, 2 means 10
+                reached
         """
 
         answer_questions = question_number - 1
@@ -560,8 +566,16 @@ class Keywords():
         lowest_score = int(highscores[list(highscores.keys())[-1]])
 
         if answer_questions > lowest_score:
-            print("\nYou are on track to make it on the list...")
-            print("...As long as you don't lose it all!\n".rjust(80))
+            if (
+                safety == 1 and lowest_score < 6
+                or safety == 2 and lowest_score < 11
+            ):
+                print("\nYou have made it on to the score board...")
+                print("...Try to see how far you can go!\n".rjust(80))
+            else:
+                print("\nYou are on track to make it on the list...")
+                print("...As long as you don't lose it all!\n".rjust(80))
+
         else:
             to_lowest_score = lowest_score - answer_questions
             append_s = "s" if to_lowest_score > 1 else ""

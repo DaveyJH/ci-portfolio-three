@@ -46,6 +46,9 @@ class Question():
         call_used (bool): True if `call` keyword has been used in question
         review_used (bool): True if `review` keyword has been used in question
         longest_answer_length (int): Length of longest answer
+        end_quiz (bool): True if incorrect answer given
+        safety (int): 0, 1 or 2. Set by question number. Denotes that a safe
+            point has been reached
     """
 
     def __init__(
@@ -63,6 +66,7 @@ class Question():
         self.review_used = False
         self.longest_answer_length = self._get_longest_answer_length()
         self.end_quiz = False
+        self.safety = 0
 
     def _get_longest_answer_length(self):
         """Get the length of the longest answer string
@@ -218,7 +222,7 @@ class Question():
             )
         else:
             print(
-                f"\n{current_pre_question} Question Number"
+                f"\n{current_pre_question} Question Number "
                 f"{str(self.question_number)}"
             )
         print(f"Followed by the {len(self.choices)} possible answers...\n")
@@ -243,6 +247,11 @@ class Question():
         Returns:
             str: A validated user input
         """
+
+        if self.question_number >= 6:
+            self.safety = 1
+        if self.question_number >= 11:
+            self.safety = 2
 
         pre_question = self._display_question(None, True)
 
@@ -281,13 +290,13 @@ class Question():
                 keyword_response = self.keywords.used(
                     new_input, self.choices, self.correct_answer,
                     self.user_name, self.question_number, self.review_used,
-                    self.longest_answer_length
+                    self.longest_answer_length, self.safety
                 )
                 if len(keyword_response):
                     self.choices = keyword_response[0]
                     if keyword_response[1]:
                         self.review_used = True
-                    if len(keyword_response) == 3:
+                    if keyword_response[2]:
                         self.end_quiz = True
                         return True
                 return False
@@ -313,17 +322,22 @@ class Question():
         """Check user's answer against correct answer
 
         If the user answer is correct, increment the question number and allow
-        the quiz to continue. Otherwise run through loss functions.
+        the quiz to continue. Otherwise run through loss functions
 
+        ---
         Args:
-            user_input (str): The user's chosen letter.
+            user_input (str): The user's chosen letter
+
+        Returns:
+            int: The next question number (or safety number for quiz end)
+            bool: True if quiz should end
         """
 
         global unused_correct_responses
         question_number = self.question_number
 
         if self.end_quiz:
-            return 99
+            return question_number, True
 
         if user_input == self.correct_answer:
             if not unused_correct_responses:
@@ -335,10 +349,16 @@ class Question():
             question_number += 1
             pause()
         else:
+            self.end_quiz = True
             print("")
             print(INCORRECT_RESPONSES[randrange(len(INCORRECT_RESPONSES))])
             print("")
             matrix_line()
-            return 0
+            if self.safety == 2:
+                return 11, self.end_quiz
+            elif self.safety == 1:
+                return 6, self.end_quiz
+            else:
+                return 0, self.end_quiz
 
-        return question_number
+        return question_number, self.end_quiz
