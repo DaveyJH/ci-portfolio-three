@@ -42,13 +42,15 @@ def update_win(user_name):
     print(f"Scores updated...well done {user_name}, you are at the top!")
 
 
-def update_scores(user_name, score):
+def update_scores(user_name, question_number):
     """Insert user name and score on leaderboard"""
 
     print("Checking scores database...\n")
     print("Please be patient...\n")
 
-    score = score - 1
+    score = question_number - 1
+    if score == -1:
+        score = 0
     new_score = False
 
     current_highscore_values_cells = SCORES_SHEET.range("values")

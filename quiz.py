@@ -1,5 +1,6 @@
 """Runs quiz"""
 
+from time import sleep
 from matrix import matrix_line
 import questions
 import keywords
@@ -36,11 +37,21 @@ def quiz(user_name: str, current_tokens: tuple, first_play: bool = True):
             difficulty = "easy"
             token: object = current_tokens[0]
         elif 6 <= question_number < 11:
-            # todo add safety message on 6
+            if question_number == 6:
+                print(
+                    "\nWell done on getting this far, you can't score lower "
+                    "than 5 now!"
+                )
+                sleep(.5)
             difficulty = "medium"
             token: object = current_tokens[1]
         else:
-            # todo add safety message on 11
+            if question_number == 11:
+                print(
+                    "\nWow, fantastic! You are far enough that you can't "
+                    "score lower than 10 now!"
+                )
+                sleep(.5)
             difficulty = "hard"
             token: object = current_tokens[2]
         question = questions.Question(
