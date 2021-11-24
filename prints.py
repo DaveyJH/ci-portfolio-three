@@ -13,7 +13,7 @@ def red_print(string):
 
 
 def green_print(string):
-    """Print string in green"""
+    """Print string in bright green"""
     string = f"\033[32;1m{string}\033[0m"
     print(string)
 

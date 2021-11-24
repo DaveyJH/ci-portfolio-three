@@ -10,7 +10,7 @@ import keywords
 from matrix import matrix_line
 from max_line_length import limit_line_length as shorten
 from max_line_length import limit_answers as shorten_a
-from prints import red_print, green_print
+from prints import red_print, green_print, yellow_print
 
 CORRECT_RESPONSES = (
     "Correct...", "Well done!", "That's right.",
@@ -127,7 +127,7 @@ class Question():
             f"&token={self.token.string}"
         )
 
-        print("\nRetrieving data...")
+        yellow_print("\nRetrieving data...")
         response = requests.get(api_url)
         data = response.json()
 
