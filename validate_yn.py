@@ -28,7 +28,8 @@ def validate_yes_no(input_string: str = "Please input 'y' or 'n':"):
     ):
         red_print("\nInvalid input received")
         print("Please input 'y' or 'n'")
-        user_response = input(f"{input_string} {YN}\n").lower()
+        print(f"\n{input_string} \033[33m{YN}\033[0m\n")
+        user_response = input().lower()
         continue
 
     if user_response == "n":
