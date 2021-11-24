@@ -73,7 +73,7 @@ def quiz(user_name: str, current_tokens: tuple, first_play: bool = True):
             f"{STAR_EMPTY}".rjust(36)
             )
         print(
-            f"\033[36m{STAR_EMPTY}",
+            f"\033[36;1m{STAR_EMPTY}",
             "You answered all 15 question correctly!!".center(76).rstrip(),
             f"{STAR_SOLID}\033[0m".rjust(18)
         )

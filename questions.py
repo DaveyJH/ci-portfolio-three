@@ -236,7 +236,7 @@ class Question():
 
         for letter, answer_str in self.choices.items():
             print(
-                f"\033[33m{letter}:\033[0m "
+                f"\033[33;1m{letter}:\033[0m "
                 f"{shorten_a(unescape(answer_str))}"
             )
 
@@ -311,7 +311,7 @@ class Question():
                 )
         except ValueError as e:
             red_print(f"{e}\n")
-            pause("\033[36mPress any key to continue...\033[0m")
+            pause("\033[36;1mPress any key to continue...\033[0m")
             return False
 
         print("")
@@ -351,7 +351,7 @@ class Question():
             unused_correct_responses.remove(this_response)
             green_print(f"\n{this_response}\n")
             question_number += 1
-            pause("\033[36mPress any key to continue...\033[0m")
+            pause("\033[36;1mPress any key to continue...\033[0m")
         else:
             self.end_quiz = True
             print("")

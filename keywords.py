@@ -93,7 +93,7 @@ def which_keyword():
         or user_input not in KEYWORDS
     ):
         print("\nInvalid input received")
-        print(f"Please input: \033[36m{', '.join(KEYWORDS).title()}\033[0m")
+        print(f"Please input: \033[36;1m{', '.join(KEYWORDS).title()}\033[0m")
         user_input = input("Which keyword would you like to check?\n").lower()
         continue
 
@@ -111,15 +111,15 @@ def print_description(word: str):
     def print_title():
         """Prints the keyword title and an underline of equal length"""
 
-        print("\n" + f"\033[36m{word.upper().center(40)}\033[0m")
+        print("\n" + f"\033[36;1m{word.upper().center(40)}\033[0m")
         line = "=" * len(word)
-        print(f"\033[36m{line.center(40)}\033[0m\n")
+        print(f"\033[36;1m{line.center(40)}\033[0m\n")
 
     print_title()
     for description_line in KEYWORDS[word]:
         print(description_line)
     print("")
-    pause("\033[36mPress any key to continue...\033[0m")
+    pause("\033[36;1mPress any key to continue...\033[0m")
 
 
 class Keywords():
@@ -186,7 +186,7 @@ class Keywords():
         sleep(.5)
         print(f"{FIFTY_LINE}\n")
 
-        pause("\033[36mPress any key to continue...\033[0m")
+        pause("\033[36;1mPress any key to continue...\033[0m")
         print("")
 
         return new_choices, False, False
@@ -279,7 +279,7 @@ class Keywords():
             print(f"{letter}: {review}")
 
         print("")
-        pause("\033[36mPress any key to continue...\033[0m")
+        pause("\033[36;1mPress any key to continue...\033[0m")
         print("")
 
         long = longest_answer_length
@@ -387,11 +387,12 @@ class Keywords():
         )
         print(f"{TELEPHONE_LINE}\n")
         print(
-            f"So, the coder thinks it might be \033[36m'{coder_guess}'\033[0m"
+            "So, the coder thinks it might be "
+            f"\033[36;1m'{coder_guess}'\033[0m"
             ", but can you trust them?\n"
         )
 
-        pause("\033[36mPress any key to continue...\033[0m")
+        pause("\033[36;1mPress any key to continue...\033[0m")
         print("")
 
         long = longest_answer_length
@@ -443,14 +444,14 @@ class Keywords():
         if word == "help":
             self.help_info()
             print("\nLet's return to the quiz!")
-            pause("\033[36mPress any key to continue...\033[0m")
+            pause("\033[36;1mPress any key to continue...\033[0m")
         if word == "take":
             if self.take(user_name, question_number):
                 keyword_response = current_choices, False, True
         if word == "scores":
             self.scores(question_number, safety)
             print("\nLet's return to the quiz!")
-            pause("\033[36mPress any key to continue...\033[0m")
+            pause("\033[36;1mPress any key to continue...\033[0m")
 
         if word == "even":
             keyword_response = self.even(
@@ -482,7 +483,7 @@ class Keywords():
         """
 
         print(
-            f"Please input '\033[36m{word}\033[0m' again to "
+            f"Please input '\033[36;1m{word}\033[0m' again to "
             "confirm:\n", end="")
         confirm = input()
 

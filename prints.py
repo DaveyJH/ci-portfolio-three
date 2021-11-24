@@ -8,7 +8,7 @@ colorama.init()
 
 def red_print(string):
     """Print string in red"""
-    string = f"\033[31m{string}\033[0m"
+    string = f"\033[31;1m{string}\033[0m"
     print(string)
 
 
@@ -20,19 +20,19 @@ def green_print(string):
 
 def cyan_print(string):
     """Print string in cyan"""
-    string = f"\033[36m{string}\033[0m"
+    string = f"\033[36;1m{string}\033[0m"
     print(string)
 
 
 def magenta_print(string):
     """Print string in magenta"""
-    string = f"\033[35m{string}\033[0m"
+    string = f"\033[35;1m{string}\033[0m"
     print(string)
 
 
 def yellow_print(string):
     """Print string in yellow"""
-    string = f"\033[33m{string}\033[0m"
+    string = f"\033[33;1m{string}\033[0m"
     print(string)
 
 

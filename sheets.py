@@ -91,7 +91,7 @@ def update_scores(user_name, question_number):
         SCORES_SHEET.update_cell(i + 2, 2, new_values[i])
 
     green_print("Scores updated successfully.")
-    pause("\033[36mPress any key to continue...\033[0m")
+    pause("\033[36;1mPress any key to continue...\033[0m")
     if insert == 1:
         print(
             f"\nSo close {user_name}. There's only 1 person ahead of you!\n"
