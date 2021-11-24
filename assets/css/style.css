@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+* {
+  cursor: default;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: linear-gradient(#44444444, #44444444),
+              url(../images/bg-1.webp) no-repeat center / cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+button {
+  font-family: 'VT323', monospace;
+  font-size: 1.5rem;
+  width: 200px;
+  height: 40px;
+  background-color: #777777;
+  border: .5rem solid #00008888;
+  box-shadow: 0 0 .3rem #000;
+  color: white;
+  text-transform: uppercase;
+  margin: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover, button:focus {
+  background-color: #444444;
+  border: .5rem solid #000088;
+  box-shadow: 0 .3rem .6rem cyan;
+  color: cyan;
+}
+
+button:active {
+  background-color: #777777;
+  border: .5rem ridge #000088;
+  box-shadow: 0 .3rem .6rem #49f315;
+  color: #49f315;
+}
+
+header,
+footer {
+  font-family: 'VT323', monospace;
+  position: fixed;
+}
+
+header {
+  font-size: 2rem;
+  top: 0;
+}
+
+h1, footer {
+  padding: .5rem;
+  box-shadow: .4rem .4rem .8rem cyan,
+              -.4rem .4rem .8rem cyan,
+              .4rem -.4rem .8rem cyan,
+              -.4rem -.4rem .8rem cyan;
+  background-color: #071404;
+  color: #4db22d;
+}
+
+h1 span {
+  text-decoration: underline #4db22d .5rem;
+}
+
+#cursor {
+  background-color: #1c4811;
+}
+
+footer {
+  font-size: 1.5rem;
+  padding: .2rem;
+  bottom: .8rem;
+  border: solid .5rem #444444;
+}
+
+footer p {
+  margin: 0;
+}
+
+footer a {
+  color: #4db22d;
+  text-decoration: none;
+}
+
+footer i {
+  cursor: pointer;
+}
+
+#terminal {
+  width: 730px;
+  box-shadow: 0 .3rem .8rem cyan;
+}
+
+#terminal * {
+  cursor:text;
+}
