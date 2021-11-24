@@ -11,6 +11,12 @@ from quiz import quiz
 from validate_yn import validate_yes_no
 from prints import yellow_print, cyan_print
 
+import platform
+import os
+
+print(platform.system())
+print(os.environ.get("HTTP_USER_AGENT", "unknown"))
+
 
 def introduction_to_quiz():
     """Print initial welcome strings and allow user to input username
