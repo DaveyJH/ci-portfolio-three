@@ -469,12 +469,12 @@ class Keywords():
                 review_used, longest_answer_length
             )
         if word == "github":
-            webbrowser.open_new_tab("https://github.com/daveyjh")
+            webbrowser.open_new("https://github.com/daveyjh")
             magenta_print(
                 "You found the secret! Enjoy finding out more about DaveyJH!"
             )
         if word == "tux":
-            webbrowser.open_new_tab("https://abibubble.github.io/icecapades/")
+            webbrowser.open("https://abibubble.github.io/icecapades/")
             magenta_print(
                 "You found the super secret! Enjoy playing Icecapades!! (⌐■_■)"
             )
