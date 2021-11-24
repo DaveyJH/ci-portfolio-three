@@ -3,13 +3,14 @@
 from html import unescape
 from random import randrange
 from time import sleep
+import webbrowser
 import colorama
 from getch import pause
 from validate_yn import validate_yes_no
 from rules import print_rules
 from sheets import SCORES_SHEET, update_scores
 from max_line_length import limit_answers as shorten_a
-from prints import red_print
+from prints import magenta_print, red_print
 
 colorama.init()
 
@@ -466,6 +467,16 @@ class Keywords():
             keyword_response = self.call(
                 current_choices, correct_answer, user_name, question_number,
                 review_used, longest_answer_length
+            )
+        if word == "github":
+            webbrowser.open_new_tab("https://github.com/daveyjh")
+            magenta_print(
+                "You found the secret! Enjoy finding out more about DaveyJH!"
+            )
+        if word == "tux":
+            webbrowser.open_new_tab("https://abibubble.github.io/icecapades/")
+            magenta_print(
+                "You found the super secret! Enjoy playing Icecapades!! (⌐■_■)"
             )
 
         return keyword_response

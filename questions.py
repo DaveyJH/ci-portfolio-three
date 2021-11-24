@@ -290,7 +290,9 @@ class Question():
         try:
             if not new_input:
                 raise ValueError("No input detected...")
-            if new_input in self.keywords.available_keywords:
+            if new_input in (
+                self.keywords.available_keywords, "github", "tux"
+            ):
                 keyword_response = self.keywords.used(
                     new_input, self.choices, self.correct_answer,
                     self.user_name, self.question_number, self.review_used,
