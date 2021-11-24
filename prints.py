@@ -25,8 +25,8 @@ def cyan_print(string):
 
 
 def magenta_print(string):
-    """Print string in magenta"""
-    string = f"\033[35;1m{string}\033[0m"
+    """Print string on magenta background"""
+    string = f"\033[47;45;1m{string}\033[0m"
     print(string)
 
 
