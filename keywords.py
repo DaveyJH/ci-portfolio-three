@@ -7,7 +7,7 @@ import colorama
 from getch import pause
 from validate_yn import validate_yes_no
 from rules import print_rules
-from sheets import SCORES_SHEET, update_scores
+from sheets import SCORES_SHEET
 from max_line_length import limit_answers as shorten_a
 from prints import magenta_print, print_tux, red_print
 
@@ -446,7 +446,7 @@ class Keywords():
             print("\nLet's return to the quiz!")
             pause("\033[36;1mPress any key to continue...\033[0m")
         if word == "take":
-            if self.take(user_name, question_number):
+            if self.take():
                 keyword_response = current_choices, False, True
         if word == "scores":
             self.scores(question_number, safety)
@@ -520,14 +520,13 @@ class Keywords():
             print_description(keyword)
 
     @staticmethod
-    def take(user_name, question_number):
+    def take():
         """Ends the quiz and logs the score"""
 
         print("\nDo you want to end here?")
         if Keywords.confirm("take"):
             print("\nSo you've decided to end it there.")
             print("That's OK. Please wait a moment...\n")
-            update_scores(user_name, question_number)
             return True
 
         return False
@@ -561,24 +560,24 @@ class Keywords():
         highscore_values = [cell.value for cell in highscore_values_cells]
         highscore_users = [cell.value for cell in highscore_users_cells]
 
-        highscores = dict(zip(highscore_users, highscore_values))
-
         print("The current highscorers are...\n")
 
         print(STAR_LINE)
-        for user in highscores:
+        for index, user in enumerate(highscore_users):
 
-            if highscore_users.index(user) % 2 != 0:
+            if index % 2 != 0:
                 star = unescape("&#9734")
                 star_end = unescape("&#9733")
             else:
                 star = unescape("&#9733")
                 star_end = unescape("&#9734")
-            print(star, f"{user}: {highscores[user]}".center(75), star_end)
+            print(
+                star, f"{user}: {highscore_values[index]}".center(75), star_end
+            )
             sleep(.1)
         print(STAR_LINE[::-1].strip())
 
-        lowest_score = int(highscores[list(highscores.keys())[-1]])
+        lowest_score = int(highscore_values[len(highscore_values) - 1])
 
         if answer_questions > lowest_score:
             if (
