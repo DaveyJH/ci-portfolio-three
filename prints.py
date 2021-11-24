@@ -14,7 +14,7 @@ def red_print(string):
 
 def green_print(string):
     """Print string in green"""
-    string = f"\033[32m{string}\033[0m"
+    string = f"\033[32;1m{string}\033[0m"
     print(string)
 
 
@@ -45,6 +45,8 @@ def matrix_style(string):
         styles = (
             # green
             "\033[32m",
+            # brightgreen
+            "\033[32;1m",
             # white
             "\033[37;1m",
             # black
