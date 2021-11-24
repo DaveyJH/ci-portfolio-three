@@ -2,6 +2,7 @@
 
 from random import randrange
 from time import sleep
+from prints import matrix_style
 
 MATRIX_CHARS = (1, 0)
 
@@ -13,7 +14,7 @@ def matrix_line():
     for n in range(80):
         line = line + (str(MATRIX_CHARS[
             randrange(len(MATRIX_CHARS))]))
-    print(line)
+    matrix_style(line)
     sleep(.5)
 
 
