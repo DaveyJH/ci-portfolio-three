@@ -97,6 +97,13 @@
 
         #cursor {
         background-color: #1c4811;
+        animation: 1.2s linear 0s infinite alternate blink;
+        }
+
+        @keyframes blink {
+            50% {
+                background-color: transparent;
+            }
         }
 
         footer {
@@ -122,6 +129,7 @@
         #terminal {
         width: 730px;
         box-shadow: 0 .3rem .8rem cyan;
+        padding: .6rem;
         }
 
         #terminal * {
