@@ -1,5 +1,7 @@
 """Validate a yes/no input"""
 
+from prints import red_print
+
 YN = ("y", "n")
 
 
@@ -18,12 +20,13 @@ def validate_yes_no(input_string: str = "Please input 'y' or 'n':"):
         bool: True if input is "y" - else False.
     """
 
-    user_response = input(f"\n{input_string} {YN}\n").lower()
+    print(f"\n{input_string} \033[33m{YN}\033[0m\n")
+    user_response = input().lower()
     while (
         not user_response.isalpha()
         or user_response not in YN
     ):
-        print("\nInvalid input received")
+        red_print("\nInvalid input received")
         print("Please input 'y' or 'n'")
         user_response = input(f"{input_string} {YN}\n").lower()
         continue

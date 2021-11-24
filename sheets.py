@@ -3,6 +3,7 @@
 import gspread
 from google.oauth2.service_account import Credentials
 from getch import pause
+from prints import yellow_print, green_print
 
 
 SCOPE = [
@@ -23,7 +24,7 @@ SCORES_SHEET = SHEET.worksheet("scores")
 def update_win(user_name):
     """Insert winning user name and score at top of leaderboard"""
 
-    print("Updating scores database...")
+    yellow_print("Updating scores database...")
 
     current_highscore_values_cells = SCORES_SHEET.range("values")
     current_highscore_users_cells = SCORES_SHEET.range("users")
@@ -39,14 +40,14 @@ def update_win(user_name):
         SCORES_SHEET.update_cell(i + 2, 1, new_users[i])
         SCORES_SHEET.update_cell(i + 2, 2, new_values[i])
 
-    print(f"Scores updated...well done {user_name}, you are at the top!")
+    green_print(f"Scores updated...well done {user_name}, you are at the top!")
 
 
 def update_scores(user_name, question_number):
     """Insert user name and score on leaderboard"""
 
-    print("Checking scores database...\n")
-    print("Please be patient...\n")
+    yellow_print("Checking scores database...\n")
+    yellow_print("Please be patient...\n")
 
     score = question_number - 1
     if score == -1:
@@ -89,8 +90,8 @@ def update_scores(user_name, question_number):
         SCORES_SHEET.update_cell(i + 2, 1, new_users[i])
         SCORES_SHEET.update_cell(i + 2, 2, new_values[i])
 
-    print("Scores updated successfully.")
-    pause()
+    green_print("Scores updated successfully.")
+    pause("\033[36mPress any key to continue...\033[0m")
     if insert == 1:
         print(
             f"\nSo close {user_name}. There's only 1 person ahead of you!\n"

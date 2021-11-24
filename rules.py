@@ -1,13 +1,14 @@
 """Print rules of the quiz"""
 
 from getch import pause
+from prints import cyan_print
 
 
 def print_rules():
     """Prints the rules"""
 
-    print("\n" + "THE RULES".center(40))
-    print("=========".center(40))
+    cyan_print("\n" + "THE RULES".center(40))
+    cyan_print("=========".center(40))
 
     print("\nThis quiz consists of 15 questions. The further you go, the")
     print("harder they become. Unless, of course, you know the answers!")
@@ -17,7 +18,7 @@ def print_rules():
     print("An incorrect answer any time after a safety point will mean your")
     print("score is equal to the most recent safety point reached.\n")
 
-    pause()
+    pause("\033[36mPress any key to continue...\033[0m")
 
     print("\nEach question has four possible answers: A, B, C and D.")
     print("You will be shown the question, followed by the four possible")
@@ -27,7 +28,7 @@ def print_rules():
     print("on to the next question. Successfully answer all 15 questions to")
     print("win the ultimate gloating rights!\n")
 
-    pause()
+    pause("\033[36mPress any key to continue...\033[0m")
 
     print("\nThere are some keywords that can be used at any time.")
     print("'Help', 'Take', 'Scores', 'Review', 'Even' and 'Call'.")
@@ -37,4 +38,4 @@ def print_rules():
 
     print("Finally, and possibly most importantly...remember to have fun!\n")
 
-    pause()
+    pause("\033[36mPress any key to continue...\033[0m")

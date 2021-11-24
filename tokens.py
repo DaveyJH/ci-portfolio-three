@@ -4,6 +4,7 @@ import requests
 
 from sheets import TOKEN_SHEET
 from matrix import matrix_block, matrix_line
+from prints import red_print, green_print, cyan_print, yellow_print
 
 
 class Token():
@@ -38,7 +39,7 @@ class Token():
             Token string value
         """
 
-        print(f"Checking for existing {self.difficulty} token...")
+        cyan_print(f"Checking for existing {self.difficulty} token...")
         matrix_block(2)
 
         if self.difficulty == "easy":
@@ -56,9 +57,9 @@ class Token():
             if data["response_code"] != 0:
                 raise ConnectionError("No valid token found...")
             if data["response_code"] == 0:
-                print("Token retrieval successful!")
+                green_print("Token retrieval successful!")
         except ConnectionError as e:
-            print(f"Report: {e}")
+            red_print(f"Report: {e}")
             return self.initiate_new_token_string()
 
         return token
@@ -78,7 +79,7 @@ class Token():
                 `TERMINATES PROGRAM`
         """
 
-        print(f"Retrieving new {self.difficulty} token...")
+        yellow_print(f"Retrieving new {self.difficulty} token...")
         matrix_block(2)
 
         token_url = "https://opentdb.com/api_token.php?command=request"
@@ -92,20 +93,23 @@ class Token():
                     f"Response_code from API: {data['response_code']}"
                 )
         except ConnectionError as e:
-            print(f"Critical Error: {e}")
-            print("Program will now terminate!")
+            red_print(f"Critical Error: {e}")
+            red_print("Program will now terminate!")
             exit()
 
-        print("Token retrieval successful!")
+        green_print("Token retrieval successful!")
 
-        print("Updating stored token...")
+        yellow_print("Updating stored token...")
         if self.difficulty == "easy":
             TOKEN_SHEET.update_acell("A2", data["token"])
         elif self.difficulty == "medium":
             TOKEN_SHEET.update_acell("B2", data["token"])
         else:
             TOKEN_SHEET.update_acell("C2", data["token"])
-        print(f"{self.difficulty.capitalize()} token successfully updated...")
+        green_print(
+            f"{self.difficulty.capitalize()} token successfully "
+            "updated..."
+        )
         matrix_line()
 
         return data["token"]

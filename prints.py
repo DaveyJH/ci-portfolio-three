@@ -12,7 +12,6 @@ def red_print(string):
     print(string)
 
 
-
 def green_print(string):
     """Print string in green"""
     string = f"\033[32m{string}\033[0m"
@@ -22,7 +21,12 @@ def green_print(string):
 def cyan_print(string):
     """Print string in cyan"""
     string = f"\033[36m{string}\033[0m"
+    print(string)
 
+
+def magenta_print(string):
+    """Print string in magenta"""
+    string = f"\033[35m{string}\033[0m"
     print(string)
 
 
@@ -74,6 +78,3 @@ def matrix_style(string):
     for char in string:
         random_style(char)
     print("".join(result))
-
-green_print("this")
-print("stoo;;")

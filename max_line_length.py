@@ -1,12 +1,13 @@
 """Handles line length of text"""
 
 from html import unescape
+from prints import cyan_print
 
 DOTS = unescape("&#8285")
 TELEPHONE_RED = unescape("&#128222")
 
 
-def limit_line_length(string: str):
+def limit_line_length(string: str, cyan=False):
     """Prints individual lines with a max line length of 80 characters
 
     Checks for and prevents prepending spaces/split words
@@ -14,6 +15,7 @@ def limit_line_length(string: str):
     ---
     Args:
         string (str): String to be altered to fit within 80 character lines
+        color (bool): True if string is to be printed with cyan coloring
     """
 
     lines = []
@@ -37,7 +39,10 @@ def limit_line_length(string: str):
         lines.append(string.strip())
 
     for line in lines:
-        print(line)
+        if cyan:
+            cyan_print(line)
+        else:
+            print(line)
 
 
 def limit_answers(string: str):

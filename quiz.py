@@ -5,6 +5,8 @@ from matrix import matrix_line
 import questions
 import keywords
 from sheets import update_win, update_scores
+from prints import magenta_print, cyan_print
+
 STAR_LINE = keywords.STAR_LINE
 STAR_EMPTY = keywords.STAR_EMPTY
 STAR_SOLID = keywords.STAR_SOLID
@@ -38,7 +40,7 @@ def quiz(user_name: str, current_tokens: tuple, first_play: bool = True):
             token: object = current_tokens[0]
         elif 6 <= question_number < 11:
             if question_number == 6:
-                print(
+                magenta_print(
                     "\nWell done on getting this far, you can't score lower "
                     "than 5 now!"
                 )
@@ -47,7 +49,7 @@ def quiz(user_name: str, current_tokens: tuple, first_play: bool = True):
             token: object = current_tokens[1]
         else:
             if question_number == 11:
-                print(
+                magenta_print(
                     "\nWow, fantastic! You are far enough that you can't "
                     "score lower than 10 now!"
                 )
@@ -64,24 +66,25 @@ def quiz(user_name: str, current_tokens: tuple, first_play: bool = True):
         quiz_end = return_from_question[1]
 
     if question_number == 16:
-        print(STAR_LINE)
-        print(
-            STAR_SOLID,
-            "That's it! You did it! Congratulations!!",
-            STAR_EMPTY.rjust(36)
+        cyan_print(STAR_LINE)
+        cyan_print(
+            f"{STAR_SOLID}"
+            "That's it! You did it! Congratulations!!"
+            f"{STAR_EMPTY}".rjust(36)
             )
         print(
-            STAR_EMPTY,
+            f"\033[36m{STAR_EMPTY}",
             "You answered all 15 question correctly!!".center(76).rstrip(),
-            STAR_SOLID.rjust(18))
-        print(
-            STAR_SOLID,
+            f"{STAR_SOLID}\033[0m".rjust(18)
+        )
+        cyan_print(
+            f"{STAR_SOLID}"
             f"You clearly know your stuff. Well done!!{STAR_EMPTY}".rjust(77)
-            )
-        print(STAR_LINE)
+        )
+        cyan_print(STAR_LINE)
         update_win(user_name)
 
     if quiz_end:
         update_scores(user_name, question_number)
-        print("Good luck for next time!\n")
+        cyan_print("Good luck for next time!\n")
         matrix_line()

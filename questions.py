@@ -10,6 +10,7 @@ import keywords
 from matrix import matrix_line
 from max_line_length import limit_line_length as shorten
 from max_line_length import limit_answers as shorten_a
+from prints import red_print, green_print
 
 CORRECT_RESPONSES = (
     "Correct...", "Well done!", "That's right.",
@@ -131,7 +132,7 @@ class Question():
         data = response.json()
 
         if data["response_code"] in (3, 4):
-            print("Token expired:")
+            red_print("Token expired:")
             self.token.string = self.token.initiate_new_token_string()
             data = self._check_and_retrieve()[1]
             return True, data
@@ -143,11 +144,11 @@ class Question():
                     f"Response_code from API: {data['response_code']}"
                 )
         except ConnectionError as e:
-            print(f"Error: {e}")
-            print("Program will now terminate!")
+            red_print(f"Error: {e}")
+            red_print("Program will now terminate!")
             exit()
 
-        print("Data retrieval successful...")
+        green_print("Data retrieval successful...")
         return True, data
 
     def _set_answer_letters(self):
@@ -229,12 +230,15 @@ class Question():
 
         question_str = unescape(self.question_data["question"])
 
-        shorten(question_str)
+        shorten(question_str, True)
 
         print("")
 
         for letter, answer_str in self.choices.items():
-            print(f"{letter}: {shorten_a(unescape(answer_str))}")
+            print(
+                f"\033[33m{letter}:\033[0m "
+                f"{shorten_a(unescape(answer_str))}"
+            )
 
         return pre_question_str
 
@@ -306,8 +310,8 @@ class Question():
                     "available keyword."
                 )
         except ValueError as e:
-            print(f"{e}\n")
-            pause()
+            red_print(f"{e}\n")
+            pause("\033[36mPress any key to continue...\033[0m")
             return False
 
         print("")
@@ -345,13 +349,13 @@ class Question():
             this_response = unused_correct_responses[
                 randrange(len(unused_correct_responses))]
             unused_correct_responses.remove(this_response)
-            print(f"\n{this_response}\n")
+            green_print(f"\n{this_response}\n")
             question_number += 1
-            pause()
+            pause("\033[36mPress any key to continue...\033[0m")
         else:
             self.end_quiz = True
             print("")
-            print(INCORRECT_RESPONSES[randrange(len(INCORRECT_RESPONSES))])
+            red_print(INCORRECT_RESPONSES[randrange(len(INCORRECT_RESPONSES))])
             print("")
             matrix_line()
             if self.safety == 2:

@@ -1,6 +1,7 @@
 """Handles user_name creation and validation"""
 
 from better_profanity import profanity
+from prints import red_print
 
 
 class User():
@@ -58,7 +59,7 @@ class User():
                 raise ValueError("User name too long")
 
         except ValueError as e:
-            print(f"Invalid data: {e}, please try again.\n")
+            red_print(f"Invalid data: {e}, please try again.\n")
             return False
 
         return True
