@@ -87,14 +87,15 @@ def which_keyword():
     """
 
     print("\nWhich keyword would you like to check out?")
-    user_input = input(f"{', '.join(KEYWORDS).title()}:\n").lower()
+    user_input = input(f"{', '.join(KEYWORDS).title()}:\n").lower().strip()
     while (
         not user_input.isalpha()
         or user_input not in KEYWORDS
     ):
-        print("\nInvalid input received")
+        red_print("\nInvalid input received")
         print(f"Please input: \033[36;1m{', '.join(KEYWORDS).title()}\033[0m")
-        user_input = input("Which keyword would you like to check?\n").lower()
+        user_input = input(
+            "Which keyword would you like to check?\n").lower().strip()
         continue
 
     return user_input
@@ -137,7 +138,7 @@ class Keywords():
 
     def even(
         self, current_choices: dict, correct_answer: str,
-    ) -> dict:
+    ):
         """Removes 2 incorrect answers from the choices
 
         Requires confirmation of input. If input string does not match,
@@ -150,16 +151,17 @@ class Keywords():
             correct_answer (str): The correct answer letter
 
         Returns:
-            dict[str, str]: (If even confirmed) One correct answer, one
-                incorrect answer. Assigned letters remain the same and order
-                are sorted alphabetically
-            bool = False: Denotes that this keyword is not `review`
-            bool = False: Denotes the quiz has not ended
+            tuple(dict, bool, bool):
+                dict[str, str]: (If even confirmed) One correct answer, one
+                    incorrect answer. Assigned letters remain the same an
+                    order are sorted alphabetically. Else, current_choices
+                bool = False: Denotes that this keyword is not `review`
+                bool = False: Denotes the quiz has not ended
         """
 
         print("\nWould you like to even the odds?")
         if not self.confirm("even"):
-            return current_choices, False
+            return current_choices, False, False
         self.available_keywords.remove("even")
 
         new_choices = {}
@@ -207,18 +209,18 @@ class Keywords():
                 letters and answers
             correct_answer (str): The correct answer letter
             question_number (int): The current question number
-            review_used (bool): True if review keyword has been used
             longest_answer_length (int): String length of longest answer
 
         Returns:
-            dict[str, str]: (If review confirmed) Answer choices
-            bool = True: Denotes that this keyword is `review`
-            bool = False: Denotes the quiz has not ended
+            tuple(dict, bool, bool):
+                dict[str, str]: (If review confirmed) Answer choices
+                bool: True if confirmed. Denotes that this keyword is `review`
+                bool = False: Denotes the quiz has not ended
         """
 
         print("\nWould you like to request a review?")
         if not self.confirm("review"):
-            return current_choices, False
+            return current_choices, False, False
         self.available_keywords.remove("review")
 
         reviewed_answers = dict(current_choices)
@@ -236,12 +238,13 @@ class Keywords():
             incorrect_percentages = [r_a]
         else:
             remainder = 100 - percentage
-            r_a = randrange(round(remainder / 2))
+            r_a = randrange(remainder // 2)
             remainder = remainder - r_a
             r_b = randrange(remainder)
             r_c = remainder - r_b
             incorrect_percentages = [r_a, r_b, r_c]
 
+        # ? no need for k,v .items()
         for k, v in reviewed_answers.items():
             if k == correct_answer:
                 reviews.update({k: f"{percentage}%"})
@@ -258,7 +261,7 @@ class Keywords():
             reviews.update(
                 {incorrect_answer[0]: f"{incorrect_answer_percentage}%"}
             )
-
+            # ? reviewed_answers.remove(incorrect_answer[0])
             del reviewed_answers[incorrect_answer[0]]
             incorrect_percentages.remove(incorrect_answer_percentage)
 
@@ -282,6 +285,7 @@ class Keywords():
         pause("\033[36;1mPress any key to continue...\033[0m")
         print("")
 
+        new_choices = {}
         long = longest_answer_length
         for k, v in current_choices.items():
             phone = False
@@ -294,13 +298,13 @@ class Keywords():
                 new_choice.update(
                     {k: f"{v}{space}  {DOTS}{reviews[k]}  {TELEPHONE_RED}"}
                 )
-            current_choices.update(new_choice)
+            new_choices.update(new_choice)
 
-        for k in current_choices:
-            formatted_answer = shorten_a(current_choices[k])
-            current_choices.update({k: formatted_answer})
+        for k in new_choices:
+            formatted_answer = shorten_a(new_choices[k])
+            new_choices.update({k: formatted_answer})
 
-        return current_choices, True, False
+        return new_choices, True, False
 
     def call(
         self, current_choices: dict, correct_answer: str, user_name: str,
@@ -322,20 +326,21 @@ class Keywords():
             longest_answer_length (int): String length of longest answer
 
         Returns:
-            dict[str, str]: (If call confirmed) Answer choices
-            bool = False: Denotes that this keyword is not `review`
-            bool = False: Denotes the quiz has not ended
+            tuple(dict, bool, bool):
+                dict[str, str]: (If call confirmed) Answer choices
+                bool = False: Denotes that this keyword is not `review`
+                bool = False: Denotes the quiz has not ended
         """
 
         print("\nWould you like to call a coder?")
         if not self.confirm("call"):
-            return current_choices, False
+            return current_choices, False, False
         self.available_keywords.remove("call")
 
         if question_number < 6:
             chance = 100
         elif question_number < 11:
-            chance = randrange(20, 65)
+            chance = randrange(20, 75)
         else:
             chance = 1
 
@@ -492,7 +497,7 @@ class Keywords():
         print(
             f"Please input '\033[36;1m{word}\033[0m' again to "
             "confirm:\n", end="")
-        confirm = input()
+        confirm = input().lower().strip()
 
         if confirm != word:
             if word in KEYWORDS:
@@ -521,7 +526,12 @@ class Keywords():
 
     @staticmethod
     def take():
-        """Ends the quiz and logs the score"""
+        """Ends the quiz and logs the score
+        
+        ---
+        Returns:
+            bool: True if confirmed
+        """
 
         print("\nDo you want to end here?")
         if Keywords.confirm("take"):
@@ -535,7 +545,8 @@ class Keywords():
     def scores(question_number: int, safety: int):
         """Prints the current high scores from Google Sheet data
 
-        Prints message to user to inform them of progress toward scorboard
+        Prints message to user to inform them of progress toward scorboard.
+        Prints error message if invalid data retrieved from Sheet
 
         ---
         Args:
@@ -559,6 +570,18 @@ class Keywords():
 
         highscore_values = [cell.value for cell in highscore_values_cells]
         highscore_users = [cell.value for cell in highscore_users_cells]
+
+        try:
+            for i in highscore_values:
+                if not i.isnumeric():
+                    raise ValueError("Scores database is corrupted - Values.")
+            for i in highscore_users:
+                if not "".join(i.split()).isalnum():
+                    raise ValueError("Scores database is corrupted - Users")
+        except ValueError as e:
+            red_print(f"Critical error: {e}")
+            red_print("Scores could not be displayed")
+            return
 
         print("The current highscorers are...\n")
 
@@ -597,3 +620,5 @@ class Keywords():
                 "\nYou aren't quite there yet. Answer at least "
                 f"{lowest_score - answer_questions} more question{append_s}..."
             )
+
+        return
