@@ -44,7 +44,6 @@ class Question():
         question_data (dict): Question data retrived from opentdb.com
         choices (dict): Possible answers to question with assigned letters
         correct_answer (str): Correct answer letter
-        call_used (bool): True if `call` keyword has been used in question
         review_used (bool): True if `review` keyword has been used in question
         longest_answer_length (int): Length of longest answer
         end_quiz (bool): True if incorrect answer given
@@ -58,6 +57,7 @@ class Question():
         user_name: str
     ) -> None:
         self.token = token
+        # ? take from token.difficulty?
         self.difficulty = difficulty
         self.question_number = question_number
         self.keywords = key_words
@@ -131,6 +131,16 @@ class Question():
         response = requests.get(api_url)
         data = response.json()
 
+        try:
+            if not isinstance(data, dict):
+                raise TypeError("API structure corrupt")
+            if "response_code" not in data:
+                raise ValueError("API response missing")
+        except (TypeError, ValueError) as e:
+            red_print(f"Critical Error: {e}")
+            red_print("Program will now terminate!")
+            exit()
+
         if data["response_code"] in (3, 4):
             red_print("Token expired:")
             self.token.string = self.token.initiate_new_token_string()
@@ -144,7 +154,7 @@ class Question():
                     f"Response_code from API: {data['response_code']}"
                 )
         except ConnectionError as e:
-            red_print(f"Error: {e}")
+            red_print(f"Critical Error: {e}")
             red_print("Program will now terminate!")
             exit()
 
@@ -159,7 +169,23 @@ class Question():
                 dict[str, str]: Shuffled answers paired with a choice letter.
                 str: The correct answer.
         """
-        correct_answer: str = unescape(
+        try:
+            if (
+                "correct_answer" not in self.question_data
+                or "incorrect_answers" not in self.question_data
+                or isinstance(self.question_data["correct_answer"], str)
+                or isinstance(self.question_data["incorrect_answers"], list)
+                or isinstance(
+                    (i for i in self.question_data["incorrect_answers"]), str
+                )
+            ):
+                raise TypeError("API structure corrupt")
+        except (TypeError, ValueError) as e:
+            red_print(f"Critical Error: {e}")
+            red_print("Program will now terminate!")
+            exit()
+
+        correct_answer = unescape(
             self.question_data["correct_answer"]
         ).strip()
         incorrect_answers = list(self.question_data["incorrect_answers"])
