@@ -9,7 +9,7 @@ from validate_yn import validate_yes_no
 from rules import print_rules
 from sheets import SCORES_SHEET
 from max_line_length import limit_answers as shorten_a
-from prints import magenta_print, print_tux, red_print
+from prints import magenta_print, print_tux, red_print, yellow_print
 
 colorama.init()
 
@@ -562,7 +562,7 @@ class Keywords():
         if not Keywords.confirm("scores"):
             return
 
-        print("\nQuerying database...\n")
+        yellow_print("\nQuerying database...\n")
         sleep(.5)
 
         highscore_values_cells = SCORES_SHEET.range("values")
