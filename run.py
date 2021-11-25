@@ -34,7 +34,6 @@ def introduction_to_quiz():
 # * user's name will be unchangeable
 # * introduction will not run on replay
 # region initial setup
-
 cyan_print("Computer Literate Investigator".center(80))
 cyan_print(f"{'=' * len('Computer Literate Investigator')}".center(80))
 matrix_block()
