@@ -37,7 +37,7 @@ def quiz(user_name: str, current_tokens: tuple, first_play: bool = True):
     while 0 < question_number < 16 and not quiz_end:
         if question_number < 6:
             difficulty = "easy"
-            token: object = current_tokens[0]
+            token = current_tokens[0]
         elif 6 <= question_number < 11:
             if question_number == 6:
                 magenta_print(
@@ -46,7 +46,7 @@ def quiz(user_name: str, current_tokens: tuple, first_play: bool = True):
                 )
                 sleep(.5)
             difficulty = "medium"
-            token: object = current_tokens[1]
+            token = current_tokens[1]
         else:
             if question_number == 11:
                 magenta_print(
@@ -55,7 +55,7 @@ def quiz(user_name: str, current_tokens: tuple, first_play: bool = True):
                 )
                 sleep(.5)
             difficulty = "hard"
-            token: object = current_tokens[2]
+            token = current_tokens[2]
         question = questions.Question(
             token, difficulty, question_number, available_keywords, user_name
         )
