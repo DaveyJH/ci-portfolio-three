@@ -54,6 +54,10 @@ class Token():
         data = response.json()
 
         try:
+            if not isinstance(data, dict):
+                raise TypeError("API structure corrupt")
+            if "response_code" not in data:
+                raise ValueError("API response missing")
             if data["response_code"] != 0:
                 raise ConnectionError("No valid token found...")
             if data["response_code"] == 0:
@@ -61,6 +65,10 @@ class Token():
         except ConnectionError as e:
             red_print(f"Report: {e}")
             return self.initiate_new_token_string()
+        except (TypeError, ValueError) as e:
+            red_print(f"Critical Error: {e}")
+            red_print("Program will now terminate!")
+            exit()
 
         return token
 
@@ -87,12 +95,16 @@ class Token():
         data = response.json()
 
         try:
+            if not isinstance(data, dict):
+                raise TypeError("API structure corrupt")
+            if "response_code" not in data:
+                raise ValueError("API response missing")
             if data["response_code"] != 0:
                 raise ConnectionError(
                     f"Open Trivia Database API connection error: {token_url}\n"
                     f"Response_code from API: {data['response_code']}"
                 )
-        except ConnectionError as e:
+        except (ValueError, ConnectionError, TypeError) as e:
             red_print(f"Critical Error: {e}")
             red_print("Program will now terminate!")
             exit()
