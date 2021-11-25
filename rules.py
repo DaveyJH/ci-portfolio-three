@@ -1,6 +1,7 @@
 """Print rules of the quiz"""
 
 from getch import pause
+
 from prints import cyan_print
 
 

@@ -5,6 +5,7 @@ from random import randrange
 from time import sleep
 import colorama
 from getch import pause
+
 from validate_yn import validate_yes_no
 from rules import print_rules
 from sheets import SCORES_SHEET

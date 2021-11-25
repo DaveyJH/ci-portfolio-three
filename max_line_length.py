@@ -1,6 +1,7 @@
 """Handles line length of text"""
 
 from html import unescape
+
 from prints import cyan_print
 
 # duplicated to prevent circular import

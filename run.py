@@ -2,8 +2,8 @@
 
 from time import sleep
 from html import unescape
-from keywords import Keywords
 
+from keywords import Keywords
 from tokens import initial_token_setup
 from matrix import matrix_block
 from user_name import User

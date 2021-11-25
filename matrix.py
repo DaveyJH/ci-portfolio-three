@@ -2,6 +2,7 @@
 
 from random import randrange
 from time import sleep
+
 from prints import matrix_style
 
 MATRIX_CHARS = (1, 0)
