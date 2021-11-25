@@ -297,7 +297,7 @@ class Question():
             print(f"Available choices:{list(self.choices.keys())}")
             user_input = input(
                 "Please provide your answer or enter a keyword:\n"
-            ).lower()
+            ).lower().strip()
             input_check = self._check_input(user_input)
             if not input_check:
                 self._display_question(
