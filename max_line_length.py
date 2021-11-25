@@ -3,6 +3,7 @@
 from html import unescape
 from prints import cyan_print
 
+# duplicated to prevent circular import
 DOTS = unescape("&#8285")
 TELEPHONE_RED = unescape("&#128222")
 
@@ -74,7 +75,7 @@ def limit_answers(string: str):
         return single_line
 
     def _check_first_line(choice, single_line, first):
-        """Check if single_line if the first line
+        """Check if single_line is the first line
 
         ---
         Args:
