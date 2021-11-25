@@ -527,7 +527,7 @@ class Keywords():
     @staticmethod
     def take():
         """Ends the quiz and logs the score
-        
+
         ---
         Returns:
             bool: True if confirmed
