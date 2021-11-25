@@ -9,7 +9,7 @@ from matrix import matrix_block
 from user_name import User
 from quiz import quiz
 from validate_yn import validate_yes_no
-from prints import yellow_print, cyan_print
+from prints import yellow_print, cyan_print, print_intro
 
 
 def introduction_to_quiz():
@@ -34,6 +34,8 @@ def introduction_to_quiz():
 # * user's name will be unchangeable
 # * introduction will not run on replay
 # region initial setup
+print_intro()
+sleep(2)
 cyan_print("Computer Literate Investigator".center(80))
 cyan_print(f"{'=' * len('Computer Literate Investigator')}".center(80))
 matrix_block()

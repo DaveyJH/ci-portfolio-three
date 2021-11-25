@@ -1,9 +1,16 @@
 """Handle text colouring"""
 
 from random import randint
+from html import unescape
 import colorama
 
 colorama.init()
+
+SYMBOL = unescape("&#9783")
+LAST = (
+    f"{SYMBOL * 15}{' ' * 5}{SYMBOL * 15}"
+    f"{' ' * 5}{SYMBOL * 15}{' ' * 5}{SYMBOL * 15}"
+)
 
 
 def red_print(string):
@@ -83,7 +90,8 @@ def matrix_style(string):
 
 
 def print_tux():
-    "Print tux!"
+    """Print tux!"""
+
     print(
         "\033[36;1m"
         r"""
@@ -107,3 +115,27 @@ def print_tux():
         """
         "\n\033[33;1mDaveyJH \033[41;1m(⌐■_■)\033[0m"
     )
+
+
+def print_intro():
+    """Print intro logo"""
+
+    print("\n" * 6)
+    magenta_print(f"{SYMBOL} " * 40)
+    print(
+        "\033[032;1m"
+        f"""
+  {SYMBOL * 15}{' ' * 5}{SYMBOL * 5}{' ' * 15}{SYMBOL * 15}
+  {SYMBOL * 15}{' ' * 5}{SYMBOL * 5}{' ' * 15}{SYMBOL * 15}
+  {SYMBOL * 5}{' ' * 15}{SYMBOL * 5}{' ' * 20}{SYMBOL * 5}
+  {SYMBOL * 5}{' ' * 15}{SYMBOL * 5}{' ' * 20}{SYMBOL * 5}
+  {SYMBOL * 5}{' ' * 15}{SYMBOL * 5}{' ' * 20}{SYMBOL * 5}
+  {SYMBOL * 5}{' ' * 15}{SYMBOL * 5}{' ' * 20}{SYMBOL * 5}
+  {SYMBOL * 5}{' ' * 15}{SYMBOL * 5}{' ' * 20}{SYMBOL * 5}
+  {LAST}
+  {LAST}
+        """
+        "\033[0m"
+    )
+    magenta_print(f"{SYMBOL} " * 40)
+    print("\n" * 6)
