@@ -132,10 +132,10 @@ class Question():
         data = response.json()
 
         try:
-            if not isinstance(data, dict):
-                raise TypeError("API structure corrupt")
+            if response.status_code != 200:
+                raise TypeError("API response missing")
             if "response_code" not in data:
-                raise ValueError("API response missing")
+                raise ValueError("API structure corrupt")
         except (TypeError, ValueError) as e:
             red_print(f"Critical Error: {e}")
             red_print("Program will now terminate!")
@@ -169,15 +169,22 @@ class Question():
                 dict[str, str]: Shuffled answers paired with a choice letter.
                 str: The correct answer.
         """
+
         try:
             if (
                 "correct_answer" not in self.question_data
                 or "incorrect_answers" not in self.question_data
-                or isinstance(self.question_data["correct_answer"], str)
-                or isinstance(self.question_data["incorrect_answers"], list)
-                or isinstance(
-                    (i for i in self.question_data["incorrect_answers"]), str
-                )
+                or not isinstance(
+                    self.question_data["correct_answer"], str)
+                or not isinstance(
+                    self.question_data["incorrect_answers"], list)
+                or len(self.question_data["incorrect_answers"]) != 3
+                or not isinstance(
+                    self.question_data["incorrect_answers"][0], str)
+                or not isinstance(
+                    self.question_data["incorrect_answers"][1], str)
+                or not isinstance(
+                    self.question_data["incorrect_answers"][2], str)
             ):
                 raise TypeError("API structure corrupt")
         except (TypeError, ValueError) as e:

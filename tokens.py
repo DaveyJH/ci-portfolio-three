@@ -54,10 +54,10 @@ class Token():
         data = response.json()
 
         try:
-            if not isinstance(data, dict):
-                raise TypeError("API structure corrupt")
+            if response.status_code != 200:
+                raise TypeError("API response missing")
             if "response_code" not in data:
-                raise ValueError("API response missing")
+                raise ValueError("API structure corrupt")
             if data["response_code"] != 0:
                 raise ConnectionError("No valid token found...")
             if data["response_code"] == 0:
@@ -95,10 +95,10 @@ class Token():
         data = response.json()
 
         try:
-            if not isinstance(data, dict):
-                raise TypeError("API structure corrupt")
+            if response.status_code != 200:
+                raise TypeError("API response missing")
             if "response_code" not in data:
-                raise ValueError("API response missing")
+                raise ValueError("API structure corrupt")
             if data["response_code"] != 0:
                 raise ConnectionError(
                     f"Open Trivia Database API connection error: {token_url}\n"
