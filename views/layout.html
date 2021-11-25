@@ -112,6 +112,15 @@
             padding: .2rem;
             bottom: .8rem;
             border: solid .5rem #444444;
+            pointer-events: none;
+        }
+
+        footer:hover,
+        footer:focus-within {
+            box-shadow: .4rem .4rem .8rem #49f315,
+                        -.4rem .4rem .8rem #49f315,
+                        .4rem -.4rem .8rem #49f315,
+                        -.4rem -.4rem .8rem #49f315;
         }
 
         footer p {
@@ -121,6 +130,7 @@
         footer a {
             color: #4db22d;
             text-decoration: none;
+            pointer-events: auto;
         }
 
         footer i {
