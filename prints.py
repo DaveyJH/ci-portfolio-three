@@ -1,6 +1,6 @@
 """Handle text colouring"""
 
-from random import randint
+from random import randrange
 from html import unescape
 import colorama
 
@@ -79,7 +79,7 @@ def matrix_style(string):
             # grey on green
             "\033[40m\033[42m"
         )
-        style = styles[randint(0, len(styles) - 1)]
+        style = styles[randrange(0, len(styles))]
         new_char = f'{style}{char}\033[0m'
         result.append(new_char)
         return
