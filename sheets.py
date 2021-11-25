@@ -95,7 +95,7 @@ def update_scores(user_name, question_number):
         print(
             f"Wow. You are the best, {user_name}, no one has done this well!"
         )
-    if insert == 1:
+    elif insert == 1:
         print(
             f"\nSo close {user_name}. There's only 1 person ahead of you!\n"
         )
