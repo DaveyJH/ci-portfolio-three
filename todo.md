@@ -1,10 +1,11 @@
 # TODO List
 
-- [ ] Refactor quiz into class
-- [ ] Add repeat answer as confirmation
-- [ ] Display scores function
-- [ ] Update scores function
 - [ ] Add content to README
-- [ ] Add safety points at 5 and 10 questions
+- [ ] Add social media image to head - HTML
+- [ ] Complete testing
+- [ ] Complete validation
+- [ ] Make small screen media query - HTML/CSS
+- [ ] No script tag - HTML/CSS
+- [ ] Device make up image
 
 [README](./README.md)
