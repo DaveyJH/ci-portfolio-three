@@ -69,18 +69,18 @@ def quiz(user_name: str, current_tokens: tuple, first_play: bool = True):
     if question_number == 16:
         cyan_print(STAR_LINE)
         cyan_print(
-            f"{STAR_SOLID}"
+            f"{STAR_SOLID} "
             "That's it! You did it! Congratulations!!"
-            f"{STAR_EMPTY}".rjust(36)
+            f"{' ' * 37}{STAR_EMPTY}"
             )
         print(
-            f"\033[36;1m{STAR_EMPTY}",
-            "You answered all 15 question correctly!!".center(76).rstrip(),
-            f"{STAR_SOLID}\033[0m".rjust(18)
+            f"\033[36;1m{STAR_EMPTY}{' ' * 19}"
+            "You answered all 15 question correctly!!"
+            f"{' ' * 18}{STAR_SOLID}\033[0m"
         )
         cyan_print(
-            f"{STAR_SOLID}"
-            f"You clearly know your stuff. Well done!!{STAR_EMPTY}".rjust(77)
+            f"{STAR_SOLID}{' ' * 39}"
+            f"You clearly know your stuff. Well done!!{STAR_EMPTY}"
         )
         cyan_print(STAR_LINE)
         update_win(user_name)
