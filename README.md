@@ -52,6 +52,10 @@ hold 'Ctrl' (or '⌘' on Apple devices) as you click!
     - [Other Tech](#other-tech)
       - [VSCode Extensions](#vscode-extensions)
   - [Testing](#testing)
+    - [Manual Testing](#manual-testing)
+      - [User Name](#user-name)
+      - [Yes/No Validation - Rules](#yesno-validation---rules)
+      - [Yes/No Validation - Keywords](#yesno-validation---keywords)
   - [Bugs](#bugs)
     - [Current](#current)
     - [Resolved](#resolved)
@@ -184,13 +188,13 @@ product.
 
 ### Initial Flow
 
-![Flow Chart](readme-content/images/quiz-logic.png)
+![Flow Chart](./readme-content/images/quiz-logic.png)
 
 ---
 
 ### Python Logic
 
-![Flow Chart](readme-content/images/python-logic.png)
+![Flow Chart](./readme-content/images/python-logic.png)
 
 ## Features
 
@@ -215,7 +219,7 @@ product.
 - The program has a score board feature. This can be accessed by users through
   the use of a keyword.
 
-  ![Score Board](readme-content/images/scoreboard.png)
+  ![Score Board](./readme-content/images/scoreboard.png)
 
 ---
 
@@ -225,7 +229,7 @@ product.
 - All user inputs are validated and errors allow repeat opportunites to input
   a valid selection.
 
-  ![Invalid Input](readme-content/images/testing/user-no-input.png)
+  ![Invalid Input](./readme-content/images/testing/user-no-input.png)
 
 ---
 
@@ -322,22 +326,27 @@ could include:
 
 ### Python Packages
 
-- requests: enables data retrieval from APIs
-- gspread: allows communication with Google Sheets
-- colorama: allows terminal text to be printed in different colours/styles
-- random
+- [requests](https://pypi.org/project/requests/): enables data retrieval from
+  APIs
+- [gspread](https://pypi.org/project/gspread/): allows communication wit
+  Google Sheets
+- [colorama](https://pypi.org/project/colorama/): allows terminal text to be
+  printed in different colours/styles
+- [random](
+    https://docs.python.org/3/library/random.html?highlight=random#module-random)
   - shuffle: used to generate random ordering
   - randrange: returns a random integer within a given range
-- html
+- [html](https://docs.python.org/3/library/html.html?highlight=html#module-html)
   - unescape: converts HTML entities to printable characters
-- time
+- [time](https://docs.python.org/3/library/time.html#time.sleep)
   - sleep: stalls the program for a defined time
-- google.oauth2.service_account
+- [google.oauth2.service_account](
+    https://google-auth.readthedocs.io/en/stable/index.html)
   - Credentials: used to validate credentials and grant access to google
     service accounts
-- better_profanity
+- [better_profanity](https://pypi.org/project/better-profanity/)
   - profanity: simple profanity checker
-- getch
+- [py-getch](https://github.com/joeyespo/py-getch)
   - pause: used to provide a *'Press any key to continue...'* function
 
 ---
@@ -383,6 +392,8 @@ could include:
   available have allowed me to customize my workspace and become more
   efficient.
 
+---
+
 #### VSCode Extensions
 
 Links to the VSCode marketplace for each extension used throughout this project:
@@ -401,10 +412,11 @@ Links to the VSCode marketplace for each extension used throughout this project:
 - [Draw.io](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio)
 - [Code Spell Checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker)
 
+---
 
 ## Testing
 
-<!-- explain testing
+<!--
 ? item tested
 ? expected result
 ? how test was performed
@@ -414,6 +426,78 @@ Links to the VSCode marketplace for each extension used throughout this project:
 ? re-test
 - more detail and better format required compared with project 1
 look at daisy's testing documentation and [webinar](https://us02web.zoom.us/rec/play/9FIKllHX2ZiQNFRhYPn_hBh_ZeA8964ZvIDLnhpKGAf1NLVc3_hBJ6zSL8Hv5Hx7ALnPtDmbg8CmFAs.YVsZ9LR_uI7OjEwH)-->
+
+### Manual Testing
+
+The specification within the project requires manual testing. I have performed
+multiple tests on the deployed site and during the development stage to ensure
+data is handled correctly and all functions are carrying out their intended
+actions.
+
+#### User Name
+
+The user name should be up to 18 characters in length. It may contain numbers,
+letters and spaces. No special characters are valid and profanity is excluded via
+the [`better_profanity`](#python-packages) package.
+
+- Start the program and press enter with no input:
+  ![No user name input](./readme-content/images/testing/user-no-input.png)
+  - Result is as expected, a string reports that you must enter a user name.
+  - Input is re-initiated.
+- Start the program and enter a user name containing profanity:
+  ![Profanity in user name](./readme-content/images/testing/user-profanity.png)
+  - Result is as expected, a string reports that profanity has been detected.
+  - Input is re-initiated.
+- Start the program and enter a user name containing invalid characters:
+  ![Invalid characters in user name](
+    ./readme-content/images/testing/user-invalid-chars.png)
+  - Result is as expected, a string reports that invalid characters have been
+    detected.
+  - Input is re-initiated.
+- Start the program and enter a user name longer than 18 characters:
+   ![Long user name](./readme-content/images/testing/user-over-18-chars.png)
+  - Result is as expected, a string reports that the user name is too long.
+  - Input is re-initiated.
+- Start the program and enter a valid user name:
+  ![Valid user name](./readme-content/images/testing/user-invalid-chars.png)
+  - Result is as expected, user name is accepted.
+  - Program continues.
+
+#### Yes/No Validation - Rules
+
+- With a valid user name:
+  - Press enter with no input when `('y', 'n')` is present:
+    ![Yes/No no input](./readme-content/images/testing/yn-no-input.png)
+    - Result is as expected, a string reports an invalid input is received.
+    - Input is re-initiated.
+  - Press enter with an invalid input when `('y', 'n')` is present:
+    ![Yes/No invalid input](
+      ./readme-content/images/testing/yn-invalid-input.png)
+    - Result is as expected, a string reports an invalid input is received.
+    - Input is re-initiated.
+  - Press enter with a valid 'y' input when `('y', 'n')` is present:
+    ![Yes/No y-valid input](./readme-content/images/testing/yn-y.png)
+    - Result is as expected, program continues to the rules.
+  - Press enter with a valid 'n' input when `('y', 'n')` is present:
+    ![Yes/No n-valid input](./readme-content/images/testing/yn-n.png)
+    - Result is as expected, program continues to next user input prompt.
+
+#### Yes/No Validation - Keywords
+
+- With a valid user name
+- After displaying or passing the rules:
+  - Press enter with no input when `('y', 'n')` is present:
+    - Result is as expected, a string reports an invalid input is received.
+    - Input is re-initiated.
+  - Press enter with an invalid input when `('y', 'n')` is present:
+    - Result is as expected, a string reports an invalid input is received.
+    - Input is re-initiated.
+  - Press enter with a valid 'y' input when `('y', 'n')` is present:
+    ![Yes/No y-valid input](./readme-content/images/testing/keyword-y.png)
+    - Result is as expected, program continues to the keywords.
+  - Press enter with a valid 'n' input when `('y', 'n')` is present:
+    ![Yes/No n-valid input](./readme-content/images/testing/keyword-n.png)
+    - Result is as expected, program continues to load question data.
 
 <!-- validation of html, css and script. -->
 <!-- lighthouse testing -->
