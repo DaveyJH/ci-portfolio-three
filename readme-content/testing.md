@@ -133,20 +133,20 @@ the [`better_profanity`](../README.md#python-packages) package.
     - A string reports no input is received.
     - Question is re-rendered with the same string as previously shown.  
       ![Repeated string](images/testing/question-repeat-initial-string.png)
-  - Press enter with an invalid input:
+  - Press enter with an invalid input:  
     ![Question invalid input](images/testing/question-invalid-input.png)
     - A string reports an invalid input is received.
     - Question is re-rendered with the same string as previously shown.
-  - Press enter with a valid keyword input other than `help`:
+  - Press enter with a valid keyword input other than `help`:  
     ![Question invalid input](images/testing/keyword-input-repeat.png)
     - A string identifies the keyword used.
     - An input is required to confirm the [keyword used](#keywords-use).
-  - Press enter with `help` as an input:
+  - Press enter with `help` as an input:  
     ![Question invalid input](images/testing/question-help-used.png)
     - The help and keyword information options
       are presented with a modified string.
     - Testing of these sections is detailed [above](#yesno-validation---rules).
-    - Press enter with `n` as an input for keyword information:
+    - Press enter with `n` as an input for keyword information:  
       ![Return to quiz](images/testing/keyword-n-return.png)
       - A modified string is printed and the program continues by repeating the
         current question.
@@ -161,7 +161,7 @@ the [`better_profanity`](../README.md#python-packages) package.
 - After displaying or passing the keyword explanations
 - With a valid token and successful data retrieval
 - Once the question has been displayed
-  - With a valid, incorrect answer:
+  - With a valid, incorrect answer:  
     ![Incorrect answer](images/testing/answer-wrong-low-score.png)
     - A string indicates the answer was incorrect.
     - If the score achieved is lower than the lowest score on the score board
