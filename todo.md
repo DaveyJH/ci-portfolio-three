@@ -7,5 +7,6 @@
 - [ ] Make small screen media query - HTML/CSS
 - [ ] No script tag - HTML/CSS
 - [ ] Device make up image
+- [ ] Add testing docs to ToC
 
 [README](./README.md)

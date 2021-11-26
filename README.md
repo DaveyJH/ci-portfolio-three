@@ -53,9 +53,6 @@ hold 'Ctrl' (or '⌘' on Apple devices) as you click!
       - [VSCode Extensions](#vscode-extensions)
   - [Testing](#testing)
     - [Manual Testing](#manual-testing)
-      - [User Name](#user-name)
-      - [Yes/No Validation - Rules](#yesno-validation---rules)
-      - [Yes/No Validation - Keywords](#yesno-validation---keywords)
   - [Bugs](#bugs)
     - [Current](#current)
     - [Resolved](#resolved)
@@ -434,70 +431,8 @@ multiple tests on the deployed site and during the development stage to ensure
 data is handled correctly and all functions are carrying out their intended
 actions.
 
-#### User Name
-
-The user name should be up to 18 characters in length. It may contain numbers,
-letters and spaces. No special characters are valid and profanity is excluded via
-the [`better_profanity`](#python-packages) package.
-
-- Start the program and press enter with no input:
-  ![No user name input](./readme-content/images/testing/user-no-input.png)
-  - Result is as expected, a string reports that you must enter a user name.
-  - Input is re-initiated.
-- Start the program and enter a user name containing profanity:
-  ![Profanity in user name](./readme-content/images/testing/user-profanity.png)
-  - Result is as expected, a string reports that profanity has been detected.
-  - Input is re-initiated.
-- Start the program and enter a user name containing invalid characters:
-  ![Invalid characters in user name](
-    ./readme-content/images/testing/user-invalid-chars.png)
-  - Result is as expected, a string reports that invalid characters have been
-    detected.
-  - Input is re-initiated.
-- Start the program and enter a user name longer than 18 characters:
-   ![Long user name](./readme-content/images/testing/user-over-18-chars.png)
-  - Result is as expected, a string reports that the user name is too long.
-  - Input is re-initiated.
-- Start the program and enter a valid user name:
-  ![Valid user name](./readme-content/images/testing/user-invalid-chars.png)
-  - Result is as expected, user name is accepted.
-  - Program continues.
-
-#### Yes/No Validation - Rules
-
-- With a valid user name:
-  - Press enter with no input when `('y', 'n')` is present:
-    ![Yes/No no input](./readme-content/images/testing/yn-no-input.png)
-    - Result is as expected, a string reports an invalid input is received.
-    - Input is re-initiated.
-  - Press enter with an invalid input when `('y', 'n')` is present:
-    ![Yes/No invalid input](
-      ./readme-content/images/testing/yn-invalid-input.png)
-    - Result is as expected, a string reports an invalid input is received.
-    - Input is re-initiated.
-  - Press enter with a valid 'y' input when `('y', 'n')` is present:
-    ![Yes/No y-valid input](./readme-content/images/testing/yn-y.png)
-    - Result is as expected, program continues to the rules.
-  - Press enter with a valid 'n' input when `('y', 'n')` is present:
-    ![Yes/No n-valid input](./readme-content/images/testing/yn-n.png)
-    - Result is as expected, program continues to next user input prompt.
-
-#### Yes/No Validation - Keywords
-
-- With a valid user name
-- After displaying or passing the rules:
-  - Press enter with no input when `('y', 'n')` is present:
-    - Result is as expected, a string reports an invalid input is received.
-    - Input is re-initiated.
-  - Press enter with an invalid input when `('y', 'n')` is present:
-    - Result is as expected, a string reports an invalid input is received.
-    - Input is re-initiated.
-  - Press enter with a valid 'y' input when `('y', 'n')` is present:
-    ![Yes/No y-valid input](./readme-content/images/testing/keyword-y.png)
-    - Result is as expected, program continues to the keywords.
-  - Press enter with a valid 'n' input when `('y', 'n')` is present:
-    ![Yes/No n-valid input](./readme-content/images/testing/keyword-n.png)
-    - Result is as expected, program continues to load question data.
+[Manual testing documentation can be view here](
+  ./readme-content/testing.md)
 
 <!-- validation of html, css and script. -->
 <!-- lighthouse testing -->
