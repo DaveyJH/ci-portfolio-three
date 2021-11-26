@@ -17,7 +17,7 @@ def limit_line_length(string: str, cyan=False):
     ---
     Args:
         string (str): String to be altered to fit within 80 character lines
-        color (bool): True if string is to be printed with cyan coloring
+        cyan (bool): True if string is to be printed with cyan coloring
     """
 
     lines = []
