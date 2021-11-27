@@ -12,13 +12,18 @@
   - [Answer Response](#answer-response)
   - [Keywords](#keywords)
     - [Explanations](#explanations)
-    - [Use](#use)
-    - [Call](#call)
-    - [Even](#even)
-    - [Review](#review)
-    - [Scores](#scores)
-    - [Help](#help)
-    - [Take](#take)
+    - [Activations](#activations)
+      - [Call](#call)
+      - [Even](#even)
+      - [Review](#review)
+      - [Multiple Keywords Used](#multiple-keywords-used)
+      - [Scores](#scores)
+      - [Help](#help)
+      - [Take](#take)
+  - [Check/Update Scores](#checkupdate-scores)
+  - [Win](#win)
+  - [Play Again](#play-again)
+  - [Exit](#exit)
   - [Invalidate Current Token](#invalidate-current-token)
 
 ## User Name
@@ -46,8 +51,9 @@ the [`better_profanity`](../README.md#python-packages) package.
   - A string reports that the user name is too long.
   - Input is re-initiated.
 - Start the program and enter a valid user name:  
-  ![Valid user name](./images/testing/user-invalid-chars.png)
+  ![Valid user name](./images/testing/user-caps-space-numbers.png)
   - User name is accepted.
+  - Welcome string is displayed.
   - Program continues to [rules help](#yesno-validation---rules).
 
 ## Yes/No Validation - Rules
@@ -138,13 +144,13 @@ the [`better_profanity`](../README.md#python-packages) package.
     - A string reports an invalid input is received.
     - Question is re-rendered with the same string as previously shown.
   - Press enter with a valid keyword input other than `help`:  
-    ![Question invalid input](images/testing/keyword-input-repeat.png)
+    ![Question invalid input](images/testing/keyword-repeat-needed.png)
     - A string identifies the keyword used.
     - An input is required to confirm the [keyword used](#keywords-use).
   - Press enter with `help` as an input:  
     ![Question invalid input](images/testing/question-help-used.png)
-    - The help and keyword information options
-      are presented with a modified string.
+    - The help and keyword information options are presented with a modified
+      string.
     - Testing of these sections is detailed [above](#yesno-validation---rules).
     - Press enter with `n` as an input for keyword information:  
       ![Return to quiz](images/testing/keyword-n-return.png)
@@ -161,29 +167,151 @@ the [`better_profanity`](../README.md#python-packages) package.
 - After displaying or passing the keyword explanations
 - With a valid token and successful data retrieval
 - Once the question has been displayed
-  - With a valid, incorrect answer:  
-    ![Incorrect answer](images/testing/answer-wrong-low-score.png)
+  - Input a valid, incorrect answer:  
+    ![Incorrect answer](images/testing/answer-wrong.png)
     - A string indicates the answer was incorrect.
-    - If the score achieved is lower than the lowest score on the score board
-      a message is displayed to inform the user.
+    - Program continues to [check scores](#checkupdate-scores).
+  - Input a valid, correct answer:  
+    ![Correct answer](images/testing/answer-correct.png)
+    - A string indicates the answer is correct.
+    - Program awaits a user key press.
+    - If the question number is below 15:
+      - A new question is [displayed](#display-question).
+    - If the question was number 15:
+      - The winners message is [displayed](#win)
 
 ## Keywords
 
+- With a valid user name
+- After displaying or passing the rules
+- After displaying or passing the keyword explanations
+- With a valid token and successful data retrieval
+- Once the question has been displayed
+  - Input a keyword from the available list (other than `help`):  
+    ![Repeat keyword](./images/testing/keyword-not-used.png)
+    - Input something other than the keyword.
+    - The keyword function is not activated.
+    - The program continues.
+  - Input a keyword from the available list (other than `help`):  
+    ![Repeat keyword](./images/testing/keyword-input-repeat-spaces.png)
+    - Input the same keyword with additional spaces as confirmation.
+    - The keyword function is [activated](#activations).
+  - Input a keyword from the available list (other than `help`):  
+    ![Repeat keyword](./images/testing/keyword-input-repeat.png)
+    - Input the same keyword as confirmation.
+    - The keyword function is [activated](#activations).
+
 ### Explanations
 
-### Use
+- With a valid user name
+- After displaying or passing the rules
+- Press enter with a valid 'y' input when `('y', 'n')` is present:
+  ![Keyword choices](./images/testing/keyword-y.png)
+  - An input is required to specify which keyword to check.
+  - Press enter with no input:  
+    ![Keyword not entered](images/testing/keyword-no-input.png)
+    - A string states that no input is detected.
+    - Returns to ask which keyword you would like to check.
+  - Press enter with an input not in the keyword list:  
+    ![Keyword not entered](images/testing/keyword-not-in-list.png)
+    - A string states that an invalid input is received.
+    - Returns to ask which keyword you would like to check.
+  - Press enter with multiple keywords as an input:  
+    ![Keyword not entered](images/testing/keyword-multiple-words.png)
+    - A string states that an invalid input is received.
+    - Returns to ask which keyword you would like to check.
+  - Press enter with a valid keyword input:  
+    ![Keyword not entered](images/testing/keyword-check.png)
+    - The keyword is explained.
+    - Returns to ask if you would like to
+      [check a keyword](#yesno-validation---keywords).
+  - Press enter with spaces and a valid keyword input:  
+    ![Keyword not entered](images/testing/keyword-spaces.png)
+    - The keyword is explained.
+    - Returns to ask if you would like to
+      [check a keyword](#yesno-validation---keywords).
+- Press enter with a valid 'n' input when `('y', 'n')` is present:
+  - A user key press is required if `help` has been used to access the keyword
+    descriptions.
+    ![Keyword return](images/testing/keyword-n-return.png)
+  - Program continues.
 
-### Call
+### Activations
 
-### Even
+- With a valid user name
+- After displaying or passing the rules
+- After displaying or passing the keyword explanations
+- With a valid token and successful data retrieval
+- Once the question has been displayed
+- Once a keyword has been activated:
 
-### Review
+#### Call
 
-### Scores
+![Call keyword used](images/testing/keyword-call-initial-response.png)
 
-### Help
+- A line of telephone symbols is printed.
+- Some strings are printed followed by `📞 Hi, {user_name}...`
+- A string is printed with an answer inserted, the line is preceded by 📞.
+- Another line of telephones is printed.
+- The advised answer is repeated.
+- The question is rendered with 📞 appended to the advised answer.
 
-### Take
+![Call keyword answers](images/testing/keyword-call-appended-response.png)
+
+    The advised answer is always right for the first five questions and has a
+    high chance of being correct on questions 6 - 10. The response from the
+    companion reflects whether they are certain or not.
+
+#### Even
+
+![Even keyword used](images/testing/keyword-even-initial-response.png)
+
+- A line of 50/50 fractions is printed.
+- Some strings indicate that the keyword is taking effect.
+- The question is rendered with a reduced number of answers.
+- One of the answers is correct, one is incorrect.
+
+![Even keyword answers](images/testing/keyword-even-result.png)
+
+#### Review
+
+![Review keyword used](images/testing/keyword-review-initial-response.png)
+
+- A line of question marks is printed.
+- Some strings indicate that the keyword is taking effect.
+- The available answers letters are printed with a percentage vote next to
+  them.
+- The question is rendered with the percentages appended to the answers.
+
+![Review keyword answers](images/testing/keyword-review-appended-response.png)
+
+    The highest percentage is always right for the first five questions and has a
+    higher chance of being correct on questions 6 - 10 than 11 - 15.
+
+#### Multiple Keywords Used
+
+- If multiple keywords are used in succession on the same question, the results
+  are rendered accordingly.
+- Percentages will always appear first, followed by a phone.  
+  ![Call and review keywords used](images/testing/keyword-multiple-appends.png)
+- If `even` is used after `review` or `call`, the percentages are not updated
+  and the phone may not appear if the companion has advised a wrong answer that
+  is subsequently removed.
+  ![All keywords used](images/testing/keyword-all-used.png)
+
+#### Scores
+
+#### Help
+
+#### Take
+
+## Check/Update Scores
+
+## Win
+
+## Play Again
+
+## Exit
 
 ## Invalidate Current Token
 
