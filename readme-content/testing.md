@@ -20,7 +20,7 @@
       - [Scores](#scores)
       - [Take](#take)
       - [Help](#help)
-      - [???](#)
+      - [???](#???)
   - [Check/Update Scores](#checkupdate-scores)
   - [Win](#win)
   - [Play Again](#play-again)
