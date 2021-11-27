@@ -18,8 +18,9 @@
       - [Review](#review)
       - [Multiple Keywords Used](#multiple-keywords-used)
       - [Scores](#scores)
-      - [Help](#help)
       - [Take](#take)
+      - [Help](#help)
+      - [???](#)
   - [Check/Update Scores](#checkupdate-scores)
   - [Win](#win)
   - [Play Again](#play-again)
@@ -59,6 +60,7 @@ the [`better_profanity`](../README.md#python-packages) package.
 ## Yes/No Validation - Rules
 
 - With a valid user name:
+- OR After using the keyword [help](#help):
   - Press enter with no input when `('y', 'n')` is present:  
     ![Yes/No no input](./images/testing/yn-no-input.png)
     - A string reports an invalid input is received.
@@ -176,8 +178,16 @@ the [`better_profanity`](../README.md#python-packages) package.
     - A string indicates the answer is correct.
     - Program awaits a user key press.
     - If the question number is below 15:
+      - If the question answered is number 5:  
+        ![Question 5 safety](images/testing/safety-five.png)
+        - A safety message is displayed.
+        - A safety point is stored.
+      - If the question answered is number 10:
+        ![Question 5 safety](images/testing/safety-ten.png)
+        - A safety message is displayed.
+        - A safety point is stored.
       - A new question is [displayed](#display-question).
-    - If the question was number 15:
+    - If the question answered is number 15:
       - The winners message is [displayed](#win)
 
 ## Keywords
@@ -243,7 +253,7 @@ the [`better_profanity`](../README.md#python-packages) package.
 - After displaying or passing the keyword explanations
 - With a valid token and successful data retrieval
 - Once the question has been displayed
-- Once a keyword has been activated:
+- Once a keyword has been activated (not required for `help`):
 
 #### Call
 
@@ -255,6 +265,7 @@ the [`better_profanity`](../README.md#python-packages) package.
 - Another line of telephones is printed.
 - The advised answer is repeated.
 - The question is rendered with 📞 appended to the advised answer.
+- The user may enter an input and [continue](#question-input).
 
 ![Call keyword answers](images/testing/keyword-call-appended-response.png)
 
@@ -270,6 +281,7 @@ the [`better_profanity`](../README.md#python-packages) package.
 - Some strings indicate that the keyword is taking effect.
 - The question is rendered with a reduced number of answers.
 - One of the answers is correct, one is incorrect.
+- The user may enter an input and [continue](#question-input).
 
 ![Even keyword answers](images/testing/keyword-even-result.png)
 
@@ -282,6 +294,7 @@ the [`better_profanity`](../README.md#python-packages) package.
 - The available answers letters are printed with a percentage vote next to
   them.
 - The question is rendered with the percentages appended to the answers.
+- The user may enter an input and [continue](#question-input).
 
 ![Review keyword answers](images/testing/keyword-review-appended-response.png)
 
@@ -301,17 +314,55 @@ the [`better_profanity`](../README.md#python-packages) package.
 
 #### Scores
 
-#### Help
+![Scores keyword used](images/testing/keyword-scores.png)
+
+- A couple of strings will indicate the scores are being queried and rendered.
+- Each line will print with a 0.2 second delay.
+- The first line consists of alternating stars.
+- Subsequent lines consist of a star at either end with the current user and
+  score presented.
+- A final line of stars is printed in reverse to the initial line.
+- Some information regarding the current user score in comparison to the board
+  is printed.
+- A user input is required to return to the quiz.
 
 #### Take
 
+#### Help
+
+- No confirmation is required for this keyword.
+- User is able to remind themselves of the
+  [rules and keywords](#yesno-validation---rules).
+- The string is modified from the initial run.
+  ![Help keyword used](images/testing/question-help-used.png)
+
+#### ???
+
+- The secret keyword is checked by use of a specific input.
+- It works...you will just have to trust me.
+
 ## Check/Update Scores
+
+![Low score](images/testing/score-check-low-score.png)
 
 ## Win
 
 ## Play Again
 
+![Play again](images/testing/play-again.png)
+
+- An option to replay is displayed.
+  - Enter `y`:  
+  ![Play again yes](images/testing/play-again-y.png)
+    - A welcome back message is displayed.
+    - The first question data is [retrieved](#question-data).
+  - Enter `n`:
+    - The [exit](#exit) screen is shown.
+
 ## Exit
+
+- The exit screen is displayed
+  ![Exit screen](images/testing/exit-screen.png)
 
 ## Invalidate Current Token
 
