@@ -1,6 +1,6 @@
 # Testing
 
-[Back to main README](../README.md)
+[Back to README](../README.md)
 
 - [Testing](#testing)
   - [User Name](#user-name)
