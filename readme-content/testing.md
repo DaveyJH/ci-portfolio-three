@@ -309,7 +309,7 @@ the [`better_profanity`](../README.md#python-packages) package.
   ![Call and review keywords used](images/testing/keyword-multiple-appends.png)
 - If `even` is used after `review` or `call`, the percentages are not updated
   and the phone may not appear if the companion has advised a wrong answer that
-  is subsequently removed.
+  is subsequently removed.  
   ![All keywords used](images/testing/keyword-all-used.png)
 
 #### Scores
@@ -333,7 +333,7 @@ the [`better_profanity`](../README.md#python-packages) package.
 - No confirmation is required for this keyword.
 - User is able to remind themselves of the
   [rules and keywords](#yesno-validation---rules).
-- The string is modified from the initial run.
+- The string is modified from the initial run.  
   ![Help keyword used](images/testing/question-help-used.png)
 
 #### ???
@@ -361,7 +361,7 @@ the [`better_profanity`](../README.md#python-packages) package.
 
 ## Exit
 
-- The exit screen is displayed
+- The exit screen is displayed  
   ![Exit screen](images/testing/exit-screen.png)
 
 ## Invalidate Current Token
