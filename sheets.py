@@ -94,7 +94,8 @@ def update_scores(user_name, question_number):
     pause("\033[36;1mPress any key to continue...\033[0m")
     if insert == 0:
         print(
-            f"Wow. You are the best, {user_name}, no one has done this well!"
+            f"\nWow. You are the best, {user_name}, "
+            "no one has done this well!\n"
         )
     elif insert == 1:
         print(
