@@ -1,4 +1,4 @@
-# Name of project
+# Computer Literate Investigator
 
 A gentle reminder to all - to open links in a new tab,
 hold 'Ctrl' (or '⌘' on Apple devices) as you click!
@@ -20,13 +20,13 @@ hold 'Ctrl' (or '⌘' on Apple devices) as you click!
 
 ## Table of Contents
 
-- [Name of project](#name-of-project)
+- [Computer Literate Investigator](#computer-literate-investigator)
   - [Live Site](#live-site)
   - [Repository](#repository)
   - [Table of Contents](#table-of-contents)
   - [Objective](#objective)
   - [Brief](#brief)
-    - [**C**omputer **L**iterate **I**nvestigator](#computer-literate-investigator)
+    - [**C**omputer **L**iterate **I**nvestigator](#computer-literate-investigator-1)
   - [UX &#8722; User Experience Design](#ux--user-experience-design)
     - [User Requirements](#user-requirements)
       - [First Time User](#first-time-user)
@@ -64,7 +64,18 @@ hold 'Ctrl' (or '⌘' on Apple devices) as you click!
   - [Bugs](#bugs)
     - [Current](#current)
     - [Resolved](#resolved)
-    - [GitHub Pages](#github-pages)
+  - [Development](#development)
+    - [GitHub](#github)
+    - [VSCode](#vscode)
+      - [Cloning](#cloning)
+      - [Editing](#editing)
+    - [Working With Python](#working-with-python)
+      - [Venv](#venv)
+      - [Packages](#packages)
+      - [Debugging](#debugging)
+    - [Google Sheet](#google-sheet)
+  - [Deployment](#deployment)
+    - [Heroku](#heroku)
   - [Credits](#credits)
     - [Content](#content)
     - [Media](#media)
@@ -199,6 +210,8 @@ product.
 ### Python Logic
 
 ![Flow Chart](./readme-content/images/python-logic.png)
+
+---
 
 ## Features
 
@@ -505,8 +518,6 @@ project.
 
 ### Current
 
-<!-- current bugs -->
-
 - It is possible for questions to repeat during the quiz if tokens expire.
 
 *To resolve this issue, I could re-write the program to retrieve all questions
@@ -538,30 +549,33 @@ goal in a more satisfying way.*
    resolve the issue.*
 
 3. When changing the winner message to print in cyan it became mis-aligned.
+  ![Winner message](readme-content/images/bugs/win-star-spacing.png)
 
    *Commit - **[6a1d4b5](https://github.com/DaveyJH/ci-portfolio-three/commit/6a1d4b51d11aff9ffd917c80d4f586ccb81cfaa1#diff-729642661f0f237b47b458a21f8dec9fa4c726ed4e01eaedce8a4ac46d40f5eaR70-L86)** -
    The `cyan_print` function only permits one string to be passed in. I had
    overlooked this when writing the winner's message. The message originally
    used the `rjust()` and `center()` methods. I have removed those methods and
    (after a couple of mis-calculated attempts) resolved the issue by writing
-   the message as a concatenated string.
+   the message as a concatenated string.*
 
 ---
 
-<!-- ## Development
+## Development
 
-The site was made utilising [GitHub](#GitHub) and [VSCode](#VSCode)
+The site was made using [GitHub](#GitHub) and [VSCode](#VSCode)
 
 ### GitHub
 
 [GitHub Website](https://github.com)
 
 - Sign in to GitHub.
-- I used a template that contains a template of my README file which can be
-  accessed [here](https://github.com/DaveyJH/template) and is available
-  for public use via the **Use this template** button.
+- I used a template created by Code Institute that can be accessed
+  [here](https://github.com/DaveyJH/template) and is available for public use
+  via the **Use this template** button.
 
 ![Use Template](./readme-content/images/development/use-template.png)
+
+*Alternatively*
 
 - Click ![GitHub Icon](./readme-content/images/development/github.png) and select
   **New** from the panel on the left, next to **Repositories**
@@ -587,7 +601,7 @@ The repository has now been created and is ready for editing
 For general information on using GitHub with VSCode see their documentation
 [here](https://code.visualstudio.com/docs/editor/github).  
 *This section assumes you have successfully linked your GitHub account to the
-application*
+application.*
 
 #### Cloning
 
@@ -604,40 +618,193 @@ application*
 
 - Type the GitHub username followed by / and the repository you wish to work on
 
-![Repo Clone](./readme-content/images/development/repo-clone.png)
+![Repo Clone](./readme-content/images/development/clone.png)
 
 - Click the repository from the drop-down list and save it in a local directory
-- of your choosing
+  of your choosing
 
 The repository is now ready for development
 
-## Deployment -->
+#### Editing
 
-### GitHub Pages
+- The explorer tab enables viewing of the files within the repository
 
-<!-- - Navigate to the relevant GitHub Repository
-  [here](https://github.com/daveyjh/ci-portfolio-three)
-- Select "Settings" from the options below the name of the repository
+![Explorer](./readme-content/images/development/explorer.png)
 
-![Settings Snip](./readme-content/images/github-settings.png)
-- Select "Pages" from the left hand menu
+- Open files from the explorer tab in the editor window and perform changes as
+  necessary
 
-![Pages Snip](./readme-content/images/pages-select.png)
-- Select "Branch: main" as the source and leave the directory as "/(root)"
+![Editor](./readme-content/images/development/editor-tab.png)
 
-![Source Snip](./readme-content/images/pages-source.png)
+- Save files as appropriate, add, commit and push them. There are multiple ways
+  to do this
+  - VSCode Source Control
+    - Select the **Source Control** tab that looks like a repository branch
 
-- Click the Save button
+    ![Source Control](./readme-content/images/development/source-control.png)
 
-- Take note of the URL provided
+    - Click the **+** sign next to files you wish to add to staged changes
 
-![URL Snip](./readme-content/images/pages-url.png)
+    ![SC Add](./readme-content/images/development/sc-add-commit.png)
 
-- GitHub takes a short while to publish the page. The bar turns green if you refresh the pages tab and the page has been deployed
+    - Type a commit message and click the tick icon to commit
 
-![Confirmed Deployment Snip](./readme-content/images/pages-deployed.png)
-- Click the link or copy the URL to a browser to reach the deployed page
-https://daveyjh.github.io/ci-portfolio-one-v4/ -->
+    ![SC Commit](./readme-content/images/development/commit-tick.png)
+
+    - When ready to push your repository back to GitHub click the push/pull icon
+      in the bar at the bottom of the application
+  
+    ![SC Push](./readme-content/images/development/sc-push.png)
+
+    - *I have many keyboard shortcuts set to speed up this process, they are
+      configurable within the VSCode settings*
+
+  - Terminal  
+  *These steps assume you are in the root directory of your repository and typing
+  in the terminal*
+    - Type `git add .` and press Enter to add all modified or untracked file
+
+    ![Terminal All](./readme-content/images/development/terminal-add-all.png)
+
+    - Type `git add fileNameHere.extension assets/anotherFileHere.extension` and
+      press Enter to add specific files, remembering to include sub-directories
+      where necessary
+  
+    ![Terminal Add](./readme-content/images/development/terminal-add.png)
+
+    - Type `git commit -m "meaningful message here"` to commit your staged files
+      with the typed commit message
+
+    ![Terminal Commit](./readme-content/images/development/terminal-commit.png)
+
+    - Type `git push` to push your repository to the remote repository held at
+    GitHub
+
+    ![Terminal Push](./readme-content/images/development/terminal-push.png)
+
+    - *There are many other stages to editing, such as branches, git stash,
+      reverting commit messages and others. For more information,
+      refer to the [git documentation](https://git-scm.com)*
+
+### Working With Python
+
+This section assumes you have python installed on your machine and added to
+PATH. *I am unfamiliar with macOS so these steps may be different.*
+
+#### Venv
+
+A virtual environment is advised when working with Python. I chose to use
+`venv`.
+
+- With the terminal in the route directory of my project I used
+  `python -m venv .venv` to create a virtual environment in the `.venv`
+  directory.
+- I the used `source .venv/scripts/activate` to enable the virtual environment.
+- The `(.venv)` displayed above the current directory show the venv is active.  
+  ![Venv active](readme-content/images/development/venv-active.png)
+
+This allows local installation of packages within the virtual environment and
+can help to prevent errors with global installs.
+
+#### Packages
+
+To install all packages within this repo you can run `pip3 install -r
+requirements.txt` in the terminal. This installs all packages from the text
+file. The text file was created using `pip3 freeze > reuirements.txt`.
+
+To install individual packages you need to review the appropriate
+documentation for the install command. All packages I have found and used were
+installed using something similar to `pip3 install py-getch`. The documentation
+files are linked above under the [python packages](#python-packages) heading.
+
+To run a file from the terminal I type `python -m file_name_here`, where
+'file_name_here' is the name of the file I wish to run.
+
+It is also possible to run small snippets of python code by typing `python` and
+pressing enter. This allows me to create variables and run functions without
+saving any data. Using this live python terminal, you can also import files
+you have already created by typing `import file_name_here`.
+
+#### Debugging
+
+VSCode has a built in debugger. I set breakpoints at points in my files to
+enable me a step by step view of how my variables were being manipulated. This
+allowed for quick fault finding and ensuring data is being handled as expected.
+
+- Select breakpoints by clicking to the left of the line number.  
+  ![Breakpoint selecteed](readme-content/images/development/debug-dot.png)
+- Select 'Debug Python File'.  
+  ![Run in debug mode](readme-content/images/development/debug-file.png)
+- File will run until a breakpoint is reached. It will pause and highlight the
+  selected line before it is carried out.  
+  ![Debug paused](readme-content/images/development/debug-reached.png)
+- Step through each line individually or skip through functions as necessary.  
+  ![Debug step](readme-content/images/development/debug-step.png)
+- View variables and data as it is being created or manipulated.  
+  ![Debug variables](readme-content/images/development/debug-vars.png)
+- Press play to continue to the next breakpoint or stop to end the file.
+
+### Google Sheet
+
+<!-- todo final section?! -->
+
+## Deployment
+
+### Heroku
+
+- Navigate to your [heroku dashboard](https://dashboard.heroku.com/apps)
+- Click "New" and select "Create new app"  
+  ![New heroku](readme-content/images/deployment/heroku-new.png)
+- Input a meaningful name for your app and choose the region best suited to
+  your location.  
+  ![Create new app](readme-content/images/deployment/heroku-create.png)
+- Select "Settings" from the tabs  
+  ![Settings tab](readme-content/images/deployment/heroku-settings.png)
+  - Click "Reveal Config Vars"  
+    ![Config vars button](
+      readme-content/images/deployment/heroku-config-vars.png)
+  - Input `PORT` and `8000` as one config var and click add  
+  - Input `CREDS` and the content of your Google Sheet API creds file as another
+    config var and click add  
+    ![Config vars values](
+      readme-content/images/deployment/heroku-config-vars-values.png)
+  - Click "Add buildpack"  
+    ![Add buildpack](readme-content/images/deployment/heroku-add-buildpacks.png)
+  - Add "nodejs" and "python" from the list or search if necessary, remember to
+    click save  
+    ![Select buildpacks](
+      readme-content/images/deployment/heroku-select-buildpacks.png)
+  - Python must be the first buildpack. They can be dragged into the correct
+    position if needed  
+    ![Buildpacks added](
+      readme-content/images/deployment/heroku-buildpacks-added.png)
+- Select "Deploy" from the tabs  
+  ![Settings tab](readme-content/images/deployment/heroku-deploy-tab.png)
+  - Select "GitHub - Connect to GitHub" from deployment methods  
+    ![Select GitHub](readme-content/images/deployment/heroku-select-github.png)
+  - Click "Connect to GitHub" in the created section  
+    ![Connect to GitHub](
+      readme-content/images/deployment/heroku-connect-github.png)
+  - Search for the GitHub repository by name  
+    ![Heroku repo search](readme-content/images/deployment/heroku-search.png)
+  - Click to connect to the relevant repo  
+    ![Heroku connect to repo](
+      readme-content/images/deployment/heroku-connect-repo.png)
+  - Either click `Enable Automatic Deploys` for automatic deploys or `Deploy
+    Branch` to deploy manually. Manually deployed branches will need
+    re-deploying each time the repo is updated  
+    ![Heroku deploy branch](
+      readme-content/images/deployment/heroku-deploy-branch.png)
+  - Click `View` to view the deployed site  
+    ![Heroku view](readme-content/images/deployment/heroku-view.png)
+- The live site can also be accessed from your repo in GitHub from the
+  environments section of the repo
+  - Click the link to view deployments history  
+    ![GitHub environments](
+    readme-content/images/deployment/github-enviroments.png)
+  - Click `View deployment`. This page also shows all the deployment history  
+    ![GitHub view deployment](
+      readme-content/images/deployment/github-view-deployment.png)
 
 The site is now live and operational
 
