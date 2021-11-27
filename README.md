@@ -3,8 +3,8 @@
 A gentle reminder to all - to open links in a new tab,
 hold 'Ctrl' (or '⌘' on Apple devices) as you click!
 
-<!-- ![Multiple Device Demo](
-  ./readme-content/images/multi-device.png) -->
+![Multiple Device Demo](
+  ./readme-content/images/desktop-mockup.png)
 
 ## Live Site
 
@@ -52,7 +52,7 @@ hold 'Ctrl' (or '⌘' on Apple devices) as you click!
     - [Other Tech](#other-tech)
       - [VSCode Extensions](#vscode-extensions)
   - [Testing](#testing)
-    - [Manual Testing](#manual-testing)
+    - [Manual Python Testing](#manual-python-testing)
   - [Bugs](#bugs)
     - [Current](#current)
     - [Resolved](#resolved)
@@ -413,18 +413,7 @@ Links to the VSCode marketplace for each extension used throughout this project:
 
 ## Testing
 
-<!--
-? item tested
-? expected result
-? how test was performed
-? actual result
-? differences
-? action required
-? re-test
-- more detail and better format required compared with project 1
-look at daisy's testing documentation and [webinar](https://us02web.zoom.us/rec/play/9FIKllHX2ZiQNFRhYPn_hBh_ZeA8964ZvIDLnhpKGAf1NLVc3_hBJ6zSL8Hv5Hx7ALnPtDmbg8CmFAs.YVsZ9LR_uI7OjEwH)-->
-
-### Manual Testing
+### Manual Python Testing
 
 The specification within the project requires manual testing. I have performed
 multiple tests on the deployed site and during the development stage to ensure
