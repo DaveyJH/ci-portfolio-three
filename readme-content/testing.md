@@ -13,9 +13,9 @@
   - [Keywords](#keywords)
     - [Explanations](#explanations)
     - [Activations](#activations)
+      - [Review](#review)
       - [Call](#call)
       - [Even](#even)
-      - [Review](#review)
       - [Multiple Keywords Used](#multiple-keywords-used)
       - [Scores](#scores)
       - [Take](#take)
@@ -26,6 +26,7 @@
   - [Play Again](#play-again)
   - [Exit](#exit)
   - [Invalidate Current Token](#invalidate-current-token)
+  - [Modifying Scores For Quicker Testing](#modifying-scores-for-quicker-testing)
 
 ## User Name
 
@@ -102,7 +103,7 @@ the [`better_profanity`](../README.md#python-packages) package.
 
 - With a valid user name
 - After displaying or passing the rules
-- After displaying or passing the keyword explanations
+- After displaying or passing the keyword explanations:
   - If the current token is valid:  
     ![Successful data retrieval](./images/testing/data-successful.png)
     - Data is successfully retrieved.
@@ -168,7 +169,7 @@ the [`better_profanity`](../README.md#python-packages) package.
 - After displaying or passing the rules
 - After displaying or passing the keyword explanations
 - With a valid token and successful data retrieval
-- Once the question has been displayed
+- Once the question has been displayed:
   - Input a valid, incorrect answer:  
     ![Incorrect answer](images/testing/answer-wrong.png)
     - A string indicates the answer was incorrect.
@@ -188,7 +189,7 @@ the [`better_profanity`](../README.md#python-packages) package.
         - A safety point is stored.
       - A new question is [displayed](#display-question).
     - If the question answered is number 15:
-      - The winners message is [displayed](#win)
+      - The winners message is [displayed](#win).
 
 ## Keywords
 
@@ -196,7 +197,7 @@ the [`better_profanity`](../README.md#python-packages) package.
 - After displaying or passing the rules
 - After displaying or passing the keyword explanations
 - With a valid token and successful data retrieval
-- Once the question has been displayed
+- Once the question has been displayed:
   - Input a keyword from the available list (other than `help`):  
     ![Repeat keyword](./images/testing/keyword-not-used.png)
     - Input something other than the keyword.
@@ -255,6 +256,26 @@ the [`better_profanity`](../README.md#python-packages) package.
 - Once the question has been displayed
 - Once a keyword has been activated (not required for `help`):
 
+#### Review
+
+![Review keyword used](images/testing/keyword-review-initial-response.png)
+
+- A line of question marks is printed.
+- Some strings indicate that the keyword is taking effect.
+- The available answers letters are printed with a percentage vote next to
+  them.
+- The question is rendered with the percentages appended to the answers.  
+
+![Review keyword answers](images/testing/keyword-review-appended-response.png)
+
+- The user may enter an input and [continue](#question-input).
+- The `review` keyword is removed from the list of available keywords.
+
+![Review not in list](images/testing/keyword-review-not-in-list.png)
+
+    The highest percentage is always right for the first five questions and has a
+    higher chance of being correct on questions 6 - 10 than 11 - 15.
+
 #### Call
 
 ![Call keyword used](images/testing/keyword-call-initial-response.png)
@@ -265,9 +286,13 @@ the [`better_profanity`](../README.md#python-packages) package.
 - Another line of telephones is printed.
 - The advised answer is repeated.
 - The question is rendered with 📞 appended to the advised answer.
-- The user may enter an input and [continue](#question-input).
 
 ![Call keyword answers](images/testing/keyword-call-appended-response.png)
+
+- The user may enter an input and [continue](#question-input).
+- The `call` keyword is removed from the list of available keywords.
+  
+![Call not in list](images/testing/keyword-call-not-in-list.png)
 
     The advised answer is always right for the first five questions and has a
     high chance of being correct on questions 6 - 10. The response from the
@@ -280,26 +305,14 @@ the [`better_profanity`](../README.md#python-packages) package.
 - A line of 50/50 fractions is printed.
 - Some strings indicate that the keyword is taking effect.
 - The question is rendered with a reduced number of answers.
-- One of the answers is correct, one is incorrect.
-- The user may enter an input and [continue](#question-input).
 
 ![Even keyword answers](images/testing/keyword-even-result.png)
 
-#### Review
-
-![Review keyword used](images/testing/keyword-review-initial-response.png)
-
-- A line of question marks is printed.
-- Some strings indicate that the keyword is taking effect.
-- The available answers letters are printed with a percentage vote next to
-  them.
-- The question is rendered with the percentages appended to the answers.
+- One of the answers is correct, one is incorrect.
 - The user may enter an input and [continue](#question-input).
+- The `even` keyword is removed from the list of available keywords.
 
-![Review keyword answers](images/testing/keyword-review-appended-response.png)
-
-    The highest percentage is always right for the first five questions and has a
-    higher chance of being correct on questions 6 - 10 than 11 - 15.
+![Even not in list](images/testing/keyword-even-not-in-list.png)
 
 #### Multiple Keywords Used
 
@@ -311,6 +324,11 @@ the [`better_profanity`](../README.md#python-packages) package.
   and the phone may not appear if the companion has advised a wrong answer that
   is subsequently removed.  
   ![All keywords used](images/testing/keyword-all-used.png)
+- If `even` is used before `review` or `call`, the percentages of call are
+  calculated on just 2 answers. One of the two remaining answers is chosen by
+  the companion.
+  ![Two answers with 100% review total](
+    images/testing/keyword-even-before-review.png)
 
 #### Scores
 
@@ -328,9 +346,13 @@ the [`better_profanity`](../README.md#python-packages) package.
 
 #### Take
 
+- The user is informed they have decided to end the quiz.
+  ![Take keyword used](images/testing/keyword-take.png)
+- Program continues to [check scores](#checkupdate-scores).
+
 #### Help
 
-- No confirmation is required for this keyword.
+- *No confirmation is required for this keyword.*
 - User is able to remind themselves of the
   [rules and keywords](#yesno-validation---rules).
 - The string is modified from the initial run.  
@@ -343,9 +365,56 @@ the [`better_profanity`](../README.md#python-packages) package.
 
 ## Check/Update Scores
 
-![Low score](images/testing/score-check-low-score.png)
+- With a valid user name
+- After displaying or passing the rules
+- After displaying or passing the keyword explanations
+- With a valid token and successful data retrieval
+- Once the question has been displayed
+- With a valid, incorrect answer:
+- OR Following the use of the keyword `take`:
+  - The score is calculated and safety points are taken into consideration.
+  - If the score is too low to be presented on the score board:
+    ![Low score](images/testing/score-check-low-score.png)
+    - The user is informed their score is not high enough.
+  - If the score is high enough to be entered on the score board:
+    ![Update scores](images/testing/scores-update.png)
+    - The user is informed the scores have been updated.
+    - If there are multiple scores ahead of the user:
+    ![People ahead message](images/testing/scores-calc.png)
+      - A message is displayed to inform the user how many people are above
+        them on the score board.
+    - If there is a single score ahead of the user:
+    ![One ahead message](images/testing/scores-one-below.png)
+      - A message is displayed to inform the user they reached second on the
+        score board.
+    - If the user has the highest score:
+    ![Top score message](images/testing/scores-top.png)
+      - A message is displayed to inform the user they are top of the score
+        board.
+  - If the score is equal to an identical user name's existing score:
+    ![Same score message](images/testing/scores-same.png)
+    - A message is displayed to inform the user that there is already a score
+      with their user name in the score board.
+    - Scores will not be updated.
+  - If the user has completed 15 questions:  
+    ![Winning score](images/testing/score-winner.png)
+    - A message is displayed indicating the user's score is at the top.
+    - Multiple winning entries are allowed under the same user name.
+  - The Google Sheet is updated as necessary.
+  - An option to [replay is offered](#play-again).
 
 ## Win
+
+- With a valid user name
+- After displaying or passing the rules
+- After displaying or passing the keyword explanations
+- With a valid token and successful data retrieval
+- Once the question has been displayed
+- If the user answers 15 questions correctly:
+  - A congratulations message is displayed.  
+    ![Congratulations message](images/testing/winner-message.png)
+  - [Scores are updated](#checkupdate-scores).
+  - An option to [replay is offered](#play-again).
 
 ## Play Again
 
@@ -355,9 +424,18 @@ the [`better_profanity`](../README.md#python-packages) package.
   - Enter `y`:  
   ![Play again yes](images/testing/play-again-y.png)
     - A welcome back message is displayed.
+    - Available keywords are reset.
     - The first question data is [retrieved](#question-data).
   - Enter `n`:
     - The [exit](#exit) screen is shown.
+  - Enter an input other than `y` or `n`:  
+    ![Play again with other input](images/testing/play-again-invalid.png)
+    - A string indicates and invalid input.
+    - User input is requested again.
+  - Do not enter an input:  
+    ![Play again with other input](images/testing/play-again-no-input.png)
+    - A string indicates and invalid input.
+    - User input is requested again.
 
 ## Exit
 
@@ -373,3 +451,18 @@ the [`better_profanity`](../README.md#python-packages) package.
   - *`^^` is the current difficulty.*
   - *`^^^` is the token string.*
 - This causes the token to expire and allows testing of invalid tokens.
+
+## Modifying Scores For Quicker Testing
+
+- Navigate to the Google Sheet using a browser.
+- Depending on intended result, modify scores to allow easy testing after 1
+  question is answered correctly:
+  - For top score without winning, set all scores to 0.
+  - For second highest score, set top score to a value higher than 1. Set
+    all other scores to 0.
+  - For a similar score with same user name, set a user name identical to the
+    test user name and set the score to 1.
+  - For dislaying calculated score position, set lower position scores to 0 and
+    upper scores to a value higher than 1.
+- To show score is not high enough to enter score board, set all scores to a
+  value higher than one. `Take` before answering the first question.
