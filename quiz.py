@@ -67,11 +67,12 @@ def quiz(user_name: str, current_tokens: tuple, first_play: bool = True):
         quiz_end = return_from_question[1]
 
     if question_number == 16:
+        print("\n\n\n")
         cyan_print(STAR_LINE)
         cyan_print(
-            f"\n\n\n{STAR_SOLID} "
+            f"{STAR_SOLID} "
             "That's it! You did it! Congratulations!!"
-            f"{' ' * 37}{STAR_EMPTY}"
+            f"{' ' * 36}{STAR_EMPTY}"
             )
         print(
             f"\033[36;1m{STAR_EMPTY}{' ' * 19}"
@@ -79,10 +80,11 @@ def quiz(user_name: str, current_tokens: tuple, first_play: bool = True):
             f"{' ' * 18}{STAR_SOLID}\033[0m"
         )
         cyan_print(
-            f"{STAR_SOLID}{' ' * 39}"
-            f"You clearly know your stuff. Well done!!{STAR_EMPTY}\n\n\n"
+            f"{STAR_SOLID}{' ' * 37}"
+            f"You clearly know your stuff. Well done!!{STAR_EMPTY}"
         )
         cyan_print(STAR_LINE)
+        print("\n\n\n")
         update_win(user_name)
 
     if quiz_end:
