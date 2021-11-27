@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <title>Computer Literate Investigator</title>
     <style>
-                
+      
         * {
             cursor: default;
         }
@@ -28,6 +28,9 @@
         body {
             background: linear-gradient(#44444444, #44444444),
                         url(https://raw.githubusercontent.com/DaveyJH/ci-portfolio-three/main/assets/images/bg-1.webp) no-repeat center / cover;
+        }
+
+        #content {
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -56,7 +59,8 @@
             cursor: pointer;
         }
 
-        button:hover, button:focus {
+        button:hover,
+        button:focus {
             background-color: #444444;
             border: .5rem solid #000088;
             box-shadow: 0 .3rem .6rem cyan;
@@ -72,8 +76,9 @@
 
         header,
         footer {
+            margin: 0 auto;
             font-family: 'VT323', monospace;
-            position: fixed;
+            width: fit-content;
         }
 
         header {
@@ -82,7 +87,10 @@
         }
 
         h1,
-        footer {
+        footer,
+        noscript,
+        section {
+            text-align: center;
             padding: .5rem;
             box-shadow: .4rem .4rem .8rem cyan,
                         -.4rem .4rem .8rem cyan,
@@ -92,7 +100,7 @@
             color: #4db22d;
         }
 
-        h1 span {
+        h1 .always-display {
             text-decoration: underline #4db22d .5rem;
         }
 
@@ -107,10 +115,37 @@
             }
         }
 
+        noscript,
+        section {
+            border-radius: .5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        noscript p,
+        section p {
+            font-family: 'VT323', monospace;
+            margin: 1.5rem auto;
+            max-width: 20rem;
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #49f315;
+            text-align: center;
+        }
+
+        noscript img {
+            height: 80vw;
+            max-height: 18rem;
+            margin: 0 auto;
+        }
+
         footer {
+            position: fixed;
             font-size: 1.5rem;
             padding: .2rem;
             bottom: .8rem;
+            left: 50%;
+            transform: translateX(-50%);
             border: solid .5rem #444444;
             pointer-events: none;
         }
@@ -169,6 +204,43 @@
             header {
                 font-size: 1.7rem;
             }
+        }
+
+        @media screen and (max-width: 750px),
+        (max-height: 750px) {
+            main {
+                display: none;
+            }
+
+            #content {
+                height: calc(100% - 18rem)
+            }
+        }
+
+        @media screen and (min-width: 751px)
+        and (min-height: 751px) {
+            section {
+                display: none;
+            }
+            
+        }
+
+        @media screen and (max-width: 600px) {
+
+            h1 span:not(.always-display, .space) {
+                display: none;
+            }
+
+            noscript p {
+                width: 16rem;
+                font-size: 1.5rem;
+                margin: 1rem 0;
+            }
+
+            noscript img {
+                height: 14rem
+            }
+
         }
 
         /**
