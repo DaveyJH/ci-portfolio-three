@@ -69,7 +69,7 @@ def quiz(user_name: str, current_tokens: tuple, first_play: bool = True):
     if question_number == 16:
         cyan_print(STAR_LINE)
         cyan_print(
-            f"{STAR_SOLID} "
+            f"\n\n\n{STAR_SOLID} "
             "That's it! You did it! Congratulations!!"
             f"{' ' * 37}{STAR_EMPTY}"
             )
@@ -80,7 +80,7 @@ def quiz(user_name: str, current_tokens: tuple, first_play: bool = True):
         )
         cyan_print(
             f"{STAR_SOLID}{' ' * 39}"
-            f"You clearly know your stuff. Well done!!{STAR_EMPTY}"
+            f"You clearly know your stuff. Well done!!{STAR_EMPTY}\n\n\n"
         )
         cyan_print(STAR_LINE)
         update_win(user_name)
