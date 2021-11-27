@@ -52,12 +52,19 @@ hold 'Ctrl' (or '⌘' on Apple devices) as you click!
     - [Other Tech](#other-tech)
       - [VSCode Extensions](#vscode-extensions)
   - [Testing](#testing)
-    - [Manual Python Testing](#manual-python-testing)
+    - [Python Testing](#python-testing)
+      - [Manual Python Testing](#manual-python-testing)
+      - [PEP8 Testing](#pep8-testing)
+      - [Other Python Testing](#other-python-testing)
+    - [W3C Validator](#w3c-validator)
+      - [HTML](#html)
+      - [CSS](#css)
+    - [JSHint](#jshint)
+    - [Lighthouse](#lighthouse)
   - [Bugs](#bugs)
     - [Current](#current)
     - [Resolved](#resolved)
-  - [Development](#development)
-  - [Deployment](#deployment)
+    - [GitHub Pages](#github-pages)
   - [Credits](#credits)
     - [Content](#content)
     - [Media](#media)
@@ -413,7 +420,9 @@ Links to the VSCode marketplace for each extension used throughout this project:
 
 ## Testing
 
-### Manual Python Testing
+### Python Testing
+
+#### Manual Python Testing
 
 The specification within the project requires manual testing. I have performed
 multiple tests on the deployed site and during the development stage to ensure
@@ -423,8 +432,74 @@ actions.
 [Manual testing documentation can be view here](
   ./readme-content/testing.md)
 
-<!-- validation of html, css and script. -->
-<!-- lighthouse testing -->
+#### PEP8 Testing
+
+The Python files have all been run through
+[PEP8 online](http://pep8online.com/). The results are displayed
+[here](./readme-content/validation.md). One warning has been reported multiple
+times:
+
+![PEP* Warning](readme-content/images/validation/w503-warning.png)
+
+I have chosen to leave the code with the warnings in place. Having consulted
+the [PEP8 Style Guide](https://www.python.org/dev/peps/pep-0008/#should-a-line-break-before-or-after-a-binary-operator),
+I have found the latest advice is to write code as I have done so. It results
+in the code being more reader-friendly.
+
+![Binary operator style explanation](readme-content/images/validation/binary-operator-line-breaks.png)
+
+#### Other Python Testing
+
+Two Python linters were used during the creation of this project.
+
+- [Flake8](https://flake8.pycqa.org/en/latest/)
+- [Pylint](https://pypi.org/project/pylint/)
+
+They assisted in keeping the code well structured throughout. There are some
+warnings and suggestions highlighted by these linters that will remain in
+place. The explanation of this can be found
+[here](./readme-content/validation.md#linters)
+
+---
+
+### W3C Validator
+
+I used the W3C validators to test the HTML and CSS. No errors were reported.
+
+#### HTML
+
+![HTML Results](readme-content/images/validation/html.png)
+
+#### CSS
+
+![CSS Results](readme-content/images/validation/css.png)
+
+---
+
+### JSHint
+
+I used the online JSHint linter to check the JavaScript within index.html.
+
+![JSHint result](readme-content/images/validation/jshint.png)
+
+The warnings and undefined variables are related to the creation of the
+terminal. As this code is not my own, and they are not significant errors, I
+have left them as they are.
+
+---
+
+### Lighthouse
+
+Lighthouse testing has been performed on desktop only as the site requires a
+minimum screen size of 750 &#215; 750 pixels. The results are satisfactory and
+the suggested modifications are beyond my control due to the nature of the
+project.
+
+![Lighthouse results](readme-content/images/reports/lighthouse-desktop.png)  
+![Lighthouse suggestions](
+  readme-content/images/reports/lighthouse-suggestions.png)
+
+---
 
 ## Bugs
 
@@ -432,42 +507,116 @@ actions.
 
 <!-- current bugs -->
 
-<!-- - bugOne explanation
+- It is possible for questions to repeat during the quiz if tokens expire.
 
-*notes on explanation* -->
----
-<!-- - bugTwo explanation
+*To resolve this issue, I could re-write the program to retrieve all questions
+simultaneously and store them in lists of dict objects. I would then need to
+manipulate the lists by removing used questions as the quiz progresses. My
+intention has been to show good working practices with data retrieval from an
+API, and data input to a different API. I feel the current method achieves this
+goal in a more satisfying way.*
 
-*notes on explanation* -->
 ---
 
 ### Resolved
 
-<!-- resolved bugs -->
-<!-- 1. bugOne
+1. `Token()` updates replaced entire Token instance with a string. [Issue #3](
+  https://github.com/DaveyJH/ci-portfolio-three/issues/3)
 
-![bugOneImg](bugOneImgURL)
+   *Commit - **[e3b8fad](https://github.com/DaveyJH/ci-portfolio-three/commit/e3b8fad4d0597cfb198ed1f8cf328ccb572014f9#diff-2e441441a7d377c1aae33ebe67e41c72919ad357d7157185c8fbe05872c85a5fL90-R98)** -
+   I changed the function from assigning the current `Token` with
+   `initiate_new_token()` to assign just a new `Token.string`. The function name
+   was updated to reflect this change.*
 
-*Commit - **[sha](commit link with highlighted lines)** - explanation of fix* -->
+2. If a user name appeared twice in the scores list, only the lowest scores
+  was displayed.
+
+   *Commit - **[2d5dab6](https://github.com/DaveyJH/ci-portfolio-three/commit/2d5dab65106358c64c836e251acae3a2f5c7c488#diff-5b2b3bf19489f20bee7a872754fcd42b85802552be95e5f55dea6ae77fdff94bL564-R581)** -
+   The bug was caused by using a dict object. As keys must be unique in
+   dictionaries, duplicated user names were cuasing the original instance of the
+   user name to be updated. I have used lists and the `enumerate` function to
+   resolve the issue.*
+
+3. When changing the winner message to print in cyan it became mis-aligned.
+
+   *Commit - **[6a1d4b5](https://github.com/DaveyJH/ci-portfolio-three/commit/6a1d4b51d11aff9ffd917c80d4f586ccb81cfaa1#diff-729642661f0f237b47b458a21f8dec9fa4c726ed4e01eaedce8a4ac46d40f5eaR70-L86)** -
+   The `cyan_print` function only permits one string to be passed in. I had
+   overlooked this when writing the winner's message. The message originally
+   used the `rjust()` and `center()` methods. I have removed those methods and
+   (after a couple of mis-calculated attempts) resolved the issue by writing
+   the message as a concatenated string.
+
 ---
-<!-- 1. bugTwo
 
-![bugTwoImg](bugTwoImgURL)
+<!-- ## Development
 
-*Commit - **[sha](commit link with highlighted lines)** - explanation of fix* -->
+The site was made utilising [GitHub](#GitHub) and [VSCode](#VSCode)
+
+### GitHub
+
+[GitHub Website](https://github.com)
+
+- Sign in to GitHub.
+- I used a template that contains a template of my README file which can be
+  accessed [here](https://github.com/DaveyJH/template) and is available
+  for public use via the **Use this template** button.
+
+![Use Template](./readme-content/images/development/use-template.png)
+
+- Click ![GitHub Icon](./readme-content/images/development/github.png) and select
+  **New** from the panel on the left, next to **Repositories**
+
+![New Repository](./readme-content/images/development/new-repo.png)
+
+- Select the template you wish to use
+
+![Select Template](./readme-content/images/development/template.png)
+
+- Give the repository a name and description and then click **Create repository**
+
+![Create Repo](./readme-content/images/development/create-repo.png)
+
+The repository has now been created and is ready for editing
+
 ---
 
-## Development
+### VSCode
 
-<!-- section missed in first project. 
-!describe development process -->
+[VSCode Website](https://code.visualstudio.com/)
 
-## Deployment
+For general information on using GitHub with VSCode see their documentation
+[here](https://code.visualstudio.com/docs/editor/github).  
+*This section assumes you have successfully linked your GitHub account to the
+application*
 
-<!-- !check this section, may need adjusting as using additional languages -->
+#### Cloning
 
-<!-- **Github Pages**
-- Navigate to the relevant GitHub Repository [here](github repo URL)
+- Open the command panel using your keyboard shortcut or **View** > **Command
+  Palette...**
+
+![View>Command](./readme-content/images/development/view-command.png)
+
+- With the command palette open, type *clone* and click **Git: Clone** and then
+  **![GitHub Icon](./readme-content/images/development/git-icon.png)Clone from
+  GitHub**
+
+![Command Palette](./readme-content/images/development/commands.png)
+
+- Type the GitHub username followed by / and the repository you wish to work on
+
+![Repo Clone](./readme-content/images/development/repo-clone.png)
+
+- Click the repository from the drop-down list and save it in a local directory
+- of your choosing
+
+The repository is now ready for development
+
+## Deployment -->
+
+### GitHub Pages
+
+<!-- - Navigate to the relevant GitHub Repository
+  [here](https://github.com/daveyjh/ci-portfolio-three)
 - Select "Settings" from the options below the name of the repository
 
 ![Settings Snip](./readme-content/images/github-settings.png)
@@ -488,9 +637,10 @@ actions.
 
 ![Confirmed Deployment Snip](./readme-content/images/pages-deployed.png)
 - Click the link or copy the URL to a browser to reach the deployed page
-https://daveyjh.github.io/ci-portfolio-one-v4/
+https://daveyjh.github.io/ci-portfolio-one-v4/ -->
 
-The site is now live and operational -->
+The site is now live and operational
+
 ---
 
 ## Credits
@@ -511,9 +661,10 @@ The site is now live and operational -->
 
 ### Acknowledgements
 
-- Thank you to [Fiona Tracey](https://github.com). I reached out in the Code
-  Institute Slack community with a minor issue. Fiona provided a wonderfully
-  simple solution to prevent some unused variable warnings as detailed below:
+- Thank you to [Fiona Tracey](https://github.com/fiona-t). I reached out in the
+  Code Institute Slack community with a minor issue. Fiona provided a
+  wonderfully simple solution to prevent some unused variable warnings as
+  detailed below:
 
   ```Python
   string = "this is a string" # This string was from the KEYWORDS list
