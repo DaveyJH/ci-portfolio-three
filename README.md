@@ -54,6 +54,7 @@ hold 'Ctrl' (or '⌘' on Apple devices) as you click!
   - [Testing](#testing)
     - [Python Testing](#python-testing)
       - [Manual Python Testing](#manual-python-testing)
+        - [Manual Testing Documentation](#manual-testing-documentation)
       - [PEP8 Testing](#pep8-testing)
       - [Other Python Testing](#other-python-testing)
     - [W3C Validator](#w3c-validator)
@@ -73,7 +74,9 @@ hold 'Ctrl' (or '⌘' on Apple devices) as you click!
       - [Venv](#venv)
       - [Packages](#packages)
       - [Debugging](#debugging)
-    - [Google Sheet](#google-sheet)
+    - [Google Sheets](#google-sheets)
+      - [Creating Sheets](#creating-sheets)
+      - [API Credentials](#api-credentials)
   - [Deployment](#deployment)
     - [Heroku](#heroku)
   - [Credits](#credits)
@@ -442,8 +445,9 @@ multiple tests on the deployed site and during the development stage to ensure
 data is handled correctly and all functions are carrying out their intended
 actions.
 
-[Manual testing documentation can be view here](
-  ./readme-content/testing.md)
+##### Manual Testing Documentation
+
+[Documentation can be view here](./readme-content/testing.md)
 
 #### PEP8 Testing
 
@@ -452,14 +456,14 @@ The Python files have all been run through
 [here](./readme-content/validation.md). One warning has been reported multiple
 times:
 
-![PEP* Warning](readme-content/images/validation/w503-warning.png)
+![PEP* Warning](./readme-content/images/validation/w503-warning.png)
 
 I have chosen to leave the code with the warnings in place. Having consulted
 the [PEP8 Style Guide](https://www.python.org/dev/peps/pep-0008/#should-a-line-break-before-or-after-a-binary-operator),
 I have found the latest advice is to write code as I have done so. It results
 in the code being more reader-friendly.
 
-![Binary operator style explanation](readme-content/images/validation/binary-operator-line-breaks.png)
+![Binary operator style explanation](./readme-content/images/validation/binary-operator-line-breaks.png)
 
 #### Other Python Testing
 
@@ -481,11 +485,11 @@ I used the W3C validators to test the HTML and CSS. No errors were reported.
 
 #### HTML
 
-![HTML Results](readme-content/images/validation/html.png)
+![HTML Results](./readme-content/images/validation/html.png)
 
 #### CSS
 
-![CSS Results](readme-content/images/validation/css.png)
+![CSS Results](./readme-content/images/validation/css.png)
 
 ---
 
@@ -493,7 +497,7 @@ I used the W3C validators to test the HTML and CSS. No errors were reported.
 
 I used the online JSHint linter to check the JavaScript within index.html.
 
-![JSHint result](readme-content/images/validation/jshint.png)
+![JSHint result](./readme-content/images/validation/jshint.png)
 
 The warnings and undefined variables are related to the creation of the
 terminal. As this code is not my own, and they are not significant errors, I
@@ -508,7 +512,7 @@ minimum screen size of 750 &#215; 750 pixels. The results are satisfactory and
 the suggested modifications are beyond my control due to the nature of the
 project.
 
-![Lighthouse results](readme-content/images/reports/lighthouse-desktop.png)  
+![Lighthouse results](./readme-content/images/reports/lighthouse-desktop.png)  
 ![Lighthouse suggestions](
   readme-content/images/reports/lighthouse-suggestions.png)
 
@@ -549,7 +553,7 @@ goal in a more satisfying way.*
    resolve the issue.*
 
 3. When changing the winner message to print in cyan it became mis-aligned.
-  ![Winner message](readme-content/images/bugs/win-star-spacing.png)
+  ![Winner message](./readme-content/images/bugs/win-star-spacing.png)
 
    *Commit - **[6a1d4b5](https://github.com/DaveyJH/ci-portfolio-three/commit/6a1d4b51d11aff9ffd917c80d4f586ccb81cfaa1#diff-729642661f0f237b47b458a21f8dec9fa4c726ed4e01eaedce8a4ac46d40f5eaR70-L86)** -
    The `cyan_print` function only permits one string to be passed in. I had
@@ -701,7 +705,7 @@ A virtual environment is advised when working with Python. I chose to use
   directory.
 - I the used `source .venv/scripts/activate` to enable the virtual environment.
 - The `(.venv)` displayed above the current directory show the venv is active.  
-  ![Venv active](readme-content/images/development/venv-active.png)
+  ![Venv active](./readme-content/images/development/venv-active.png)
 
 This allows local installation of packages within the virtual environment and
 can help to prevent errors with global installs.
@@ -732,77 +736,175 @@ enable me a step by step view of how my variables were being manipulated. This
 allowed for quick fault finding and ensuring data is being handled as expected.
 
 - Select breakpoints by clicking to the left of the line number.  
-  ![Breakpoint selecteed](readme-content/images/development/debug-dot.png)
+  ![Breakpoint selecteed](./readme-content/images/development/debug-dot.png)
 - Select 'Debug Python File'.  
-  ![Run in debug mode](readme-content/images/development/debug-file.png)
+  ![Run in debug mode](./readme-content/images/development/debug-file.png)
 - File will run until a breakpoint is reached. It will pause and highlight the
   selected line before it is carried out.  
-  ![Debug paused](readme-content/images/development/debug-reached.png)
+  ![Debug paused](./readme-content/images/development/debug-reached.png)
 - Step through each line individually or skip through functions as necessary.  
-  ![Debug step](readme-content/images/development/debug-step.png)
+  ![Debug step](./readme-content/images/development/debug-step.png)
 - View variables and data as it is being created or manipulated.  
-  ![Debug variables](readme-content/images/development/debug-vars.png)
+  ![Debug variables](./readme-content/images/development/debug-vars.png)
 - Press play to continue to the next breakpoint or stop to end the file.
 
-### Google Sheet
+### Google Sheets
 
-<!-- todo final section?! -->
+This application uses Google Sheets to store data.
+
+#### Creating Sheets
+
+- Navigate to [Google Sheets](https://docs.google.com/spreadsheets/u/0/).
+- Create a Blank sheet.  
+  ![Naming google sheet](./readme-content/images/development/sheets-blank.png)
+- Edit the sheet name.  
+  ![Google sheets name](./readme-content/images/development/sheets-name.png)
+- The name used must match the name called in the `open()` method.
+  
+  ```python
+  `GSPREAD_CLIENT.open('example')`
+  ```
+
+- Input data if required:
+  - *Google Sheets data works differently to most python objects. The 'list'
+    of columns and rows starts at an index of 1.*  
+  ![Google sheets tokens](./readme-content/images/development/sheets-tokens.png)  
+  ![Google sheets scores](./readme-content/images/development/sheets-scores.png)
+- Assign 'Named ranges' if necessary:
+  - Either highlight the range to be named, right click and select 'Define
+    named range' from 'View more cell actions'.  
+    ![Google sheets right click naming ranges](
+      readme-content/images/development/sheets-right-click-named-range.png)
+  - OR Select 'Data' from the toolbar and click 'Named ranges'.  
+    ![Google sheets data named ranges](
+      readme-content/images/development/sheets-data-name-ranges.png)
+  - Named ranges can be viewed via the second option and can be edited if
+    needed.  
+    ![Google sheets named ranges](
+      readme-content/images/development/sheets-ranges.png)
+  - Named ranges can be accessed using the `worksheet.range('range_name')`
+    method.
+
+    ```python
+    import gspread
+    SHEET = GSPREAD_CLIENT.open("ci_p3_quiz")
+    SCORES_SHEET = SHEET.worksheet("scores")
+    current_highscore_values_cells = SCORES_SHEET.range("values")
+    ```
+
+- The `gspread` package allows many operations including retrieving, updating
+  and adding new data.
+
+#### API Credentials
+
+To allow access from the project to Google Sheets, credentials must be
+generated and provided.
+
+- Navigate to the [Google Cloud Platform](https://console.cloud.google.com/)
+- Click 'Select a project', this may have an exisiting project name in place.  
+  ![Cloud select a project](
+    readme-content/images/development/cloud-select-project.png)
+- Click 'NEW PROJECT'.  
+  ![Cloud new project](./readme-content/images/development/cloud-new-project.png)
+- Give the project a name.  
+  ![Cloud project name](
+    readme-content/images/development/cloud-project-name.png)
+- Click 'CREATE'.  
+  ![Cloud create](./readme-content/images/development/cloud-create.png)
+- From the project's dashboard, select 'APIs and services' and then
+  'Library'.  
+  ![Cloud library menu](
+    readme-content/images/development/cloud-library-menu.png)
+- Search for, and enable, Google Drive API.  
+  ![Cloud Google Drive API](
+    readme-content/images/development/cloud-google-drive-selection.png)  
+  ![Cloud enable](./readme-content/images/development/cloud-enable.png)
+- Click 'CREATE CREDENTIALS'.  
+  ![Cloud create credentials](
+    readme-content/images/development/cloud-create-creds.png)
+- Select 'Google Drive API' from the drop down list.  
+  ![Cloud API selection](readme-content/images/development/cloud-which-api.png)
+- Select 'Application data' from the first set of radio buttons.  
+  ![Cloud accessing app data](
+    readme-content/images/development/cloud-application-data.png)
+- Select 'No, I', not using them' from the second set of radio buttons.  
+  ![Cloud not using cloud functions](
+    readme-content/images/development/cloud-cloud-functions.png)
+- Click 'DONE' and then enter a name and description for the service account
+  details.  
+  ![Cloud service account details](
+    readme-content/images/development/cloud-service-account.png)
+- Select a role of 'Editor' from the options available.  
+  ![Cloud editor](readme-content/images/development/cloud-editor.png)
+- Click 'DONE' to create the service account.
+- Click on the service account on the credentials page.  
+  ![Cloud edit service account](
+    readme-content/images/development/cloud-edit-service-account.png)
+- Select 'KEYS' from the menu bar.  
+  ![Cloud keys](readme-content/images/development/cloud-keys.png)
+- Select 'Create new key' from the 'ADD KEY' menu.  
+  ![Cloud create key](readme-content/images/development/cloud-add-key.png)
+- Select 'JSON' and click 'CREATE'.  
+  ![Cloud JSON option](readme-content/images/development/cloud-json.png)
+- The JSON file will be downloaded to your computer. Copy the contents into
+  a `creds.json` file within the repository. **Make sure to add this file to
+  the `.gitignore` file.**
 
 ## Deployment
 
 ### Heroku
 
 - Navigate to your [heroku dashboard](https://dashboard.heroku.com/apps)
-- Click "New" and select "Create new app"  
-  ![New heroku](readme-content/images/deployment/heroku-new.png)
+- Click "New" and select "Create new app".  
+  ![New heroku](./readme-content/images/deployment/heroku-new.png)
 - Input a meaningful name for your app and choose the region best suited to
   your location.  
-  ![Create new app](readme-content/images/deployment/heroku-create.png)
-- Select "Settings" from the tabs  
-  ![Settings tab](readme-content/images/deployment/heroku-settings.png)
-  - Click "Reveal Config Vars"  
+  ![Create new app](./readme-content/images/deployment/heroku-create.png)
+- Select "Settings" from the tabs.  
+  ![Settings tab](./readme-content/images/deployment/heroku-settings.png)
+  - Click "Reveal Config Vars".  
     ![Config vars button](
       readme-content/images/deployment/heroku-config-vars.png)
-  - Input `PORT` and `8000` as one config var and click add  
+  - Input `PORT` and `8000` as one config var and click add.  
   - Input `CREDS` and the content of your Google Sheet API creds file as another
-    config var and click add  
+    config var and click add.  
     ![Config vars values](
       readme-content/images/deployment/heroku-config-vars-values.png)
-  - Click "Add buildpack"  
-    ![Add buildpack](readme-content/images/deployment/heroku-add-buildpacks.png)
+  - Click "Add buildpack".  
+    ![Add buildpack](./readme-content/images/deployment/heroku-add-buildpacks.png)
   - Add "nodejs" and "python" from the list or search if necessary, remember to
-    click save  
+    click save.  
     ![Select buildpacks](
       readme-content/images/deployment/heroku-select-buildpacks.png)
   - Python must be the first buildpack. They can be dragged into the correct
-    position if needed  
+    position if needed.  
     ![Buildpacks added](
       readme-content/images/deployment/heroku-buildpacks-added.png)
-- Select "Deploy" from the tabs  
-  ![Settings tab](readme-content/images/deployment/heroku-deploy-tab.png)
-  - Select "GitHub - Connect to GitHub" from deployment methods  
-    ![Select GitHub](readme-content/images/deployment/heroku-select-github.png)
-  - Click "Connect to GitHub" in the created section  
+- Select "Deploy" from the tabs.  
+  ![Settings tab](./readme-content/images/deployment/heroku-deploy-tab.png)
+  - Select "GitHub - Connect to GitHub" from deployment methods.  
+    ![Select GitHub](./readme-content/images/deployment/heroku-select-github.png)
+  - Click "Connect to GitHub" in the created section.  
     ![Connect to GitHub](
       readme-content/images/deployment/heroku-connect-github.png)
-  - Search for the GitHub repository by name  
-    ![Heroku repo search](readme-content/images/deployment/heroku-search.png)
-  - Click to connect to the relevant repo  
+  - Search for the GitHub repository by name.  
+    ![Heroku repo search](./readme-content/images/deployment/heroku-search.png)
+  - Click to connect to the relevant repo.  
     ![Heroku connect to repo](
       readme-content/images/deployment/heroku-connect-repo.png)
   - Either click `Enable Automatic Deploys` for automatic deploys or `Deploy
     Branch` to deploy manually. Manually deployed branches will need
-    re-deploying each time the repo is updated  
+    re-deploying each time the repo is updated.  
     ![Heroku deploy branch](
       readme-content/images/deployment/heroku-deploy-branch.png)
-  - Click `View` to view the deployed site  
-    ![Heroku view](readme-content/images/deployment/heroku-view.png)
+  - Click `View` to view the deployed site.  
+    ![Heroku view](./readme-content/images/deployment/heroku-view.png)
 - The live site can also be accessed from your repo in GitHub from the
-  environments section of the repo
-  - Click the link to view deployments history  
+  environments section of the repo.
+  - Click the link to view deployments history.  
     ![GitHub environments](
     readme-content/images/deployment/github-enviroments.png)
-  - Click `View deployment`. This page also shows all the deployment history  
+  - Click `View deployment`. This page also shows all the deployment history.  
     ![GitHub view deployment](
       readme-content/images/deployment/github-view-deployment.png)
 
@@ -870,6 +972,6 @@ The site is now live and operational
   *what an amazing name!* With a great attitude to continued development,
   encouragement along the way, and testing whenever it was needed - These
   two continue to make my developer journey thoroughly enjoyable.
-  ![Nerd Life](readme-content/images/nerd-life-text.png)
+  ![Nerd Life](./readme-content/images/nerd-life-text.png)
 
 ---
