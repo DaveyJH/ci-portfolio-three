@@ -20,7 +20,7 @@
       - [Scores](#scores)
       - [Take](#take)
       - [Help](#help)
-      - [???](#???)
+      - [???](#)
   - [Check/Update Scores](#checkupdate-scores)
   - [Win](#win)
   - [Play Again](#play-again)
@@ -462,7 +462,7 @@ the [`better_profanity`](../README.md#python-packages) package.
     all other scores to 0.
   - For a similar score with same user name, set a user name identical to the
     test user name and set the score to 1.
-  - For dislaying calculated score position, set lower position scores to 0 and
-    upper scores to a value higher than 1.
+  - For displaying calculated score position, set lower position scores to 0
+    and upper scores to a value higher than 1.
 - To show score is not high enough to enter score board, set all scores to a
   value higher than one. `Take` before answering the first question.

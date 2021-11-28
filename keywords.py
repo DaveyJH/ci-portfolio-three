@@ -198,7 +198,7 @@ class Keywords():
         self, current_choices: dict, correct_answer: str, question_number: int,
         longest_answer_length: int
     ):
-        """Prints percentages next to avilable choices
+        """Prints percentages next to available choices
 
         Calculates a percentage response for each available answer. Chance of
         response being correct is lower for higher number questions. Prints
@@ -546,7 +546,7 @@ class Keywords():
     def scores(question_number: int, safety: int):
         """Prints the current high scores from Google Sheet data
 
-        Prints message to user to inform them of progress toward scorboard.
+        Prints message to user to inform them of progress toward score board.
         Prints error message if invalid data retrieved from Sheet
 
         ---

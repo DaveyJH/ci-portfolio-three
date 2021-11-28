@@ -246,7 +246,7 @@ product.
 > *"As someone who hasn't used a CLI before, **I would like to know my inputs
 > are valid**"*
 
-- All user inputs are validated and errors allow repeat opportunites to input
+- All user inputs are validated and errors allow repeat opportunities to input
   a valid selection.
 
   ![Invalid Input](./readme-content/images/testing/user-no-input.png)
@@ -308,7 +308,7 @@ product.
 4. Help
    - *This allows users to read through the rules and keyword meanings during
     the quiz*
-   - This will prevent user frustration due to forgettinng any keyword
+   - This will prevent user frustration due to forgetting any keyword
     meanings.
 
 5. Take
@@ -320,7 +320,7 @@ product.
    - *This allows users to view the score board at any time*
    - This feature enables users to check where they are in relation to the high
     scores before deciding whether to attempt difficult questions. It also adds
-    a nice competetive element to encourage returning visits.
+    a nice competitive element to encourage returning visits.
 
 7. ???
    - *There is a secret keyword that has a secret function*
@@ -427,7 +427,7 @@ Links to the VSCode marketplace for each extension used throughout this project:
 - [markdownlint](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint)
 - [Preview on Web Server](https://marketplace.visualstudio.com/items?itemName=yuichinukiyama.vscode-preview-server)
 - [Colored Regions](https://marketplace.visualstudio.com/items?itemName=mihelcic.colored-regions)
-- [Reflow Markdwon](https://marketplace.visualstudio.com/items?itemName=marvhen.reflow-markdown)
+- [Reflow Markdown](https://marketplace.visualstudio.com/items?itemName=marvhen.reflow-markdown)
 - [Pylance](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance)
 - [Draw.io](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio)
 - [Code Spell Checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker)
@@ -548,7 +548,7 @@ goal in a more satisfying way.*
 
    *Commit - **[2d5dab6](https://github.com/DaveyJH/ci-portfolio-three/commit/2d5dab65106358c64c836e251acae3a2f5c7c488#diff-5b2b3bf19489f20bee7a872754fcd42b85802552be95e5f55dea6ae77fdff94bL564-R581)** -
    The bug was caused by using a dict object. As keys must be unique in
-   dictionaries, duplicated user names were cuasing the original instance of the
+   dictionaries, duplicated user names were causing the original instance of the
    user name to be updated. I have used lists and the `enumerate` function to
    resolve the issue.*
 
@@ -714,7 +714,7 @@ can help to prevent errors with global installs.
 
 To install all packages within this repo you can run `pip3 install -r
 requirements.txt` in the terminal. This installs all packages from the text
-file. The text file was created using `pip3 freeze > reuirements.txt`.
+file. The text file was created using `pip3 freeze > requirements.txt`.
 
 To install individual packages you need to review the appropriate
 documentation for the install command. All packages I have found and used were
@@ -736,7 +736,7 @@ enable me a step by step view of how my variables were being manipulated. This
 allowed for quick fault finding and ensuring data is being handled as expected.
 
 - Select breakpoints by clicking to the left of the line number.  
-  ![Breakpoint selecteed](./readme-content/images/development/debug-dot.png)
+  ![Breakpoint selected](./readme-content/images/development/debug-dot.png)
 - Select 'Debug Python File'.  
   ![Run in debug mode](./readme-content/images/development/debug-file.png)
 - File will run until a breakpoint is reached. It will pause and highlight the
@@ -801,7 +801,7 @@ To allow access from the project to Google Sheets, credentials must be
 generated and provided.
 
 - Navigate to the [Google Cloud Platform](https://console.cloud.google.com/)
-- Click 'Select a project', this may have an exisiting project name in place.  
+- Click 'Select a project', this may have an existing project name in place.  
   ![Cloud select a project](
     readme-content/images/development/cloud-select-project.png)
 - Click 'NEW PROJECT'.  
@@ -903,7 +903,7 @@ generated and provided.
   environments section of the repo.
   - Click the link to view deployments history.  
     ![GitHub environments](
-    readme-content/images/deployment/github-enviroments.png)
+    readme-content/images/deployment/github-environments.png)
   - Click `View deployment`. This page also shows all the deployment history.  
     ![GitHub view deployment](
       readme-content/images/deployment/github-view-deployment.png)
@@ -916,7 +916,7 @@ The site is now live and operational
 
 ### Content
 
-- The question database and API fucntionality was obtained through
+- The question database and API functionality was obtained through
   [opentdb.com](https://opentdb.com/)
 - The terminal function and template for the deployable application was
   provided by [Code Institute](https://codeinstitute.net), with special mention
