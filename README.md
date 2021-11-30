@@ -545,6 +545,14 @@ goal in a more satisfying way.*
 
 ---
 
+- If a user leaves the page idle for an extended period of time, the program
+  appears to stop allowing input.
+
+*This appears to be a bug within the set up of the terminal and is beyond
+the scope of the project.*
+
+---
+
 - Not all browsers allow full size symbols.  
   ![Half symbols](./readme-content/images/bugs/half-symbols.png)
 
