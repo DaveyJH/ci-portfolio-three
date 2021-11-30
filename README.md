@@ -47,6 +47,7 @@ hold 'Ctrl' (or '⌘' on Apple devices) as you click!
       - [UX](#ux)
       - [Keywords](#keywords)
     - [Features Left to Implement](#features-left-to-implement)
+  - [Data Model](#data-model)
   - [Technologies Used](#technologies-used)
     - [Python Packages](#python-packages)
     - [Other Tech](#other-tech)
@@ -341,6 +342,17 @@ could include:
     position achieved if it is not within the top ten
 
 ---
+
+## Data Model
+
+A [Google Sheet](#google-sheets) was used to store scores and token strings.
+The sheets consists of two worksheets, 'tokens' and 'scores', for clarity.
+The scores cells are identified using two ranges, one for users and one for
+the score values. This allowed me to experiment with some extra functions
+available through the `gspread` package.  
+![Tokens data](readme-content/images/development/sheets-tokens.png)  
+![Scores data](readme-content/images/development/sheets-scores.png)
+![Sheets ranges](readme-content/images/development/sheets-ranges.png)
 
 ## Technologies Used
 
