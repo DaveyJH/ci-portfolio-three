@@ -533,6 +533,30 @@ goal in a more satisfying way.*
 
 ---
 
+- Not all browsers allow full size symbols.  
+  ![Half symbols](./readme-content/images/bugs/half-symbols.png)
+
+*It was noted during testing on Mozilla Firefox that the special symbols do not
+display fully. I suspect this is due to limitations of the terminal and do not
+feel it detracts significantly from the user experience.*
+
+---
+
+- There is a question that asks about Moore's Law, it appears to have the wrong
+  answer assigned in the API database.
+
+*I have been unable to find a way to report an error with the questions.*
+
+---
+
+- I have found typing errors in two questions provided by the API.  
+  ![Double question mark](
+    readme-content/images/bugs/extra-question-mark.png)  
+  ![Double question mark api](
+    readme-content/images/bugs/extra-question-mark-api.png)  
+  ![Double be](readme-content/images/bugs/extra-be.png)  
+  ![Double be api](readme-content/images/bugs/extra-be-api.png)
+
 ### Resolved
 
 1. `Token()` updates replaced entire Token instance with a string. [Issue #3](
@@ -768,8 +792,10 @@ This application uses Google Sheets to store data.
 - Input data if required:
   - *Google Sheets data works differently to most python objects. The 'list'
     of columns and rows starts at an index of 1.*  
-  ![Google sheets tokens](./readme-content/images/development/sheets-tokens.png)  
-  ![Google sheets scores](./readme-content/images/development/sheets-scores.png)
+  ![Google sheets tokens](
+    ./readme-content/images/development/sheets-tokens.png)  
+  ![Google sheets scores](
+    ./readme-content/images/development/sheets-scores.png)
 - Assign 'Named ranges' if necessary:
   - Either highlight the range to be named, right click and select 'Define
     named range' from 'View more cell actions'.  
