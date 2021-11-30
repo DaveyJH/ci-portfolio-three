@@ -402,6 +402,9 @@ the [`better_profanity`](../README.md#python-packages) package.
     - Multiple winning entries are allowed under the same user name.
   - The Google Sheet is updated as necessary.
   - An option to [replay is offered](#play-again).
+- For any test that updates the scores list, the Google Sheet is also
+  consulted to ensure the data is being added correctly. All tests were
+  confirmed as fully functional.
 
 ## Win
 
@@ -451,6 +454,11 @@ the [`better_profanity`](../README.md#python-packages) package.
   - *`^^` is the current difficulty.*
   - *`^^^` is the token string.*
 - This causes the token to expire and allows testing of invalid tokens.
+
+*Testing of invalid tokens was also done during the development process by
+modifying the stored token values within the Google Sheet. These values were
+also checked during final testing to ensure they were being updated as and
+when necessary.*
 
 ## Modifying Scores For Quicker Testing
 
